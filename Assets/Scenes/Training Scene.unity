@@ -591,6 +591,66 @@ Transform:
   - {fileID: 1165895675}
   m_Father: {fileID: 4510917}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &425801824
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 425801826}
+  - component: {fileID: 425801825}
+  m_Layer: 0
+  m_Name: Debug UI
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &425801825
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 425801824}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 822114dfb4ee4a2190d72a4a335aadb4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TrainingDebugUI
+  autoDiscover: 1
+  environments: []
+  targetIndicators: []
+  canvas: {fileID: 0}
+  refreshInterval: 0.15
+  _selectedIndex: 0
+  _speakerCumulativeReward: []
+  _listenerCumulativeReward: []
+  _episodeCount: 
+  _prevSpeakerStep: 
+  _prevListenerStep: 
+  _titleText: {fileID: 0}
+  _statsText: {fileID: 0}
+  _targetText: {fileID: 0}
+  _commText: {fileID: 0}
+  _refreshTimer: 0
+--- !u!4 &425801826
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 425801824}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &594308171
 GameObject:
   m_ObjectHideFlags: 0
@@ -1848,4 +1908,5 @@ SceneRoots:
   m_Roots:
   - {fileID: 1004878130}
   - {fileID: 236761028}
+  - {fileID: 425801826}
   - {fileID: 4510917}
