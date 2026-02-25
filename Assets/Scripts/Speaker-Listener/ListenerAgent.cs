@@ -166,6 +166,13 @@ public class ListenerAgent : Agent
         int pressAction = actions.DiscreteActions[1];
         if (pressAction > 0)
             TryPressButton(pressAction - 1);
+
+        // Max steps of and episode to prevent infinite wandering: 300 steps = 60 seconds at default FixedUpdate (0.2s).
+        if (StepCount >= 300)
+        {
+            AddReward(-1f); 
+            env.EndEpisodeAll();
+        }
     }
 
     // ─────────────────────────────────────────────────────────────

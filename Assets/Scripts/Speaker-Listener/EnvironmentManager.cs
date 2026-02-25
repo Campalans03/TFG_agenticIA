@@ -141,6 +141,13 @@ public class EnvironmentManager : MonoBehaviour
         listener.EndEpisode();
     }
 
+    /// <summary>Ends the episode for all the Agents.</summary>
+    public void EndEpisodeAll()
+    {
+        speaker.EndEpisode();
+        listener.EndEpisode();
+    }
+
     /// <summary>Returns the world position of button slot i (runtime).</summary>
     public Vector3 GetButtonWorldPosition(int slotIndex)
     {
