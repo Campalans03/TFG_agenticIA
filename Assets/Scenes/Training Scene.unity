@@ -473,12 +473,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55b4fa472b04409cbebc5adb9398103f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonController
-  meshCuadrado: {fileID: 0}
-  meshCirculo: {fileID: 0}
-  meshTriangulo: {fileID: 0}
-  colorRojo: {r: 1, g: 0, b: 0, a: 1}
-  colorVerde: {r: 0, g: 1, b: 0, a: 1}
-  colorAzul: {r: 0, g: 0, b: 1, a: 1}
+  meshSquare: {fileID: 0}
+  meshCircle: {fileID: 0}
+  meshTriangle: {fileID: 0}
+  colorRed: {r: 1, g: 0, b: 0, a: 1}
+  colorGreen: {r: 0, g: 1, b: 0, a: 1}
+  colorBlue: {r: 0, g: 0, b: 1, a: 1}
 --- !u!65 &320082203
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -620,22 +620,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 822114dfb4ee4a2190d72a4a335aadb4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::TrainingDebugUI
-  autoDiscover: 1
-  environments: []
-  targetIndicators: []
-  canvas: {fileID: 0}
-  refreshInterval: 0.15
-  _selectedIndex: 0
-  _speakerCumulativeReward: []
-  _listenerCumulativeReward: []
-  _episodeCount: 
-  _prevSpeakerStep: 
-  _prevListenerStep: 
-  _titleText: {fileID: 0}
-  _statsText: {fileID: 0}
-  _targetText: {fileID: 0}
-  _commText: {fileID: 0}
-  _refreshTimer: 0
 --- !u!4 &425801826
 Transform:
   m_ObjectHideFlags: 0
@@ -1188,12 +1172,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55b4fa472b04409cbebc5adb9398103f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonController
-  meshCuadrado: {fileID: 0}
-  meshCirculo: {fileID: 0}
-  meshTriangulo: {fileID: 0}
-  colorRojo: {r: 1, g: 0, b: 0, a: 1}
-  colorVerde: {r: 0, g: 1, b: 0, a: 1}
-  colorAzul: {r: 0, g: 0, b: 1, a: 1}
+  meshSquare: {fileID: 0}
+  meshCircle: {fileID: 0}
+  meshTriangle: {fileID: 0}
+  colorRed: {r: 1, g: 0, b: 0, a: 1}
+  colorGreen: {r: 0, g: 1, b: 0, a: 1}
+  colorBlue: {r: 0, g: 0, b: 1, a: 1}
 --- !u!65 &1180136073
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1582,7 +1566,7 @@ Rigidbody:
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0
-  m_Constraints: 0
+  m_Constraints: 84
   m_CollisionDetection: 0
 --- !u!114 &1320168242
 MonoBehaviour:
@@ -1707,12 +1691,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55b4fa472b04409cbebc5adb9398103f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonController
-  meshCuadrado: {fileID: 0}
-  meshCirculo: {fileID: 0}
-  meshTriangulo: {fileID: 0}
-  colorRojo: {r: 1, g: 0, b: 0, a: 1}
-  colorVerde: {r: 0, g: 1, b: 0, a: 1}
-  colorAzul: {r: 0, g: 0, b: 1, a: 1}
+  meshSquare: {fileID: 0}
+  meshCircle: {fileID: 0}
+  meshTriangle: {fileID: 0}
+  colorRed: {r: 1, g: 0, b: 0, a: 1}
+  colorGreen: {r: 0, g: 1, b: 0, a: 1}
+  colorBlue: {r: 0, g: 0, b: 1, a: 1}
 --- !u!65 &1902543882
 BoxCollider:
   m_ObjectHideFlags: 0

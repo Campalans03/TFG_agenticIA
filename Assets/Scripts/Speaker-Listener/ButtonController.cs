@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 /// <summary>
 /// Attached to each Button GameObject in the scene.
@@ -17,21 +18,22 @@ public class ButtonController : MonoBehaviour
     // ─────────────────────────────────────────────────────────────
     //  Inspector
     // ─────────────────────────────────────────────────────────────
-
+    
     [Header("Shape GameObjects (one per shape variant)")]
-    [Tooltip("Activate this child when shape == Cuadrado")]
-    public GameObject meshCuadrado;
+    
+    [Tooltip("Activate this child when shape = square")]
+    public GameObject meshSquare;
 
-    [Tooltip("Activate this child when shape == Circulo")]
-    public GameObject meshCirculo;
+    [Tooltip("Activate this child when shape = circle")]
+    public GameObject meshCircle;
 
-    [Tooltip("Activate this child when shape == Triangulo")]
-    public GameObject meshTriangulo;
+    [Tooltip("Activate this child when shape == triangle")]
+    public GameObject meshTriangle;
 
     [Header("Color Palette")]
-    public Color colorRojo  = Color.red;
-    public Color colorVerde = Color.green;
-    public Color colorAzul  = Color.blue;
+    public Color colorRed = Color.red;
+    public Color colorGreen = Color.green;
+    public Color colorBlue = Color.blue;
 
     // ─────────────────────────────────────────────────────────────
     //  Runtime data (read by ListenerAgent via raycast)
@@ -46,7 +48,7 @@ public class ButtonController : MonoBehaviour
     /// <summary>Slot index (0-2) assigned by EnvironmentManager each episode.</summary>
     public int SlotIndex { get; private set; }
 
-    // Materiales cacheados para evitar instanciar uno nuevo en cada Apply()
+    /// Cached materials for efficient color updates.
     private Material[] _cachedMaterials;
 
     // ─────────────────────────────────────────────────────────────
@@ -73,31 +75,31 @@ public class ButtonController : MonoBehaviour
 
     void Awake()
     {
-        // Instancia los materiales UNA sola vez y los guarda
+        // Creates and caches all the possible materials 
         var renderers = GetComponentsInChildren<Renderer>();
         _cachedMaterials = new Material[renderers.Length];
         for (int i = 0; i < renderers.Length; i++)
-            _cachedMaterials[i] = renderers[i].material; // instancia aquí, una vez
+            _cachedMaterials[i] = renderers[i].material; 
     }
 
     void ApplyShape(ButtonShape shape)
     {
-        if (meshCuadrado  != null) meshCuadrado.SetActive(shape  == ButtonShape.Cuadrado);
-        if (meshCirculo   != null) meshCirculo.SetActive(shape   == ButtonShape.Circulo);
-        if (meshTriangulo != null) meshTriangulo.SetActive(shape == ButtonShape.Triangulo);
+        if (meshSquare != null) meshSquare.SetActive(shape  == ButtonShape.Square);
+        if (meshCircle != null) meshCircle.SetActive(shape   == ButtonShape.Circle);
+        if (meshTriangle != null) meshTriangle.SetActive(shape == ButtonShape.Triangle);
     }
 
     void ApplyColor(ButtonColor btnColor)
     {
         Color unityColor = btnColor switch
         {
-            ButtonColor.Rojo  => colorRojo,
-            ButtonColor.Verde => colorVerde,
-            ButtonColor.Azul  => colorAzul,
-            _                 => Color.white
+            ButtonColor.Red => colorRed,
+            ButtonColor.Green => colorGreen,
+            ButtonColor.Blue => colorBlue,
+            _ => Color.white
         };
 
-        // Usa los materiales cacheados, NO rend.material (que crea instancias nuevas)
+        // Use the materials in the cache
         if (_cachedMaterials == null) return;
         foreach (var mat in _cachedMaterials)
             if (mat != null) mat.color = unityColor;

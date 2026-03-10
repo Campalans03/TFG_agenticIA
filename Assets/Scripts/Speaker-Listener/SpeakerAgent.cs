@@ -1,4 +1,3 @@
-using UnityEngine;
 using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
@@ -22,7 +21,7 @@ public class SpeakerAgent : Agent
 
     public override void OnEpisodeBegin()
     {
-        // Episode is reset by the Listener; nothing to do here.
+        // Episode is reset by the Listener. nothing to do here.
     }
 
     public override void CollectObservations(VectorSensor sensor)

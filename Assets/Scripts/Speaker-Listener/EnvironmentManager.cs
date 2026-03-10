@@ -1,7 +1,7 @@
 using UnityEngine;
 
-public enum ButtonColor { Rojo, Verde, Azul }
-public enum ButtonShape { Cuadrado, Circulo, Triangulo }
+public enum ButtonColor { Red, Green, Blue }
+public enum ButtonShape { Square, Circle, Triangle }
 
 [System.Serializable]
 public struct ButtonData
@@ -58,7 +58,7 @@ public class EnvironmentManager : MonoBehaviour
     /// <summary>Current rule: which color/shape is correct and optional constraint.</summary>
     public ButtonColor targetColor  { get; private set; }
     public ButtonShape targetShape  { get; private set; }
-    public bool        requireNoRed { get; private set; }
+    public bool requireNoRed { get; private set; }
 
     /// <summary>Last token emitted by the Speaker.</summary>
     public int currentMessageToken { get; private set; } = 0;
@@ -148,11 +148,23 @@ public class EnvironmentManager : MonoBehaviour
         listener.EndEpisode();
     }
 
-    /// <summary>Returns the world position of button slot i (runtime).</summary>
+    /// <summary>Returns the world position of button slot i (used for physics/placement).</summary>
     public Vector3 GetButtonWorldPosition(int slotIndex)
     {
         if (buttonObjects[slotIndex] != null)
             return buttonObjects[slotIndex].transform.position;
+        return transform.position;
+    }
+
+    /// <summary>
+    /// Returns the position of button slot i in the environment's local space.
+    /// Use this for all agent observations, so they are environment-agnostic
+    /// and identical across parallel training instances.
+    /// </summary>
+    public Vector3 GetButtonLocalPosition(int slotIndex)
+    {
+        if (buttonObjects[slotIndex] != null)
+            return transform.InverseTransformPoint(buttonObjects[slotIndex].transform.position);
         return Vector3.zero;
     }
 
@@ -174,7 +186,7 @@ public class EnvironmentManager : MonoBehaviour
     bool AnyRedPresent()
     {
         for (int i = 0; i < 3; i++)
-            if (buttons[i].color == ButtonColor.Rojo) return true;
+            if (buttons[i].color == ButtonColor.Red) return true;
         return false;
     }
 
@@ -193,9 +205,11 @@ public class EnvironmentManager : MonoBehaviour
 
     Vector3[] GenerateScatteredPositions(int count)
     {
-        Vector3 centre = spawnAreaCenter != null
-            ? spawnAreaCenter.position
-            : transform.position;
+        // Work in local space so positions are environment-agnostic across parallel instances.
+        // spawnAreaCenter is used only to define a local offset from the env root.
+        Vector3 localCentre = spawnAreaCenter != null
+            ? transform.InverseTransformPoint(spawnAreaCenter.position)
+            : Vector3.zero;
 
         int filled      = 0;
         int maxAttempts = 200;
@@ -208,16 +222,19 @@ public class EnvironmentManager : MonoBehaviour
             {
                 float x = Random.Range(-spawnHalfExtents.x, spawnHalfExtents.x);
                 float z = Random.Range(-spawnHalfExtents.y, spawnHalfExtents.y);
-                Vector3 candidate = new Vector3(centre.x + x, buttonY, centre.z + z);
+
+                // Candidate in local space
+                Vector3 localCandidate = new Vector3(localCentre.x + x, buttonY, localCentre.z + z);
 
                 bool tooClose = false;
                 for (int p = 0; p < filled; p++)
-                    if (Vector3.Distance(candidate, _spawnPositions[p]) < minButtonSeparation)
+                    if (Vector3.Distance(localCandidate, _spawnPositions[p]) < minButtonSeparation)
                     { tooClose = true; break; }
 
                 if (!tooClose)
                 {
-                    _spawnPositions[i] = candidate;
+                    // Store world position for actual placement
+                    _spawnPositions[i] = transform.TransformPoint(localCandidate);
                     filled++;
                     placed = true;
                 }

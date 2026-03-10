@@ -7,29 +7,27 @@ using Unity.MLAgents.Policies;
 using System.Collections.Generic;
 
 /// <summary>
-/// El Listener se mueve por el entorno 3D, detecta los botones mediante raycasts
-/// y pulsa el que crea correcto según el token recibido del Speaker.
+/// The Listener moves through the 3D environment, detects buttons via raycasts
+/// and presses the one it believes is correct based on the token received from the Speaker.
 ///
-/// ACCIONES DISCRETAS:
-///   Branch 0 – Movimiento  (5 valores)
-///     0 = nada
-///     1 = avanzar
-///     2 = retroceder
-///     3 = rotar izquierda
-///     4 = rotar derecha
+/// DISCRETE ACTIONS:
+///   Branch 0 – Movement    (5 values)
+///     0 = none
+///     1 = move forward
+///     2 = move backward
+///     3 = rotate left
+///     4 = rotate right
 ///
-///   Branch 1 – Pulsar  (4 valores)
-///     0 = no pulsar
-///     1 = pulsar botón 0
-///     2 = pulsar botón 1
-///     3 = pulsar botón 2
+///   Branch 1 – Press?      (2 values)
+///     0 = do not press
+///     1 = press the closest button within pressDistance
 ///
-/// OBSERVACIONES (total = 36 + vocabSize floats):
-///   Por cada botón (×3): color one-hot(3) + shape one-hot(3) + detected(1)
-///                        + dirección normalizada XZ(2) + distancia normalizada(1)
-///                      = 10 floats  →  30 floats totales
-///   Velocidad forward normalizada(1) + angular normalizada(1) = 2 floats
-///   Token del Speaker: one-hot(vocabSize)
+/// OBSERVATIONS (total = 32 + vocabSize floats, all positions in env-local space):
+///   Per button (×3): color one-hot(3) + shape one-hot(3) + detected(1)
+///                    + agent-relative XZ direction(2) + normalized distance(1)
+///                  = 10 floats  →  30 floats total
+///   Normalized forward velocity(1) + normalized angular velocity(1) = 2 floats
+///   Speaker token: one-hot(vocabSize)
 ///   Total: 32 + vocabSize
 /// </summary>
 public class ListenerAgent : Agent
@@ -45,18 +43,18 @@ public class ListenerAgent : Agent
     public float rotateSpeed = 120f;
 
     [Header("Press distance")]
-    public float pressDistance = 2f;
+    public float pressDistance = 0.5f;
 
     [Header("Raycast Settings")]
     public Transform raycastOrigin;
-    public float     raycastDistance = 20f;
+    public float     raycastDistance = 5f;
     public LayerMask buttonLayer;
     public string    buttonTag = "Button";
 
-    [Tooltip("Ángulo de barrido horizontal a cada lado (grados).")]
+    [Tooltip("Horizontal sweep angle on each side (degrees).")]
     public float scanHalfAngle  = 90f;
-    [Tooltip("Paso angular entre rayos. Valor alto = menos rayos = más rápido.")]
-    public float horizontalStep = 20f;   // era 10 → la mitad de rayos
+    [Tooltip("Angular step between rays. Higher value = fewer rays = faster.")]
+    public float horizontalStep = 20f;   
 
     [Header("Spawn (reset position)")]
     public Transform startPosition;
@@ -67,17 +65,17 @@ public class ListenerAgent : Agent
 
     private struct ScannedButton
     {
-        public int     colorIndex;
-        public int     shapeIndex;
-        public bool    detected;
+        public int colorIndex;
+        public int shapeIndex;
+        public bool detected;
         public Vector3 worldPos;
     }
 
-    private ScannedButton[]    _scanned        = new ScannedButton[3];
-    private Rigidbody          _rb;
-    private int                _moveAction;
+    private ScannedButton[] _scanned = new ScannedButton[3];
+    private Rigidbody _rb;
+    private int _moveAction;
     private BehaviorParameters _behaviorParams;
-    private readonly HashSet<ButtonController> _seenButtons = new HashSet<ButtonController>(); // reutilizado
+    private readonly HashSet<ButtonController> _seenButtons = new HashSet<ButtonController>(); 
 
     // ─────────────────────────────────────────────────────────────
     //  ML-Agents lifecycle
@@ -85,15 +83,8 @@ public class ListenerAgent : Agent
 
     public override void Initialize()
     {
-        _rb             = GetComponent<Rigidbody>();
+        _rb = GetComponent<Rigidbody>();
         _behaviorParams = GetComponent<BehaviorParameters>();
-
-        if (_rb != null)
-        {
-            _rb.constraints = RigidbodyConstraints.FreezeRotationX
-                            | RigidbodyConstraints.FreezeRotationZ
-                            | RigidbodyConstraints.FreezePositionY;
-        }
     }
 
     public override void OnEpisodeBegin()
@@ -113,13 +104,19 @@ public class ListenerAgent : Agent
         }
         _moveAction = 0;
 
-        // Escaneo inicial al comenzar el episodio
+        // Initial scan at the start of the episode
         ScanWithRaycast();
     }
 
     public override void CollectObservations(VectorSensor sensor)
     {
-        // ── Por cada botón: 10 floats ─────────────────────────────
+        // ── Per button: 10 floats ─────────────────────────────────
+        // All positions are in the environment's local space so observations
+        // are identical across parallel training instances at different world offsets.
+        Vector3 agentLocalPos = env.transform.InverseTransformPoint(transform.position);
+        // Agent forward direction in env-local space
+        Vector3 agentLocalFwd = env.transform.InverseTransformDirection(transform.forward);
+
         for (int i = 0; i < 3; i++)
         {
             if (_scanned[i].detected)
@@ -128,11 +125,18 @@ public class ListenerAgent : Agent
                 AddOneHot(sensor, 3, _scanned[i].shapeIndex);
                 sensor.AddObservation(1f);
 
-                Vector3 toBtn    = _scanned[i].worldPos - transform.position;
-                float   dist     = toBtn.magnitude;
-                Vector3 localDir = transform.InverseTransformDirection(dist > 0.001f ? toBtn / dist : Vector3.zero);
-                sensor.AddObservation(Mathf.Clamp(localDir.x, -1f, 1f));
-                sensor.AddObservation(Mathf.Clamp(localDir.z, -1f, 1f));
+                // Direction and distance in env-local space
+                Vector3 btnLocalPos = env.transform.InverseTransformPoint(_scanned[i].worldPos);
+                Vector3 toBtn       = btnLocalPos - agentLocalPos;
+                float   dist        = toBtn.magnitude;
+
+                // Project onto agent's local XZ plane (using env-local forward as reference)
+                Vector3 right   = Vector3.Cross(Vector3.up, agentLocalFwd).normalized;
+                float   localX  = dist > 0.001f ? Vector3.Dot(toBtn / dist, right)        : 0f;
+                float   localZ  = dist > 0.001f ? Vector3.Dot(toBtn / dist, agentLocalFwd): 0f;
+
+                sensor.AddObservation(Mathf.Clamp(localX, -1f, 1f));
+                sensor.AddObservation(Mathf.Clamp(localZ, -1f, 1f));
                 sensor.AddObservation(Mathf.Clamp01(dist / raycastDistance));
             }
             else
@@ -141,7 +145,7 @@ public class ListenerAgent : Agent
             }
         }
 
-        // ── Velocidad (2 floats) ──────────────────────────────────
+        // ── Velocity (2 floats) ───────────────────────────────────
         if (_rb != null)
         {
             sensor.AddObservation(Vector3.Dot(_rb.linearVelocity, transform.forward) / moveSpeed);
@@ -153,7 +157,7 @@ public class ListenerAgent : Agent
             sensor.AddObservation(0f);
         }
 
-        // ── Token del Speaker (vocabSize floats) ──────────────────
+        // ── Speaker token (vocabSize floats) ──────────────────────
         AddOneHot(sensor, env.vocabSize, env.currentMessageToken);
     }
 
@@ -163,9 +167,9 @@ public class ListenerAgent : Agent
 
         _moveAction = actions.DiscreteActions[0];
 
-        int pressAction = actions.DiscreteActions[1];
-        if (pressAction > 0)
-            TryPressButton(pressAction - 1);
+        // Branch 1: press the closest button within range (no need to pick — the agent walks to it)
+        if (actions.DiscreteActions[1] == 1)
+            TryPressClosestButton();
 
         // Max steps of and episode to prevent infinite wandering: 300 steps = 60 seconds at default FixedUpdate (0.2s).
         if (StepCount >= 300)
@@ -176,22 +180,22 @@ public class ListenerAgent : Agent
     }
 
     // ─────────────────────────────────────────────────────────────
-    //  FixedUpdate: movimiento + escaneo periódico
+    //  FixedUpdate: movement + periodic scan
     // ─────────────────────────────────────────────────────────────
 
     private int _scanCounter;
-    private const int ScanEveryNFrames = 5;   // raycast cada 5 physics frames
+    private const int ScanEveryNFrames = 5;   // raycast every 5 physics frames
 
     void FixedUpdate()
     {
-        // ── Movimiento ────────────────────────────────────────────
+        // ── Movement ──────────────────────────────────────────────
         var kb = Keyboard.current;
         if (kb != null && _behaviorParams?.BehaviorType == BehaviorType.HeuristicOnly)
         {
             int action = 0;
-            if      (kb.wKey.isPressed || kb.upArrowKey.isPressed)    action = 1;
-            else if (kb.sKey.isPressed || kb.downArrowKey.isPressed)  action = 2;
-            else if (kb.aKey.isPressed || kb.leftArrowKey.isPressed)  action = 3;
+            if (kb.wKey.isPressed || kb.upArrowKey.isPressed) action = 1;
+            else if (kb.sKey.isPressed || kb.downArrowKey.isPressed) action = 2;
+            else if (kb.aKey.isPressed || kb.leftArrowKey.isPressed) action = 3;
             else if (kb.dKey.isPressed || kb.rightArrowKey.isPressed) action = 4;
             ApplyMovement(action);
         }
@@ -200,7 +204,7 @@ public class ListenerAgent : Agent
             ApplyMovement(_moveAction);
         }
 
-        // ── Escaneo periódico (no cada frame) ────────────────────
+        // ── Periodic scan (not every frame) ──────────────────────
         _scanCounter++;
         if (_scanCounter >= ScanEveryNFrames)
         {
@@ -215,16 +219,15 @@ public class ListenerAgent : Agent
         var d  = actionsOut.DiscreteActions;
         if (kb == null) return;
 
-        if      (kb.wKey.isPressed || kb.upArrowKey.isPressed)    d[0] = 1;
-        else if (kb.sKey.isPressed || kb.downArrowKey.isPressed)  d[0] = 2;
-        else if (kb.aKey.isPressed || kb.leftArrowKey.isPressed)  d[0] = 3;
+        // Branch 0 – movement
+        if (kb.wKey.isPressed || kb.upArrowKey.isPressed) d[0] = 1;
+        else if (kb.sKey.isPressed || kb.downArrowKey.isPressed) d[0] = 2;
+        else if (kb.aKey.isPressed || kb.leftArrowKey.isPressed) d[0] = 3;
         else if (kb.dKey.isPressed || kb.rightArrowKey.isPressed) d[0] = 4;
-        else                                                       d[0] = 0;
+        else d[0] = 0;
 
-        if      (kb.digit1Key.isPressed) d[1] = 1;
-        else if (kb.digit2Key.isPressed) d[1] = 2;
-        else if (kb.digit3Key.isPressed) d[1] = 3;
-        else                             d[1] = 0;
+        // Branch 1 – press? (Space = press closest button in range)
+        d[1] = kb.spaceKey.isPressed ? 1 : 0;
     }
 
     // ─────────────────────────────────────────────────────────────
@@ -238,11 +241,11 @@ public class ListenerAgent : Agent
         {
             case 1:
                 if (_rb != null) _rb.MovePosition(_rb.position + transform.forward * (moveSpeed * dt));
-                else             transform.position += transform.forward * (moveSpeed * dt);
+                else transform.position += transform.forward * (moveSpeed * dt);
                 break;
             case 2:
                 if (_rb != null) _rb.MovePosition(_rb.position - transform.forward * (moveSpeed * dt));
-                else             transform.position -= transform.forward * (moveSpeed * dt);
+                else transform.position -= transform.forward * (moveSpeed * dt);
                 break;
             case 3: transform.Rotate(0f, -(rotateSpeed * dt), 0f); break;
             case 4: transform.Rotate(0f,   rotateSpeed * dt,  0f); break;
@@ -253,18 +256,49 @@ public class ListenerAgent : Agent
     //  Press logic
     // ─────────────────────────────────────────────────────────────
 
-    void TryPressButton(int slotIndex)
+    /// <summary>
+    /// Presses the button the agent is closest to AND most facing, within pressDistance.
+    /// Positions are compared in env-local space so this works correctly across
+    /// parallel training instances placed at different world offsets.
+    /// Score = dot(forward, dirToButton) / distance  — higher is better.
+    /// If no button is within range, applies a small penalty to discourage spamming.
+    /// </summary>
+    void TryPressClosestButton()
     {
-        if (slotIndex < 0 || slotIndex > 2) return;
-        float dist = Vector3.Distance(transform.position, env.GetButtonWorldPosition(slotIndex));
-        if (dist <= pressDistance)
-            env.ListenerChoseButton(slotIndex);
+        int   bestSlot  = -1;
+        float bestScore = float.MinValue;
+
+        // Agent position and forward in env-local space
+        Vector3 agentLocal = env.transform.InverseTransformPoint(transform.position);
+        Vector3 forwardLocal = env.transform.InverseTransformDirection(transform.forward);
+
+        for (int i = 0; i < 3; i++)
+        {
+            Vector3 btnLocal = env.GetButtonLocalPosition(i);
+            Vector3 toBtn = btnLocal - agentLocal;
+            float dist = toBtn.magnitude;
+            if (dist > pressDistance) continue;          // out of reach — skip
+
+            float dot = Vector3.Dot(forwardLocal, toBtn/dist);  // -1..1
+            if (dot <= 0f) continue;                              // behind the agent — skip
+
+            // Combine: more facing + closer = higher score
+            float score = dot/dist;
+            if (score > bestScore)
+            {
+                bestScore = score;
+                bestSlot  = i;
+            }
+        }
+
+        if (bestSlot >= 0)
+            env.ListenerChoseButton(bestSlot);
         else
-            AddReward(-0.01f);
+            AddReward(-0.01f);   // penalty for pressing in thin air
     }
 
     // ─────────────────────────────────────────────────────────────
-    //  Raycast scan — optimizado
+    //  Raycast scan — optimized
     // ─────────────────────────────────────────────────────────────
 
     void ScanWithRaycast()
@@ -272,15 +306,15 @@ public class ListenerAgent : Agent
         ClearScan();
         Transform origin = raycastOrigin != null ? raycastOrigin : transform;
 
-        // Primero intenta detectar con rayos DIRECTOS a cada botón conocido (muy barato)
+        // First try to detect with DIRECT rays to each known button (very cheap)
         int found = TryDirectRays(origin);
-        if (found >= 3) return;   // todos encontrados, no hace falta el barrido
+        if (found >= 3) return;   // all found, no need for fan sweep
 
-        // Barrido en abanico solo si algún botón no se detectó con rayo directo
+        // Fan sweep only if any button was not detected with a direct ray
         FanScan(origin);
     }
 
-    /// <summary>Lanza 1 rayo por botón directamente hacia su posición. O(3) raycasts.</summary>
+    /// <summary>Fires 1 ray per button directly towards its position. O(3) raycasts.</summary>
     int TryDirectRays(Transform origin)
     {
         int found = 0;
@@ -291,12 +325,11 @@ public class ListenerAgent : Agent
             Vector3 toBtn = env.GetButtonWorldPosition(i) - origin.position;
             if (toBtn.sqrMagnitude < 0.01f) continue;
 
-            if (Physics.Raycast(origin.position, toBtn.normalized, out RaycastHit hit,
-                                raycastDistance, buttonLayer)
+            if (Physics.Raycast(origin.position, toBtn.normalized, out RaycastHit hit, raycastDistance, buttonLayer) 
                 && hit.collider.CompareTag(buttonTag))
             {
-                ButtonController btn = hit.collider.GetComponentInParent<ButtonController>()
-                                    ?? hit.collider.GetComponent<ButtonController>();
+                ButtonController btn = hit.collider.GetComponentInParent<ButtonController>() 
+                                       ?? hit.collider.GetComponent<ButtonController>();
                 if (btn != null && FindSlot(btn) == i)
                 {
                     _scanned[i] = new ScannedButton
@@ -313,10 +346,10 @@ public class ListenerAgent : Agent
         return found;
     }
 
-    /// <summary>Barrido en abanico reducido para botones no encontrados con rayo directo.</summary>
+    /// <summary>Reduced fan sweep for buttons not found with direct rays.</summary>
     void FanScan(Transform origin)
     {
-        _seenButtons.Clear(); // reutiliza, no alloca
+        _seenButtons.Clear(); // reuse, no alloc
 
         for (float angle = -scanHalfAngle; angle <= scanHalfAngle; angle += horizontalStep)
         {
@@ -386,4 +419,3 @@ public class ListenerAgent : Agent
         }
     }
 }
-
