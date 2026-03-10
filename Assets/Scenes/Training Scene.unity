@@ -1626,7 +1626,7 @@ MonoBehaviour:
   spawnAreaCenter: {fileID: 1752140661}
   spawnHalfExtents: {x: 3, y: 3}
   minButtonSeparation: 1.5
-  buttonY: 0.25
+  buttonY: 0
   speaker: {fileID: 831795862}
   listener: {fileID: 1320168236}
 --- !u!4 &1752140661
