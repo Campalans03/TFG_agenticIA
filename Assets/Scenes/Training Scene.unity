@@ -835,7 +835,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 831795860}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3a5c9d521e5ef4759a8246a07d52221e, type: 3}
   m_Name: 
@@ -1618,7 +1618,6 @@ MonoBehaviour:
   stepPenalty: -0.001
   vocabSize: 8
   silenceToken: 0
-  speakPenalty: -0.0005
   buttonObjects:
   - {fileID: 1180136072}
   - {fileID: 1902543881}

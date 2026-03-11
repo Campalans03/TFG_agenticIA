@@ -3,9 +3,9 @@ using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
 
 /// <summary>
-/// The Speaker reads the rule book (targetColor, targetShape)
-/// but CANNOT see the buttons. It encodes the rule into a discrete token
-/// and broadcasts it so the Listener can pick the correct button.
+/// The Speaker reads the rule book (targetColor, targetShape),
+/// emits ONE discrete token per episode and then stays silent.
+/// RequestDecision() is called exactly once by EnvironmentManager.ResetEpisode().
 /// </summary>
 public class SpeakerAgent : Agent
 {
@@ -21,37 +21,32 @@ public class SpeakerAgent : Agent
 
     public override void OnEpisodeBegin()
     {
-        // Episode is reset by the Listener. nothing to do here.
+        // Reset is driven by EnvironmentManager. Nothing to do here.
     }
 
     public override void CollectObservations(VectorSensor sensor)
     {
         // ── Rule book observations (visible only to the Speaker) ──
-        // targetColor  → one-hot (3 floats)
+        // targetColor → one-hot (3 floats)
         AddOneHot(sensor, 3, (int)env.targetColor);
 
-        // targetShape  → one-hot (3 floats)
+        // targetShape → one-hot (3 floats)
         AddOneHot(sensor, 3, (int)env.targetShape);
 
-        // Previous token the Speaker emitted (feedback for recurrent policy)
-        AddOneHot(sensor, env.vocabSize, env.currentMessageToken);
-
-        // Total: 3 + 3 + vocabSize floats
+        // Total: 6 floats
+        // (No previous-token feedback: the Speaker speaks exactly once per episode)
     }
 
     public override void OnActionReceived(ActionBuffers actions)
     {
-        // Choose a token and broadcast it through the environment channel
+        // Emit the chosen token once and freeze until next episode.
         int token = actions.DiscreteActions[0];
         env.SetMessageToken(token);
-
-        // The episode does NOT end here; the Listener decides when it ends.
     }
 
     public override void Heuristic(in ActionBuffers actionsOut)
     {
-        // Simple deterministic heuristic for debugging:
-        // Encode rule as: colorIndex * 3 + shapeIndex, clamped to vocabSize.
+        // Deterministic heuristic: colorIndex * 3 + shapeIndex
         var d = actionsOut.DiscreteActions;
         int code = (int)env.targetColor * 3 + (int)env.targetShape;
         d[0] = code % env.vocabSize;

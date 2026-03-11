@@ -26,9 +26,8 @@ public class EnvironmentManager : MonoBehaviour
 
     [Header("Communication")]
     [Tooltip("Vocabulary size. Must match the Speaker's Discrete Branch size.")]
-    public int   vocabSize       = 9;
-    public int   silenceToken    = 0;
-    public float speakPenalty    = -0.0005f;
+    public int vocabSize    = 9;
+    public int silenceToken = 0;
 
     [Header("Buttons (exactly 3)")]
     [Tooltip("Assign the 3 ButtonController GameObjects here.")]
@@ -64,7 +63,7 @@ public class EnvironmentManager : MonoBehaviour
 
     // ─────────────────────────────────────────────────────────────
     //  Public API
-    // ─────────────────────────────────────────────────────────────
+    // ───────────────────────────────────────────────────────────── 
 
     public void ResetEpisode()
     {
@@ -100,21 +99,15 @@ public class EnvironmentManager : MonoBehaviour
 
         // ── 4. Reset communication channel ──
         currentMessageToken = silenceToken;
+
+        // ── 5. Ask the Speaker to emit its token exactly once for this episode ──
+        speaker.RequestDecision();
     }
 
     public void SetMessageToken(int token)
     {
-        token = Mathf.Clamp(token, 0, vocabSize - 1);
-        currentMessageToken = token;
-        
-        Debug.Log(currentMessageToken == silenceToken
-            ? null : $"Speaker emitted token {currentMessageToken}.");
-
-        if (token != silenceToken)
-        {
-            speaker.AddReward(speakPenalty);
-            listener.AddReward(speakPenalty);
-        }
+        currentMessageToken = Mathf.Clamp(token, 0, vocabSize - 1);
+        Debug.Log($"[Speaker] emitted token {currentMessageToken}.");
     }
 
     public void ApplyStepPenalty()
