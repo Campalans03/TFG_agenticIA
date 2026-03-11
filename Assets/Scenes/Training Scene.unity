@@ -810,7 +810,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.ML-Agents::Unity.MLAgents.Policies.BehaviorParameters
   m_BrainParameters:
-    VectorObservationSize: 15
+    VectorObservationSize: 6
     NumStackedVectorObservations: 1
     m_ActionSpec:
       m_NumContinuousActions: 0
@@ -1423,7 +1423,7 @@ MonoBehaviour:
   env: {fileID: 1752140660}
   moveSpeed: 3
   rotateSpeed: 120
-  pressDistance: 0.5
+  pressDistance: 1
   raycastOrigin: {fileID: 1320168235}
   raycastDistance: 5
   buttonLayer:
@@ -1446,7 +1446,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Unity.ML-Agents::Unity.MLAgents.Policies.BehaviorParameters
   m_BrainParameters:
-    VectorObservationSize: 40
+    VectorObservationSize: 41
     NumStackedVectorObservations: 1
     m_ActionSpec:
       m_NumContinuousActions: 0
@@ -1593,6 +1593,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1752140661}
   - component: {fileID: 1752140660}
+  - component: {fileID: 1752140662}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Untagged
@@ -1616,7 +1617,7 @@ MonoBehaviour:
   correctReward: 1
   wrongReward: -1
   stepPenalty: -0.001
-  vocabSize: 8
+  vocabSize: 9
   silenceToken: 0
   buttonObjects:
   - {fileID: 1180136072}
@@ -1625,7 +1626,7 @@ MonoBehaviour:
   spawnAreaCenter: {fileID: 1752140661}
   spawnHalfExtents: {x: 3, y: 3}
   minButtonSeparation: 1.5
-  buttonY: 0
+  buttonY: 0.25
   speaker: {fileID: 831795862}
   listener: {fileID: 1320168236}
 --- !u!4 &1752140661
@@ -1643,6 +1644,28 @@ Transform:
   m_Children: []
   m_Father: {fileID: 4510917}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1752140662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1752140659}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9fc050aae2454a64a005f8767f9ee3d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::TargetIndicator
+  env: {fileID: 1752140660}
+  targetColor: {r: 1, g: 0.92, b: 0.016, a: 0.85}
+  heightOffset: 1
+  bobAmplitude: 0.15
+  bobFrequency: 1.5
+  arrowHeight: 0.9
+  shaftRadius: 0.06
+  headHeight: 0.35
+  headRadius: 0.16
+  coneSegments: 8
 --- !u!1 &1902543879
 GameObject:
   m_ObjectHideFlags: 0
