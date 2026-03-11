@@ -26,7 +26,7 @@ public class EnvironmentManager : MonoBehaviour
 
     [Header("Communication")]
     [Tooltip("Vocabulary size. Must match the Speaker's Discrete Branch size.")]
-    public int   vocabSize       = 8;
+    public int   vocabSize       = 9;
     public int   silenceToken    = 0;
     public float speakPenalty    = -0.0005f;
 
@@ -55,10 +55,9 @@ public class EnvironmentManager : MonoBehaviour
     /// <summary>Logical button data (color + shape) indexed by slot 0-2.</summary>
     public ButtonData[] buttons { get; private set; } = new ButtonData[3];
 
-    /// <summary>Current rule: which color/shape is correct and optional constraint.</summary>
+    /// <summary>Current rule: which color/shape is correct.</summary>
     public ButtonColor targetColor  { get; private set; }
     public ButtonShape targetShape  { get; private set; }
-    public bool requireNoRed { get; private set; }
 
     /// <summary>Last token emitted by the Speaker.</summary>
     public int currentMessageToken { get; private set; } = 0;
@@ -84,9 +83,8 @@ public class EnvironmentManager : MonoBehaviour
 
             targetColor  = (ButtonColor)Random.Range(0, 3);
             targetShape  = (ButtonShape)Random.Range(0, 3);
-            requireNoRed = Random.value < 0.5f;
 
-            ok = EpisodeHasValidSolution();
+            ok = AllButtonsUnique() && EpisodeHasValidSolution();
         }
 
         // ── 2. Randomise physical positions ──
@@ -96,7 +94,7 @@ public class EnvironmentManager : MonoBehaviour
         for (int i = 0; i < 3; i++)
         {
             if (buttonObjects[i] == null) continue;
-            buttonObjects[i].transform.position = positions[i];
+            buttonObjects[i].transform.localPosition = positions[i];
             buttonObjects[i].Apply(buttons[i].color, buttons[i].shape, i);
         }
 
@@ -108,6 +106,9 @@ public class EnvironmentManager : MonoBehaviour
     {
         token = Mathf.Clamp(token, 0, vocabSize - 1);
         currentMessageToken = token;
+        
+        Debug.Log(currentMessageToken == silenceToken
+            ? null : $"Speaker emitted token {currentMessageToken}.");
 
         if (token != silenceToken)
         {
@@ -120,6 +121,12 @@ public class EnvironmentManager : MonoBehaviour
     {
         speaker.AddReward(stepPenalty);
         listener.AddReward(stepPenalty);
+    }
+    
+    public void ApplyOutOfTimePenalty()
+    {
+        speaker.AddReward(wrongReward);
+        listener.AddReward(wrongReward);
     }
 
     public void ListenerChoseButton(int chosenIndex)
@@ -164,7 +171,7 @@ public class EnvironmentManager : MonoBehaviour
     public Vector3 GetButtonLocalPosition(int slotIndex)
     {
         if (buttonObjects[slotIndex] != null)
-            return transform.InverseTransformPoint(buttonObjects[slotIndex].transform.position);
+            return buttonObjects[slotIndex].transform.localPosition;
         return Vector3.zero;
     }
 
@@ -174,8 +181,6 @@ public class EnvironmentManager : MonoBehaviour
 
     public int GetCorrectButtonIndex()
     {
-        if (requireNoRed && AnyRedPresent()) return -1;
-
         for (int i = 0; i < 3; i++)
             if (buttons[i].color == targetColor && buttons[i].shape == targetShape)
                 return i;
@@ -183,11 +188,13 @@ public class EnvironmentManager : MonoBehaviour
         return -1;
     }
 
-    bool AnyRedPresent()
+    bool AllButtonsUnique()
     {
         for (int i = 0; i < 3; i++)
-            if (buttons[i].color == ButtonColor.Red) return true;
-        return false;
+            for (int j = i + 1; j < 3; j++)
+                if (buttons[i].color == buttons[j].color && buttons[i].shape == buttons[j].shape)
+                    return false;
+        return true;
     }
 
     bool EpisodeHasValidSolution()
@@ -205,10 +212,10 @@ public class EnvironmentManager : MonoBehaviour
 
     Vector3[] GenerateScatteredPositions(int count)
     {
-        // Work in local space so positions are environment-agnostic across parallel instances.
-        // spawnAreaCenter is used only to define a local offset from the env root.
-        Vector3 localCentre = spawnAreaCenter != null
-            ? transform.InverseTransformPoint(spawnAreaCenter.position)
+        // Everything in local space. Buttons are children of this transform,
+        // so buttonObjects[i].transform.localPosition = candidate is all that's needed.
+        Vector3 centre = spawnAreaCenter != null
+            ? spawnAreaCenter.localPosition
             : Vector3.zero;
 
         int filled      = 0;
@@ -223,23 +230,22 @@ public class EnvironmentManager : MonoBehaviour
                 float x = Random.Range(-spawnHalfExtents.x, spawnHalfExtents.x);
                 float z = Random.Range(-spawnHalfExtents.y, spawnHalfExtents.y);
 
-                // Candidate in local space
-                Vector3 localCandidate = new Vector3(localCentre.x + x, buttonY, localCentre.z + z);
+                Vector3 candidate = new Vector3(centre.x + x, buttonY, centre.z + z);
 
                 bool tooClose = false;
                 for (int p = 0; p < filled; p++)
-                    if (Vector3.Distance(localCandidate, _spawnPositions[p]) < minButtonSeparation)
+                    if (Vector3.Distance(candidate, _spawnPositions[p]) < minButtonSeparation)
                     { tooClose = true; break; }
 
                 if (!tooClose)
                 {
-                    // Store world position for actual placement
-                    _spawnPositions[i] = transform.TransformPoint(localCandidate);
+                    _spawnPositions[i] = candidate;
                     filled++;
                     placed = true;
                 }
             }
         }
+
 
         return _spawnPositions;
     }

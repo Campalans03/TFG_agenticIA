@@ -3,7 +3,7 @@ using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
 
 /// <summary>
-/// The Speaker reads the rule book (targetColor, targetShape, requireNoRed)
+/// The Speaker reads the rule book (targetColor, targetShape)
 /// but CANNOT see the buttons. It encodes the rule into a discrete token
 /// and broadcasts it so the Listener can pick the correct button.
 /// </summary>
@@ -33,13 +33,10 @@ public class SpeakerAgent : Agent
         // targetShape  → one-hot (3 floats)
         AddOneHot(sensor, 3, (int)env.targetShape);
 
-        // requireNoRed → binary flag (1 float)
-        sensor.AddObservation(env.requireNoRed ? 1f : 0f);
-
         // Previous token the Speaker emitted (feedback for recurrent policy)
         AddOneHot(sensor, env.vocabSize, env.currentMessageToken);
 
-        // Total: 3 + 3 + 1 + vocabSize floats
+        // Total: 3 + 3 + vocabSize floats
     }
 
     public override void OnActionReceived(ActionBuffers actions)
@@ -54,12 +51,9 @@ public class SpeakerAgent : Agent
     public override void Heuristic(in ActionBuffers actionsOut)
     {
         // Simple deterministic heuristic for debugging:
-        // Encode rule as: colorIndex * 6 + shapeIndex * 2 + (requireNoRed ? 1 : 0)
-        // Clamped to vocabSize to avoid out-of-range tokens.
+        // Encode rule as: colorIndex * 3 + shapeIndex, clamped to vocabSize.
         var d = actionsOut.DiscreteActions;
-        int code = (int)env.targetColor * 6
-                 + (int)env.targetShape * 2
-                 + (env.requireNoRed ? 1 : 0);
+        int code = (int)env.targetColor * 3 + (int)env.targetShape;
         d[0] = code % env.vocabSize;
     }
 

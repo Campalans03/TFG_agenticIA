@@ -68,7 +68,6 @@ public class ListenerAgent : Agent
         public int colorIndex;
         public int shapeIndex;
         public bool detected;
-        public Vector3 worldPos;
     }
 
     private ScannedButton[] _scanned = new ScannedButton[3];
@@ -111,10 +110,9 @@ public class ListenerAgent : Agent
     public override void CollectObservations(VectorSensor sensor)
     {
         // ── Per button: 10 floats ─────────────────────────────────
-        // All positions are in the environment's local space so observations
-        // are identical across parallel training instances at different world offsets.
-        Vector3 agentLocalPos = env.transform.InverseTransformPoint(transform.position);
-        // Agent forward direction in env-local space
+        // All positions are in env local space so they are consistent across parallel instances, regardless of world offsets.
+        Vector3 agentLocalPos = transform.localPosition;
+        // Agent forward in env-local space 
         Vector3 agentLocalFwd = env.transform.InverseTransformDirection(transform.forward);
 
         for (int i = 0; i < 3; i++)
@@ -125,12 +123,12 @@ public class ListenerAgent : Agent
                 AddOneHot(sensor, 3, _scanned[i].shapeIndex);
                 sensor.AddObservation(1f);
 
-                // Direction and distance in env-local space
-                Vector3 btnLocalPos = env.transform.InverseTransformPoint(_scanned[i].worldPos);
+                // Button position already in local space
+                Vector3 btnLocalPos = env.GetButtonLocalPosition(i);
                 Vector3 toBtn       = btnLocalPos - agentLocalPos;
                 float   dist        = toBtn.magnitude;
 
-                // Project onto agent's local XZ plane (using env-local forward as reference)
+                // Project onto agent's local XZ plane
                 Vector3 right   = Vector3.Cross(Vector3.up, agentLocalFwd).normalized;
                 float   localX  = dist > 0.001f ? Vector3.Dot(toBtn / dist, right)        : 0f;
                 float   localZ  = dist > 0.001f ? Vector3.Dot(toBtn / dist, agentLocalFwd): 0f;
@@ -167,14 +165,14 @@ public class ListenerAgent : Agent
 
         _moveAction = actions.DiscreteActions[0];
 
-        // Branch 1: press the closest button within range (no need to pick — the agent walks to it)
+        // Branch 1: press the closest button within range 
         if (actions.DiscreteActions[1] == 1)
             TryPressClosestButton();
 
         // Max steps of and episode to prevent infinite wandering: 300 steps = 60 seconds at default FixedUpdate (0.2s).
         if (StepCount >= 300)
         {
-            AddReward(-1f); 
+            env.ApplyOutOfTimePenalty();
             env.EndEpisodeAll();
         }
     }
@@ -258,8 +256,7 @@ public class ListenerAgent : Agent
 
     /// <summary>
     /// Presses the button the agent is closest to AND most facing, within pressDistance.
-    /// Positions are compared in env-local space so this works correctly across
-    /// parallel training instances placed at different world offsets.
+    /// Positions are compared in env-local space so this works correctly across parallel training instances placed at different world offsets.
     /// Score = dot(forward, dirToButton) / distance  — higher is better.
     /// If no button is within range, applies a small penalty to discourage spamming.
     /// </summary>
@@ -277,10 +274,10 @@ public class ListenerAgent : Agent
             Vector3 btnLocal = env.GetButtonLocalPosition(i);
             Vector3 toBtn = btnLocal - agentLocal;
             float dist = toBtn.magnitude;
-            if (dist > pressDistance) continue;          // out of reach — skip
+            if (dist > pressDistance) continue; // out of reach — skip
 
-            float dot = Vector3.Dot(forwardLocal, toBtn/dist);  // -1..1
-            if (dot <= 0f) continue;                              // behind the agent — skip
+            float dot = Vector3.Dot(forwardLocal, toBtn/dist); // -1..1
+            if (dot <= 0f) continue; // behind the agent — skip
 
             // Combine: more facing + closer = higher score
             float score = dot/dist;
@@ -294,7 +291,7 @@ public class ListenerAgent : Agent
         if (bestSlot >= 0)
             env.ListenerChoseButton(bestSlot);
         else
-            AddReward(-0.01f);   // penalty for pressing in thin air
+            AddReward(-0.01f);// penalty for pressing in thin air
     }
 
     // ─────────────────────────────────────────────────────────────
@@ -306,9 +303,9 @@ public class ListenerAgent : Agent
         ClearScan();
         Transform origin = raycastOrigin != null ? raycastOrigin : transform;
 
-        // First try to detect with DIRECT rays to each known button (very cheap)
+        // First try to detect with DIRECT rays to each known button 
         int found = TryDirectRays(origin);
-        if (found >= 3) return;   // all found, no need for fan sweep
+        if (found >= 3) return; // all found, no need for fan sweep
 
         // Fan sweep only if any button was not detected with a direct ray
         FanScan(origin);
@@ -336,8 +333,7 @@ public class ListenerAgent : Agent
                     {
                         colorIndex = (int)btn.ButtonColorValue,
                         shapeIndex = (int)btn.ButtonShapeValue,
-                        detected   = true,
-                        worldPos   = btn.transform.position
+                        detected   = true
                     };
                     found++;
                 }
@@ -349,7 +345,7 @@ public class ListenerAgent : Agent
     /// <summary>Reduced fan sweep for buttons not found with direct rays.</summary>
     void FanScan(Transform origin)
     {
-        _seenButtons.Clear(); // reuse, no alloc
+        _seenButtons.Clear();
 
         for (float angle = -scanHalfAngle; angle <= scanHalfAngle; angle += horizontalStep)
         {
@@ -371,8 +367,7 @@ public class ListenerAgent : Agent
             {
                 colorIndex = (int)btn.ButtonColorValue,
                 shapeIndex = (int)btn.ButtonShapeValue,
-                detected   = true,
-                worldPos   = btn.transform.position
+                detected   = true
             };
         }
     }
@@ -415,7 +410,7 @@ public class ListenerAgent : Agent
         {
             if (!_scanned[i].detected) continue;
             Gizmos.color = Color.green;
-            Gizmos.DrawWireSphere(_scanned[i].worldPos, 0.4f);
+            Gizmos.DrawWireSphere(env.GetButtonWorldPosition(i), 0.4f);
         }
     }
 }
