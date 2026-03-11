@@ -130,15 +130,22 @@ public class EnvironmentManager : MonoBehaviour
         {
             speaker.AddReward(correctReward);
             listener.AddReward(correctReward);
+            listener.ShowCorrectPress(onComplete: () =>
+            {
+                speaker.EndEpisode();
+                listener.EndEpisode();
+            });
         }
         else
         {
             speaker.AddReward(wrongReward);
             listener.AddReward(wrongReward);
+            listener.ShowWrongPress(onComplete: () =>
+            {
+                speaker.EndEpisode();
+                listener.EndEpisode();
+            });
         }
-
-        speaker.EndEpisode();
-        listener.EndEpisode();
     }
 
     /// <summary>Ends the episode for all the Agents.</summary>

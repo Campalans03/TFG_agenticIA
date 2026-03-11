@@ -1,10 +1,11 @@
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using Unity.MLAgents;
 using Unity.MLAgents.Actuators;
 using Unity.MLAgents.Sensors;
 using Unity.MLAgents.Policies;
-using System.Collections.Generic;
 
 /// <summary>
 /// The Listener moves through the 3D environment, detects buttons via raycasts
@@ -74,7 +75,22 @@ public class ListenerAgent : Agent
     private Rigidbody _rb;
     private int _moveAction;
     private BehaviorParameters _behaviorParams;
-    private readonly HashSet<ButtonController> _seenButtons = new HashSet<ButtonController>(); 
+    private readonly HashSet<ButtonController> _seenButtons = new HashSet<ButtonController>();
+
+    // ─────────────────────────────────────────────────────────────
+    //  Visual feedback — MaterialPropertyBlock (URP/Lit _BaseColor)
+    // ─────────────────────────────────────────────────────────────
+
+    [Header("Visual Feedback")]
+    [Tooltip("Renderers to flash. Leave empty to auto-collect from this GameObject and children.")]
+    public Renderer[] debugRenderers;
+    [Tooltip("Seconds the flash colour stays on screen.")]
+    public float flashDuration = 0.1f;
+
+    private MaterialPropertyBlock _mpb;
+    private static readonly int   BaseColorID = Shader.PropertyToID("_BaseColor");
+    private Color _neutralColor;
+    private Coroutine _flashRoutine;
 
     // ─────────────────────────────────────────────────────────────
     //  ML-Agents lifecycle
@@ -82,8 +98,23 @@ public class ListenerAgent : Agent
 
     public override void Initialize()
     {
-        _rb = GetComponent<Rigidbody>();
+        _rb             = GetComponent<Rigidbody>();
         _behaviorParams = GetComponent<BehaviorParameters>();
+
+        // Auto-collect renderers if none assigned in the Inspector
+        if (debugRenderers == null || debugRenderers.Length == 0)
+            debugRenderers = GetComponentsInChildren<Renderer>();
+
+        _mpb = new MaterialPropertyBlock();
+
+        // Read the neutral colour from the first renderer's shared material (_BaseColor = URP/Lit)
+        _neutralColor = Color.white;
+        if (debugRenderers.Length > 0 && debugRenderers[0] != null
+            && debugRenderers[0].sharedMaterial != null
+            && debugRenderers[0].sharedMaterial.HasProperty(BaseColorID))
+        {
+            _neutralColor = debugRenderers[0].sharedMaterial.GetColor(BaseColorID);
+        }
     }
 
     public override void OnEpisodeBegin()
@@ -102,6 +133,10 @@ public class ListenerAgent : Agent
             _rb.angularVelocity = Vector3.zero;
         }
         _moveAction = 0;
+
+        // Stop any active flash and restore neutral colour
+        if (_flashRoutine != null) { StopCoroutine(_flashRoutine); _flashRoutine = null; }
+        SetDebugColor(_neutralColor);
 
         // Initial scan at the start of the episode
         ScanWithRaycast();
@@ -186,6 +221,7 @@ public class ListenerAgent : Agent
 
     void FixedUpdate()
     {
+
         // ── Movement ──────────────────────────────────────────────
         var kb = Keyboard.current;
         if (kb != null && _behaviorParams?.BehaviorType == BehaviorType.HeuristicOnly)
@@ -289,9 +325,50 @@ public class ListenerAgent : Agent
         }
 
         if (bestSlot >= 0)
-            env.ListenerChoseButton(bestSlot);
+        {
+            env.ListenerChoseButton(bestSlot);   // EnvironmentManager handles visual feedback
+        }
         else
-            AddReward(-0.01f);// penalty for pressing in thin air
+        {
+            ShowWrongPress();          // pressing thin air = red feedback
+            AddReward(-0.01f);
+        }
+    }
+
+    // ─────────────────────────────────────────────────────────────
+    //  Visual feedback — public API
+    // ─────────────────────────────────────────────────────────────
+
+    /// <summary>Applies a colour to the agent via MPB without instantiating materials.</summary>
+    public void SetDebugColor(Color color)
+    {
+        if (debugRenderers == null) return;
+        _mpb.SetColor(BaseColorID, color);
+        foreach (Renderer r in debugRenderers)
+            if (r != null) r.SetPropertyBlock(_mpb);
+    }
+
+    /// <summary>Flashes green for 0.1 s then returns to neutral. Call on a correct press.</summary>
+    public void ShowCorrectPress(System.Action onComplete = null)
+    {
+        if (_flashRoutine != null) StopCoroutine(_flashRoutine);
+        _flashRoutine = StartCoroutine(FlashRoutine(Color.green, onComplete));
+    }
+
+    /// <summary>Flashes red for 0.1 s then returns to neutral. Call on a wrong press.</summary>
+    public void ShowWrongPress(System.Action onComplete = null)
+    {
+        if (_flashRoutine != null) StopCoroutine(_flashRoutine);
+        _flashRoutine = StartCoroutine(FlashRoutine(Color.red, onComplete));
+    }
+
+    private IEnumerator FlashRoutine(Color flashColor, System.Action onComplete)
+    {
+        SetDebugColor(flashColor);
+        yield return new WaitForSeconds(flashDuration);
+        SetDebugColor(_neutralColor);
+        _flashRoutine = null;
+        onComplete?.Invoke();
     }
 
     // ─────────────────────────────────────────────────────────────

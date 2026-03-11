@@ -1417,6 +1417,8 @@ MonoBehaviour:
   scanHalfAngle: 90
   horizontalStep: 20
   startPosition: {fileID: 1752140661}
+  debugRenderers: []
+  flashDuration: 0.1
 --- !u!114 &1320168237
 MonoBehaviour:
   m_ObjectHideFlags: 0
