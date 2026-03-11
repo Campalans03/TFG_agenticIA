@@ -757,7 +757,6 @@ GameObject:
   - component: {fileID: 831795861}
   - component: {fileID: 831795863}
   - component: {fileID: 831795862}
-  - component: {fileID: 831795864}
   m_Layer: 0
   m_Name: SpeakerAgent
   m_TagString: Untagged
@@ -828,21 +827,6 @@ MonoBehaviour:
   m_UseChildActuators: 1
   m_DeterministicInference: 0
   m_ObservableAttributeHandling: 0
---- !u!114 &831795864
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 831795860}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a5c9d521e5ef4759a8246a07d52221e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.ML-Agents::Unity.MLAgents.DecisionRequester
-  DecisionPeriod: 1
-  DecisionStep: 0
-  TakeActionsBetweenDecisions: 0
 --- !u!1 &1004878127
 GameObject:
   m_ObjectHideFlags: 0
