@@ -326,11 +326,12 @@ public class ListenerAgent : Agent
 
         if (bestSlot >= 0)
         {
-            env.ListenerChoseButton(bestSlot);   // EnvironmentManager handles visual feedback
+            env.ListenerChoseButton(bestSlot); // EnvironmentManager handles visual feedback
         }
         else
         {
-            ShowWrongPress();          // pressing thin air = red feedback
+            env.RegisterEmptyPressAttempt(); // records the failed attempt in TensorBoard
+            ShowWrongPress(); // pressing thin air = red feedback
             AddReward(-0.01f);
         }
     }

@@ -1,4 +1,5 @@
 using UnityEngine;
+using Unity.MLAgents;
 
 public enum ButtonColor { Red, Green, Blue }
 public enum ButtonShape { Square, Circle, Triangle }
@@ -62,11 +63,24 @@ public class EnvironmentManager : MonoBehaviour
     public int currentMessageToken { get; private set; } = 0;
 
     // ─────────────────────────────────────────────────────────────
+    //  TensorBoard metrics (accumulated per episode)
+    // ─────────────────────────────────────────────────────────────
+    
+    private int _episodePressAttempts  = 0;  // total press attempts in the episode
+    private int _episodeCorrectPresses = 0;  // correct presses in the episode
+    private int _episodeWrongPresses   = 0;  // wrong presses in the episode
+
+    // ─────────────────────────────────────────────────────────────
     //  Public API
     // ───────────────────────────────────────────────────────────── 
 
     public void ResetEpisode()
     {
+        // ── 0. Reset episode metric counters ──
+        _episodePressAttempts  = 0;
+        _episodeCorrectPresses = 0;
+        _episodeWrongPresses   = 0;
+
         // ── 1. Randomise logical button properties ──
         bool ok = false;
         for (int attempt = 0; attempt < maxResampleTries && !ok; attempt++)
@@ -108,6 +122,10 @@ public class EnvironmentManager : MonoBehaviour
     {
         currentMessageToken = Mathf.Clamp(token, 0, vocabSize - 1);
         Debug.Log($"[Speaker] emitted token {currentMessageToken}.");
+
+        // ── TensorBoard: per-token usage counter ──
+        var stats = Academy.Instance.StatsRecorder;
+        stats.Add($"Speaker/Token_{currentMessageToken}", 1f);
     }
 
     public void ApplyStepPenalty()
@@ -126,8 +144,18 @@ public class EnvironmentManager : MonoBehaviour
     {
         int correct = GetCorrectButtonIndex();
 
+        // ── TensorBoard: press attempt count ──
+        _episodePressAttempts++;
+        var stats = Academy.Instance.StatsRecorder;
+        stats.Add("Listener/PressAttempts", _episodePressAttempts);
+
         if (chosenIndex == correct)
         {
+            // ── TensorBoard: correct press ──
+            _episodeCorrectPresses++;
+            stats.Add("Listener/CorrectPresses", _episodeCorrectPresses);
+            stats.Add("Listener/AccuracyRate", (float)_episodeCorrectPresses / _episodePressAttempts);
+
             speaker.AddReward(correctReward);
             listener.AddReward(correctReward);
             listener.ShowCorrectPress(onComplete: () =>
@@ -138,6 +166,11 @@ public class EnvironmentManager : MonoBehaviour
         }
         else
         {
+            // ── TensorBoard: wrong press ──
+            _episodeWrongPresses++;
+            stats.Add("Listener/WrongPresses", _episodeWrongPresses);
+            stats.Add("Listener/AccuracyRate", (float)_episodeCorrectPresses / _episodePressAttempts);
+
             speaker.AddReward(wrongReward);
             listener.AddReward(wrongReward);
             listener.ShowWrongPress(onComplete: () =>
@@ -153,6 +186,22 @@ public class EnvironmentManager : MonoBehaviour
     {
         speaker.EndEpisode();
         listener.EndEpisode();
+    }
+
+    /// <summary>
+    /// Called when the Listener attempts to press but no button is within reach.
+    /// Records the attempt in TensorBoard as a distance-based failure.
+    /// </summary>
+    public void RegisterEmptyPressAttempt()
+    {
+        _episodePressAttempts++;
+        _episodeWrongPresses++;
+        var stats = Academy.Instance.StatsRecorder;
+        stats.Add("Listener/PressAttempts",  _episodePressAttempts);
+        stats.Add("Listener/WrongPresses",   _episodeWrongPresses);
+        
+        if (_episodePressAttempts > 0)
+            stats.Add("Listener/AccuracyRate", (float)_episodeCorrectPresses / _episodePressAttempts);
     }
 
     /// <summary>Returns the world position of button slot i (used for physics/placement).</summary>
