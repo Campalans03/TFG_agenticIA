@@ -1,0 +1,96 @@
+{
+    "Listener": {
+        "checkpoints": [
+            {
+                "steps": 499945,
+                "file_path": "results\\Test2\\Listener\\Listener-499945.onnx",
+                "reward": -6.464817501777826,
+                "creation_time": 1773347531.0867205,
+                "auxillary_file_paths": [
+                    "results\\Test2\\Listener\\Listener-499945.pt"
+                ]
+            },
+            {
+                "steps": 999974,
+                "file_path": "results\\Test2\\Listener\\Listener-999974.onnx",
+                "reward": -1.4700715889267744,
+                "creation_time": 1773348105.7235506,
+                "auxillary_file_paths": [
+                    "results\\Test2\\Listener\\Listener-999974.pt"
+                ]
+            },
+            {
+                "steps": 1033301,
+                "file_path": "results\\Test2\\Listener\\Listener-1033301.onnx",
+                "reward": 7.387579287833521,
+                "creation_time": 1773348135.1677928,
+                "auxillary_file_paths": [
+                    "results\\Test2\\Listener\\Listener-1033301.pt"
+                ]
+            },
+            {
+                "steps": 1499988,
+                "file_path": "results\\Test2\\Listener\\Listener-1499988.onnx",
+                "reward": 8.415263069712598,
+                "creation_time": 1773349121.527807,
+                "auxillary_file_paths": [
+                    "results\\Test2\\Listener\\Listener-1499988.pt"
+                ]
+            },
+            {
+                "steps": 1947991,
+                "file_path": "results\\Test2\\Listener\\Listener-1947991.onnx",
+                "reward": 4.432399880530229,
+                "creation_time": 1773349621.286045,
+                "auxillary_file_paths": [
+                    "results\\Test2\\Listener\\Listener-1947991.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 1947991,
+            "file_path": "results\\Test2\\Listener.onnx",
+            "reward": 4.432399880530229,
+            "creation_time": 1773349621.286045,
+            "auxillary_file_paths": [
+                "results\\Test2\\Listener\\Listener-1947991.pt"
+            ]
+        }
+    },
+    "Speaker": {
+        "checkpoints": [
+            {
+                "steps": 18613,
+                "file_path": "results\\Test2\\Speaker\\Speaker-18613.onnx",
+                "reward": 6.326741772895595,
+                "creation_time": 1773348135.0956984,
+                "auxillary_file_paths": [
+                    "results\\Test2\\Speaker\\Speaker-18613.pt"
+                ]
+            },
+            {
+                "steps": 35308,
+                "file_path": "results\\Test2\\Speaker\\Speaker-35308.onnx",
+                "reward": 9.462193344608453,
+                "creation_time": 1773349621.1726594,
+                "auxillary_file_paths": [
+                    "results\\Test2\\Speaker\\Speaker-35308.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 35308,
+            "file_path": "results\\Test2\\Speaker.onnx",
+            "reward": 9.462193344608453,
+            "creation_time": 1773349621.1726594,
+            "auxillary_file_paths": [
+                "results\\Test2\\Speaker\\Speaker-35308.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.1.0",
+        "torch_version": "2.2.2+cu121"
+    }
+}

@@ -21,9 +21,9 @@ public class EnvironmentManager : MonoBehaviour
     public int maxResampleTries = 50;
 
     [Header("Shared Reward")]
-    public float correctReward   =  1.0f;
+    public float correctReward   =  3.0f;
     public float wrongReward     = -1.0f;
-    public float stepPenalty     = -0.001f;
+    public float stepPenalty     = -0.0008f;
 
     [Header("Communication")]
     [Tooltip("Vocabulary size. Must match the Speaker's Discrete Branch size.")]
