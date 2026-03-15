@@ -12,12 +12,11 @@ using Unity.MLAgents.Policies;
 /// and presses the one it believes is correct based on the token received from the Speaker.
 ///
 /// DISCRETE ACTIONS:
-///   Branch 0 – Movement    (5 values)
+///   Branch 0 – Movement    (4 values)
 ///     0 = none
 ///     1 = move forward
-///     2 = move backward
-///     3 = rotate left
-///     4 = rotate right
+///     2 = rotate left
+///     3 = rotate right
 ///
 ///   Branch 1 – Press?      (2 values)
 ///     0 = do not press
@@ -44,7 +43,7 @@ public class ListenerAgent : Agent
     public float rotateSpeed = 120f;
 
     [Header("Press distance")]
-    public float pressDistance = 0.5f;
+    public float pressDistance = 1f;
 
     [Header("Raycast Settings")]
     public Transform raycastOrigin;
@@ -148,7 +147,7 @@ public class ListenerAgent : Agent
         // All positions are in env local space so they are consistent across parallel instances, regardless of world offsets.
         Vector3 agentLocalPos = transform.localPosition;
         // Agent forward in env-local space 
-        Vector3 agentLocalFwd = env.transform.InverseTransformDirection(transform.forward);
+        Vector3 agentLocalFwd = transform.forward;
 
         for (int i = 0; i < 3; i++)
         {
@@ -174,6 +173,7 @@ public class ListenerAgent : Agent
             }
             else
             {
+                // Not detected = all zeros (important for the "detected" flag to be 0, otherwise the agent might learn to interpret the other values even when the button is not detected)
                 for (int j = 0; j < 10; j++) sensor.AddObservation(0f);
             }
         }
@@ -204,7 +204,7 @@ public class ListenerAgent : Agent
         if (actions.DiscreteActions[1] == 1)
             TryPressClosestButton();
 
-        // Max steps of and episode to prevent infinite wandering: 300 steps = 60 seconds at default FixedUpdate (0.2s).
+        // Max steps of and episode to prevent infinite wandering: 300 steps are 60 seconds at default FixedUpdate (0.2s).
         if (StepCount >= 300)
         {
             env.ApplyOutOfTimePenalty();
@@ -228,9 +228,8 @@ public class ListenerAgent : Agent
         {
             int action = 0;
             if (kb.wKey.isPressed || kb.upArrowKey.isPressed) action = 1;
-            else if (kb.sKey.isPressed || kb.downArrowKey.isPressed) action = 2;
-            else if (kb.aKey.isPressed || kb.leftArrowKey.isPressed) action = 3;
-            else if (kb.dKey.isPressed || kb.rightArrowKey.isPressed) action = 4;
+            else if (kb.aKey.isPressed || kb.leftArrowKey.isPressed) action = 2;
+            else if (kb.dKey.isPressed || kb.rightArrowKey.isPressed) action = 3;
             ApplyMovement(action);
         }
         else
@@ -255,9 +254,8 @@ public class ListenerAgent : Agent
 
         // Branch 0 – movement
         if (kb.wKey.isPressed || kb.upArrowKey.isPressed) d[0] = 1;
-        else if (kb.sKey.isPressed || kb.downArrowKey.isPressed) d[0] = 2;
-        else if (kb.aKey.isPressed || kb.leftArrowKey.isPressed) d[0] = 3;
-        else if (kb.dKey.isPressed || kb.rightArrowKey.isPressed) d[0] = 4;
+        else if (kb.aKey.isPressed || kb.leftArrowKey.isPressed) d[0] = 2;
+        else if (kb.dKey.isPressed || kb.rightArrowKey.isPressed) d[0] = 3;
         else d[0] = 0;
 
         // Branch 1 – press? (Space = press closest button in range)
@@ -277,12 +275,8 @@ public class ListenerAgent : Agent
                 if (_rb != null) _rb.MovePosition(_rb.position + transform.forward * (moveSpeed * dt));
                 else transform.position += transform.forward * (moveSpeed * dt);
                 break;
-            case 2:
-                if (_rb != null) _rb.MovePosition(_rb.position - transform.forward * (moveSpeed * dt));
-                else transform.position -= transform.forward * (moveSpeed * dt);
-                break;
-            case 3: transform.Rotate(0f, -(rotateSpeed * dt), 0f); break;
-            case 4: transform.Rotate(0f,   rotateSpeed * dt,  0f); break;
+            case 2: transform.Rotate(0f, -(rotateSpeed * dt), 0f); break;
+            case 3: transform.Rotate(0f,   rotateSpeed * dt,  0f); break;
         }
     }
 
@@ -337,7 +331,7 @@ public class ListenerAgent : Agent
     }
 
     // ─────────────────────────────────────────────────────────────
-    //  Visual feedback — public API
+    //  Visual feedback 
     // ─────────────────────────────────────────────────────────────
 
     /// <summary>Applies a colour to the agent via MPB without instantiating materials.</summary>
@@ -373,7 +367,7 @@ public class ListenerAgent : Agent
     }
 
     // ─────────────────────────────────────────────────────────────
-    //  Raycast scan — optimized
+    //  Raycast scan
     // ─────────────────────────────────────────────────────────────
 
     void ScanWithRaycast()
