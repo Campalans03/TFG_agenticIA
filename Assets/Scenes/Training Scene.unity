@@ -321,8 +321,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::EnvironmentGrid
   gridSizeX: 10
   gridSizeZ: 5
-  spacing: 15
-  environmentPrefab: {fileID: 3188365189712326971, guid: 0ce0942d04bcf114189589f36cc3b231, type: 3}
+  spacing: 12
+  environmentPrefab: {fileID: 3188365189712326971, guid: c5c8b1dabec91294f8f8b215c8ec8312, type: 3}
 --- !u!4 &781356668
 Transform:
   m_ObjectHideFlags: 0
@@ -475,79 +475,6 @@ MonoBehaviour:
     m_VarianceClampScale: 0.9
     m_ContrastAdaptiveSharpening: 0
   m_Version: 2
---- !u!1001 &1817438762
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 1873490749888551695, guid: 0ce0942d04bcf114189589f36cc3b231, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0.28192484
-      objectReference: {fileID: 0}
-    - target: {fileID: 1873490749888551695, guid: 0ce0942d04bcf114189589f36cc3b231, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1873490749888551695, guid: 0ce0942d04bcf114189589f36cc3b231, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0.33626842
-      objectReference: {fileID: 0}
-    - target: {fileID: 1873490749888551695, guid: 0ce0942d04bcf114189589f36cc3b231, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1873490749888551695, guid: 0ce0942d04bcf114189589f36cc3b231, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1873490749888551695, guid: 0ce0942d04bcf114189589f36cc3b231, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1873490749888551695, guid: 0ce0942d04bcf114189589f36cc3b231, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1873490749888551695, guid: 0ce0942d04bcf114189589f36cc3b231, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1873490749888551695, guid: 0ce0942d04bcf114189589f36cc3b231, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1873490749888551695, guid: 0ce0942d04bcf114189589f36cc3b231, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3188365189712326971, guid: 0ce0942d04bcf114189589f36cc3b231, type: 3}
-      propertyPath: m_Name
-      value: Environment Listener-Speaker
-      objectReference: {fileID: 0}
-    - target: {fileID: 3188365189712326971, guid: 0ce0942d04bcf114189589f36cc3b231, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3856551396697407575, guid: 0ce0942d04bcf114189589f36cc3b231, type: 3}
-      propertyPath: m_BehaviorType
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 4968502527701594282, guid: 0ce0942d04bcf114189589f36cc3b231, type: 3}
-      propertyPath: m_Model
-      value: 
-      objectReference: {fileID: 5022602860645237092, guid: 413f8cfb54d62484b8d98f4a48418671, type: 3}
-    - target: {fileID: 4968502527701594282, guid: 0ce0942d04bcf114189589f36cc3b231, type: 3}
-      propertyPath: m_BehaviorType
-      value: 2
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 0ce0942d04bcf114189589f36cc3b231, type: 3}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
@@ -556,4 +483,3 @@ SceneRoots:
   - {fileID: 236761028}
   - {fileID: 425801826}
   - {fileID: 781356668}
-  - {fileID: 1817438762}
