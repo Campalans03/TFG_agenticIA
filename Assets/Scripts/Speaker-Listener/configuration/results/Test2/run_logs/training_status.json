@@ -2,33 +2,6 @@
     "Listener": {
         "checkpoints": [
             {
-                "steps": 499945,
-                "file_path": "results\\Test2\\Listener\\Listener-499945.onnx",
-                "reward": -6.464817501777826,
-                "creation_time": 1773347531.0867205,
-                "auxillary_file_paths": [
-                    "results\\Test2\\Listener\\Listener-499945.pt"
-                ]
-            },
-            {
-                "steps": 999974,
-                "file_path": "results\\Test2\\Listener\\Listener-999974.onnx",
-                "reward": -1.4700715889267744,
-                "creation_time": 1773348105.7235506,
-                "auxillary_file_paths": [
-                    "results\\Test2\\Listener\\Listener-999974.pt"
-                ]
-            },
-            {
-                "steps": 1033301,
-                "file_path": "results\\Test2\\Listener\\Listener-1033301.onnx",
-                "reward": 7.387579287833521,
-                "creation_time": 1773348135.1677928,
-                "auxillary_file_paths": [
-                    "results\\Test2\\Listener\\Listener-1033301.pt"
-                ]
-            },
-            {
                 "steps": 1499988,
                 "file_path": "results\\Test2\\Listener\\Listener-1499988.onnx",
                 "reward": 8.415263069712598,
@@ -45,15 +18,42 @@
                 "auxillary_file_paths": [
                     "results\\Test2\\Listener\\Listener-1947991.pt"
                 ]
+            },
+            {
+                "steps": 1999983,
+                "file_path": "results\\Test2\\Listener\\Listener-1999983.onnx",
+                "reward": -25.04459810256958,
+                "creation_time": 1773579243.6568074,
+                "auxillary_file_paths": [
+                    "results\\Test2\\Listener\\Listener-1999983.pt"
+                ]
+            },
+            {
+                "steps": 2499945,
+                "file_path": "results\\Test2\\Listener\\Listener-2499945.onnx",
+                "reward": -1.6660066843032837,
+                "creation_time": 1773579553.6665406,
+                "auxillary_file_paths": [
+                    "results\\Test2\\Listener\\Listener-2499945.pt"
+                ]
+            },
+            {
+                "steps": 2836135,
+                "file_path": "results\\Test2\\Listener\\Listener-2836135.onnx",
+                "reward": 19.072613728046417,
+                "creation_time": 1773579762.1679366,
+                "auxillary_file_paths": [
+                    "results\\Test2\\Listener\\Listener-2836135.pt"
+                ]
             }
         ],
         "final_checkpoint": {
-            "steps": 1947991,
+            "steps": 2836135,
             "file_path": "results\\Test2\\Listener.onnx",
-            "reward": 4.432399880530229,
-            "creation_time": 1773349621.286045,
+            "reward": 19.072613728046417,
+            "creation_time": 1773579762.1679366,
             "auxillary_file_paths": [
-                "results\\Test2\\Listener\\Listener-1947991.pt"
+                "results\\Test2\\Listener\\Listener-2836135.pt"
             ]
         }
     },
@@ -76,15 +76,24 @@
                 "auxillary_file_paths": [
                     "results\\Test2\\Speaker\\Speaker-35308.pt"
                 ]
+            },
+            {
+                "steps": 51188,
+                "file_path": "results\\Test2\\Speaker\\Speaker-51188.onnx",
+                "reward": 12.60588752969291,
+                "creation_time": 1773579762.1053736,
+                "auxillary_file_paths": [
+                    "results\\Test2\\Speaker\\Speaker-51188.pt"
+                ]
             }
         ],
         "final_checkpoint": {
-            "steps": 35308,
+            "steps": 51188,
             "file_path": "results\\Test2\\Speaker.onnx",
-            "reward": 9.462193344608453,
-            "creation_time": 1773349621.1726594,
+            "reward": 12.60588752969291,
+            "creation_time": 1773579762.1053736,
             "auxillary_file_paths": [
-                "results\\Test2\\Speaker\\Speaker-35308.pt"
+                "results\\Test2\\Speaker\\Speaker-51188.pt"
             ]
         }
     },
