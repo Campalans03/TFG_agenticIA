@@ -1,0 +1,65 @@
+{
+    "Listener": {
+        "checkpoints": [
+            {
+                "steps": 4499942,
+                "file_path": "results\\heuristicSpeaker\\Listener\\Listener-4499942.onnx",
+                "reward": 161.95741972419785,
+                "creation_time": 1773590643.1100397,
+                "auxillary_file_paths": [
+                    "results\\heuristicSpeaker\\Listener\\Listener-4499942.pt"
+                ]
+            },
+            {
+                "steps": 4999946,
+                "file_path": "results\\heuristicSpeaker\\Listener\\Listener-4999946.onnx",
+                "reward": 153.87072189124126,
+                "creation_time": 1773590975.952512,
+                "auxillary_file_paths": [
+                    "results\\heuristicSpeaker\\Listener\\Listener-4999946.pt"
+                ]
+            },
+            {
+                "steps": 5483674,
+                "file_path": "results\\heuristicSpeaker\\Listener\\Listener-5483674.onnx",
+                "reward": 241.5665127635002,
+                "creation_time": 1773591196.1644242,
+                "auxillary_file_paths": [
+                    "results\\heuristicSpeaker\\Listener\\Listener-5483674.pt"
+                ]
+            },
+            {
+                "steps": 5499979,
+                "file_path": "results\\heuristicSpeaker\\Listener\\Listener-5499979.onnx",
+                "reward": 223.59076753145533,
+                "creation_time": 1773591464.0630152,
+                "auxillary_file_paths": [
+                    "results\\heuristicSpeaker\\Listener\\Listener-5499979.pt"
+                ]
+            },
+            {
+                "steps": 5572520,
+                "file_path": "results\\heuristicSpeaker\\Listener\\Listener-5572520.onnx",
+                "reward": 157.30904176305322,
+                "creation_time": 1773591566.0842748,
+                "auxillary_file_paths": [
+                    "results\\heuristicSpeaker\\Listener\\Listener-5572520.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 5572520,
+            "file_path": "results\\heuristicSpeaker\\Listener.onnx",
+            "reward": 157.30904176305322,
+            "creation_time": 1773591566.0842748,
+            "auxillary_file_paths": [
+                "results\\heuristicSpeaker\\Listener\\Listener-5572520.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.1.0",
+        "torch_version": "2.2.2+cu121"
+    }
+}

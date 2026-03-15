@@ -1,0 +1,87 @@
+{
+    "Listener": {
+        "checkpoints": [
+            {
+                "steps": 2999953,
+                "file_path": "results\\jointFromPretrained\\Listener\\Listener-2999953.onnx",
+                "reward": 181.02543103816558,
+                "creation_time": 1773594207.2709765,
+                "auxillary_file_paths": [
+                    "results\\jointFromPretrained\\Listener\\Listener-2999953.pt"
+                ]
+            },
+            {
+                "steps": 3499990,
+                "file_path": "results\\jointFromPretrained\\Listener\\Listener-3499990.onnx",
+                "reward": 164.76623549587777,
+                "creation_time": 1773594405.8769891,
+                "auxillary_file_paths": [
+                    "results\\jointFromPretrained\\Listener\\Listener-3499990.pt"
+                ]
+            },
+            {
+                "steps": 3999993,
+                "file_path": "results\\jointFromPretrained\\Listener\\Listener-3999993.onnx",
+                "reward": 165.57998019598236,
+                "creation_time": 1773594599.0352726,
+                "auxillary_file_paths": [
+                    "results\\jointFromPretrained\\Listener\\Listener-3999993.pt"
+                ]
+            },
+            {
+                "steps": 4499967,
+                "file_path": "results\\jointFromPretrained\\Listener\\Listener-4499967.onnx",
+                "reward": 167.74683709942963,
+                "creation_time": 1773594794.648761,
+                "auxillary_file_paths": [
+                    "results\\jointFromPretrained\\Listener\\Listener-4499967.pt"
+                ]
+            },
+            {
+                "steps": 4774847,
+                "file_path": "results\\jointFromPretrained\\Listener\\Listener-4774847.onnx",
+                "reward": 169.4647448016964,
+                "creation_time": 1773594904.887895,
+                "auxillary_file_paths": [
+                    "results\\jointFromPretrained\\Listener\\Listener-4774847.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 4774847,
+            "file_path": "results\\jointFromPretrained\\Listener.onnx",
+            "reward": 169.4647448016964,
+            "creation_time": 1773594904.887895,
+            "auxillary_file_paths": [
+                "results\\jointFromPretrained\\Listener\\Listener-4774847.pt"
+            ]
+        }
+    },
+    "Speaker": {
+        "checkpoints": [
+            {
+                "steps": 83349,
+                "file_path": "results\\jointFromPretrained\\Speaker\\Speaker-83349.onnx",
+                "reward": 176.08612677837357,
+                "creation_time": 1773594904.8025448,
+                "auxillary_file_paths": [
+                    "results\\jointFromPretrained\\Speaker\\Speaker-83349.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 83349,
+            "file_path": "results\\jointFromPretrained\\Speaker.onnx",
+            "reward": 176.08612677837357,
+            "creation_time": 1773594904.8025448,
+            "auxillary_file_paths": [
+                "results\\jointFromPretrained\\Speaker\\Speaker-83349.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.1.0",
+        "torch_version": "2.2.2+cu121"
+    }
+}

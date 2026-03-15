@@ -251,6 +251,14 @@ public class EnvironmentManager : MonoBehaviour
         int idx = GetCorrectButtonIndex();
         return idx >= 0 && idx <= 2;
     }
+    
+    public float GetDistanceToCorrectButton(Vector3 listenerPosition)
+    {
+        int correctIndex = GetCorrectButtonIndex();
+        if (correctIndex < 0) return 0f;
+    
+        return Vector3.Distance(listenerPosition, GetButtonLocalPosition(correctIndex));
+    }
 
     // ─────────────────────────────────────────────────────────────
     //  Scatter positions

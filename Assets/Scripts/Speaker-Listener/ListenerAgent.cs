@@ -75,6 +75,8 @@ public class ListenerAgent : Agent
     private int _moveAction;
     private BehaviorParameters _behaviorParams;
     private readonly HashSet<ButtonController> _seenButtons = new HashSet<ButtonController>();
+    
+    private float _previousDistanceToTarget;
 
     // ─────────────────────────────────────────────────────────────
     //  Visual feedback — MaterialPropertyBlock (URP/Lit _BaseColor)
@@ -139,6 +141,18 @@ public class ListenerAgent : Agent
 
         // Initial scan at the start of the episode
         ScanWithRaycast();
+        
+        // Cache the initial distance to the correct button for potential use in reward shaping 
+        int correctIndex = env.GetCorrectButtonIndex();
+        if (correctIndex >= 0)
+        {
+            _previousDistanceToTarget =
+                Vector3.Distance(transform.position, env.GetButtonWorldPosition(correctIndex));
+        }
+        else
+        {
+            _previousDistanceToTarget = 0f;
+        }
     }
 
     public override void CollectObservations(VectorSensor sensor)
@@ -209,6 +223,19 @@ public class ListenerAgent : Agent
         {
             env.ApplyOutOfTimePenalty();
             env.EndEpisodeAll();
+        }
+        
+        // Small reward for getting closer to the correct button, penalty for moving away.
+        int correctIndex = env.GetCorrectButtonIndex();
+        if (correctIndex >= 0)
+        {
+            float currentDistance = env.GetDistanceToCorrectButton(transform.localPosition);
+            float delta = _previousDistanceToTarget - currentDistance;
+
+            // Reward if getting closer, penalty if moving away
+            AddReward(delta * 0.01f);
+
+            _previousDistanceToTarget = currentDistance;
         }
     }
 
@@ -326,7 +353,7 @@ public class ListenerAgent : Agent
         {
             env.RegisterEmptyPressAttempt(); // records the failed attempt in TensorBoard
             ShowWrongPress(); // pressing thin air = red feedback
-            AddReward(-0.01f);
+            AddReward(-0.5f);
         }
     }
 
