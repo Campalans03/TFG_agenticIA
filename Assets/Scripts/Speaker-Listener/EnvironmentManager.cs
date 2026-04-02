@@ -138,6 +138,7 @@ public class EnvironmentManager : MonoBehaviour
     {
         speaker.AddReward(wrongReward);
         listener.AddReward(wrongReward);
+        RecordEpisodeOutcome(false);
     }
 
     public void ListenerChoseButton(int chosenIndex)
@@ -156,6 +157,8 @@ public class EnvironmentManager : MonoBehaviour
             stats.Add("Listener/CorrectPresses", _episodeCorrectPresses);
             stats.Add("Listener/AccuracyRate", (float)_episodeCorrectPresses / _episodePressAttempts);
 
+            RecordEpisodeOutcome(true);
+
             speaker.AddReward(correctReward);
             listener.AddReward(correctReward);
             listener.ShowCorrectPress(onComplete: () =>
@@ -170,6 +173,8 @@ public class EnvironmentManager : MonoBehaviour
             _episodeWrongPresses++;
             stats.Add("Listener/WrongPresses", _episodeWrongPresses);
             stats.Add("Listener/AccuracyRate", (float)_episodeCorrectPresses / _episodePressAttempts);
+
+            RecordEpisodeOutcome(false);
 
             speaker.AddReward(wrongReward);
             listener.AddReward(wrongReward);
@@ -186,6 +191,34 @@ public class EnvironmentManager : MonoBehaviour
     {
         speaker.EndEpisode();
         listener.EndEpisode();
+    }
+
+    /// <summary>
+    /// Logs per-episode communication metrics to TensorBoard.
+    /// Called once per episode regardless of outcome (correct press, wrong press, or timeout).
+    ///
+    /// Metrics written:
+    ///   Speaker/Token_{i}/SuccessRate   – rolling average → 1 if this token led to success, 0 if not.
+    ///                                     Reveals whether some symbols are reliably decoded.
+    ///   Rule/{Color}_{Shape}/SuccessRate – rolling average per (color,shape) combination.
+    ///                                     Reveals if certain meanings are harder to communicate.
+    ///   Mapping/{Color}_{Shape}/Token_{i} – incremented counter.
+    ///                                     Off-line analysis of this yields the token→meaning matrix.
+    /// </summary>
+    private void RecordEpisodeOutcome(bool success)
+    {
+        var stats   = Academy.Instance.StatsRecorder;
+        float score = success ? 1f : 0f;
+        string rule = $"{targetColor}_{targetShape}";
+
+        // Token success rate (one curve per vocabulary entry)
+        stats.Add($"Speaker/Token_{currentMessageToken}/SuccessRate", score);
+
+        // Rule success rate (one curve per color×shape combination)
+        stats.Add($"Rule/{rule}/SuccessRate", score);
+
+        // Rule-to-token mapping frequency (incremented each time this rule emits this token)
+        stats.Add($"Mapping/{rule}/Token_{currentMessageToken}", 1f);
     }
 
     /// <summary>
