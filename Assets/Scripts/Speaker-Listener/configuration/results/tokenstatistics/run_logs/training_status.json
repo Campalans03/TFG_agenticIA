@@ -1,0 +1,96 @@
+{
+    "Listener": {
+        "checkpoints": [
+            {
+                "steps": 9999964,
+                "file_path": "results\\tokenstatistics\\Listener\\Listener-9999964.onnx",
+                "reward": 219.10057020187378,
+                "creation_time": 1775153185.868781,
+                "auxillary_file_paths": [
+                    "results\\tokenstatistics\\Listener\\Listener-9999964.pt"
+                ]
+            },
+            {
+                "steps": 10499953,
+                "file_path": "results\\tokenstatistics\\Listener\\Listener-10499953.onnx",
+                "reward": 154.01202338497814,
+                "creation_time": 1775153397.8470497,
+                "auxillary_file_paths": [
+                    "results\\tokenstatistics\\Listener\\Listener-10499953.pt"
+                ]
+            },
+            {
+                "steps": 10999965,
+                "file_path": "results\\tokenstatistics\\Listener\\Listener-10999965.onnx",
+                "reward": 239.1487288514773,
+                "creation_time": 1775153611.635173,
+                "auxillary_file_paths": [
+                    "results\\tokenstatistics\\Listener\\Listener-10999965.pt"
+                ]
+            },
+            {
+                "steps": 11499971,
+                "file_path": "results\\tokenstatistics\\Listener\\Listener-11499971.onnx",
+                "reward": 236.07495702525316,
+                "creation_time": 1775153829.8760333,
+                "auxillary_file_paths": [
+                    "results\\tokenstatistics\\Listener\\Listener-11499971.pt"
+                ]
+            },
+            {
+                "steps": 11720764,
+                "file_path": "results\\tokenstatistics\\Listener\\Listener-11720764.onnx",
+                "reward": 181.9736530843534,
+                "creation_time": 1775153941.721351,
+                "auxillary_file_paths": [
+                    "results\\tokenstatistics\\Listener\\Listener-11720764.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 11720764,
+            "file_path": "results\\tokenstatistics\\Listener.onnx",
+            "reward": 181.9736530843534,
+            "creation_time": 1775153941.721351,
+            "auxillary_file_paths": [
+                "results\\tokenstatistics\\Listener\\Listener-11720764.pt"
+            ]
+        }
+    },
+    "Speaker": {
+        "checkpoints": [
+            {
+                "steps": 89766,
+                "file_path": "results\\tokenstatistics\\Speaker\\Speaker-89766.onnx",
+                "reward": 180.0288403848889,
+                "creation_time": 1775150925.9064724,
+                "auxillary_file_paths": [
+                    "results\\tokenstatistics\\Speaker\\Speaker-89766.pt"
+                ]
+            },
+            {
+                "steps": 204301,
+                "file_path": "results\\tokenstatistics\\Speaker\\Speaker-204301.onnx",
+                "reward": 190.45447976426374,
+                "creation_time": 1775153941.6508713,
+                "auxillary_file_paths": [
+                    "results\\tokenstatistics\\Speaker\\Speaker-204301.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 204301,
+            "file_path": "results\\tokenstatistics\\Speaker.onnx",
+            "reward": 190.45447976426374,
+            "creation_time": 1775153941.6508713,
+            "auxillary_file_paths": [
+                "results\\tokenstatistics\\Speaker\\Speaker-204301.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.1.0",
+        "torch_version": "2.2.2+cu121"
+    }
+}
