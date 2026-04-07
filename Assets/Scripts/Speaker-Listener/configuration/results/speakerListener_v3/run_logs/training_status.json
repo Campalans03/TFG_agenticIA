@@ -1,0 +1,87 @@
+{
+    "Listener": {
+        "checkpoints": [
+            {
+                "steps": 999961,
+                "file_path": "results\\speakerListener_v3\\Listener\\Listener-999961.onnx",
+                "reward": -2.499999761581421,
+                "creation_time": 1775581212.000913,
+                "auxillary_file_paths": [
+                    "results\\speakerListener_v3\\Listener\\Listener-999961.pt"
+                ]
+            },
+            {
+                "steps": 1499995,
+                "file_path": "results\\speakerListener_v3\\Listener\\Listener-1499995.onnx",
+                "reward": 58.91682304736383,
+                "creation_time": 1775581410.6616237,
+                "auxillary_file_paths": [
+                    "results\\speakerListener_v3\\Listener\\Listener-1499995.pt"
+                ]
+            },
+            {
+                "steps": 1999981,
+                "file_path": "results\\speakerListener_v3\\Listener\\Listener-1999981.onnx",
+                "reward": 87.30137046337127,
+                "creation_time": 1775581623.3917017,
+                "auxillary_file_paths": [
+                    "results\\speakerListener_v3\\Listener\\Listener-1999981.pt"
+                ]
+            },
+            {
+                "steps": 2499984,
+                "file_path": "results\\speakerListener_v3\\Listener\\Listener-2499984.onnx",
+                "reward": 162.08630728009922,
+                "creation_time": 1775581843.1779635,
+                "auxillary_file_paths": [
+                    "results\\speakerListener_v3\\Listener\\Listener-2499984.pt"
+                ]
+            },
+            {
+                "steps": 2931177,
+                "file_path": "results\\speakerListener_v3\\Listener\\Listener-2931177.onnx",
+                "reward": null,
+                "creation_time": 1775582087.4103773,
+                "auxillary_file_paths": [
+                    "results\\speakerListener_v3\\Listener\\Listener-2931177.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 2931177,
+            "file_path": "results\\speakerListener_v3\\Listener.onnx",
+            "reward": null,
+            "creation_time": 1775582087.4103773,
+            "auxillary_file_paths": [
+                "results\\speakerListener_v3\\Listener\\Listener-2931177.pt"
+            ]
+        }
+    },
+    "Speaker": {
+        "checkpoints": [
+            {
+                "steps": 52144,
+                "file_path": "results\\speakerListener_v3\\Speaker\\Speaker-52144.onnx",
+                "reward": 170.7664194320122,
+                "creation_time": 1775582087.328456,
+                "auxillary_file_paths": [
+                    "results\\speakerListener_v3\\Speaker\\Speaker-52144.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 52144,
+            "file_path": "results\\speakerListener_v3\\Speaker.onnx",
+            "reward": 170.7664194320122,
+            "creation_time": 1775582087.328456,
+            "auxillary_file_paths": [
+                "results\\speakerListener_v3\\Speaker\\Speaker-52144.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.1.0",
+        "torch_version": "2.2.2+cu121"
+    }
+}

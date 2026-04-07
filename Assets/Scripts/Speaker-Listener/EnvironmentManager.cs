@@ -23,7 +23,7 @@ public class EnvironmentManager : MonoBehaviour
     [Header("Shared Reward")]
     public float correctReward   =  3.0f;
     public float wrongReward     = -1.0f;
-    public float stepPenalty     = -0.0008f;
+    public float stepPenalty     = -0.005f;
 
     [Header("Communication")]
     [Tooltip("Vocabulary size. Must match the Speaker's Discrete Branch size.")]
@@ -123,9 +123,10 @@ public class EnvironmentManager : MonoBehaviour
         currentMessageToken = Mathf.Clamp(token, 0, vocabSize - 1);
         Debug.Log($"[Speaker] emitted token {currentMessageToken}.");
 
-        // ── TensorBoard: per-token usage counter ──
+        // ── TensorBoard: which token was emitted ──
+        // Flatlines at one value → vocabulary collapse. Varies → diverse usage.
         var stats = Academy.Instance.StatsRecorder;
-        stats.Add($"Speaker/Token_{currentMessageToken}", 1f);
+        stats.Add("Speaker/EmittedToken", currentMessageToken);
     }
 
     public void ApplyStepPenalty()
@@ -217,8 +218,9 @@ public class EnvironmentManager : MonoBehaviour
         // Rule success rate (one curve per color×shape combination)
         stats.Add($"Rule/{rule}/SuccessRate", score);
 
-        // Rule-to-token mapping frequency (incremented each time this rule emits this token)
-        stats.Add($"Mapping/{rule}/Token_{currentMessageToken}", 1f);
+        // Rule-to-token mapping: records which token the speaker chose for this rule.
+        // If the speaker learns a consistent language, each rule's curve converges to a stable token index.
+        stats.Add($"Mapping/{rule}/Token", currentMessageToken);
     }
 
     /// <summary>
