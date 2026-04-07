@@ -131,7 +131,9 @@ public class EnvironmentManager : MonoBehaviour
 
     public void ApplyStepPenalty()
     {
-        speaker.AddReward(stepPenalty);
+        // Only the Listener pays the step penalty — the Speaker acts once
+        // per episode and has no control over navigation speed.  Penalising
+        // it for episode length adds noise that hurts language learning.
         listener.AddReward(stepPenalty);
     }
     
