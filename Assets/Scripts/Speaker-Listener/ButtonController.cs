@@ -15,12 +15,7 @@ using UnityEngine.Serialization;
 [RequireComponent(typeof(Collider))]
 public class ButtonController : MonoBehaviour
 {
-    // ─────────────────────────────────────────────────────────────
-    //  Inspector
-    // ─────────────────────────────────────────────────────────────
-    
-    [Header("Shape GameObjects (one per shape variant)")]
-    
+    [Header("Shape Meshes")]
     [Tooltip("Activate this child when shape = square")]
     public GameObject meshSquare;
 
@@ -35,10 +30,6 @@ public class ButtonController : MonoBehaviour
     public Color colorGreen = Color.green;
     public Color colorBlue = Color.blue;
 
-    // ─────────────────────────────────────────────────────────────
-    //  Runtime data (read by ListenerAgent via raycast)
-    // ─────────────────────────────────────────────────────────────
-
     /// <summary>Current logical color of this button.</summary>
     public ButtonColor ButtonColorValue { get; private set; }
 
@@ -50,10 +41,6 @@ public class ButtonController : MonoBehaviour
 
     /// Cached materials for efficient color updates.
     private Material[] _cachedMaterials;
-
-    // ─────────────────────────────────────────────────────────────
-    //  Public API
-    // ─────────────────────────────────────────────────────────────
 
     /// <summary>
     /// Called by EnvironmentManager every episode reset.
@@ -68,10 +55,6 @@ public class ButtonController : MonoBehaviour
         ApplyShape(newShape);
         ApplyColor(newColor);
     }
-
-    // ─────────────────────────────────────────────────────────────
-    //  Private helpers
-    // ─────────────────────────────────────────────────────────────
 
     void Awake()
     {
@@ -105,9 +88,7 @@ public class ButtonController : MonoBehaviour
             if (mat != null) mat.color = unityColor;
     }
 
-    // ─────────────────────────────────────────────────────────────
-    //  Debug
-    // ─────────────────────────────────────────────────────────────
+    // Debug
 
     void OnDrawGizmosSelected()
     {

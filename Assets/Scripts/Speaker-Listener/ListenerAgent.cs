@@ -32,10 +32,6 @@ using Unity.MLAgents.Policies;
 /// </summary>
 public class ListenerAgent : Agent
 {
-    // ─────────────────────────────────────────────────────────────
-    //  Inspector
-    // ─────────────────────────────────────────────────────────────
-
     public EnvironmentManager env;
 
     [Header("Movement")]
@@ -59,10 +55,6 @@ public class ListenerAgent : Agent
     [Header("Spawn (reset position)")]
     public Transform startPosition;
 
-    // ─────────────────────────────────────────────────────────────
-    //  Private state
-    // ─────────────────────────────────────────────────────────────
-
     private struct ScannedButton
     {
         public int colorIndex;
@@ -78,10 +70,6 @@ public class ListenerAgent : Agent
     
     private float _previousDistanceToTarget;
 
-    // ─────────────────────────────────────────────────────────────
-    //  Visual feedback — MaterialPropertyBlock (URP/Lit _BaseColor)
-    // ─────────────────────────────────────────────────────────────
-
     [Header("Visual Feedback")]
     [Tooltip("Renderers to flash. Leave empty to auto-collect from this GameObject and children.")]
     public Renderer[] debugRenderers;
@@ -93,13 +81,9 @@ public class ListenerAgent : Agent
     private Color _neutralColor;
     private Coroutine _flashRoutine;
 
-    // ─────────────────────────────────────────────────────────────
-    //  ML-Agents lifecycle
-    // ─────────────────────────────────────────────────────────────
-
     public override void Initialize()
     {
-        _rb             = GetComponent<Rigidbody>();
+        _rb = GetComponent<Rigidbody>();
         _behaviorParams = GetComponent<BehaviorParameters>();
 
         // Auto-collect renderers if none assigned in the Inspector
@@ -130,7 +114,7 @@ public class ListenerAgent : Agent
 
         if (_rb != null)
         {
-            _rb.linearVelocity  = Vector3.zero;
+            _rb.linearVelocity = Vector3.zero;
             _rb.angularVelocity = Vector3.zero;
         }
         _moveAction = 0;
@@ -138,16 +122,14 @@ public class ListenerAgent : Agent
         // Stop any active flash and restore neutral colour
         if (_flashRoutine != null) { StopCoroutine(_flashRoutine); _flashRoutine = null; }
         SetDebugColor(_neutralColor);
-
-        // Initial scan at the start of the episode
+        
         ScanWithRaycast();
         
-        // Cache the initial distance to the correct button for potential use in reward shaping 
+        // Cache the initial distance to the correct button for potential reward shaping 
         int correctIndex = env.GetCorrectButtonIndex();
         if (correctIndex >= 0)
         {
-            _previousDistanceToTarget =
-                Vector3.Distance(transform.position, env.GetButtonWorldPosition(correctIndex));
+            _previousDistanceToTarget = Vector3.Distance(transform.position, env.GetButtonWorldPosition(correctIndex));
         }
         else
         {
@@ -157,10 +139,8 @@ public class ListenerAgent : Agent
 
     public override void CollectObservations(VectorSensor sensor)
     {
-        // ── Per button: 10 floats ─────────────────────────────────
         // All positions are in env local space so they are consistent across parallel instances, regardless of world offsets.
         Vector3 agentLocalPos = transform.localPosition;
-        // Agent forward in env-local space 
         Vector3 agentLocalFwd = transform.forward;
 
         for (int i = 0; i < 3; i++)
@@ -173,12 +153,12 @@ public class ListenerAgent : Agent
 
                 // Button position already in local space
                 Vector3 btnLocalPos = env.GetButtonLocalPosition(i);
-                Vector3 toBtn       = btnLocalPos - agentLocalPos;
-                float   dist        = toBtn.magnitude;
+                Vector3 toBtn = btnLocalPos - agentLocalPos;
+                float dist = toBtn.magnitude;
 
                 // Project onto agent's local XZ plane
                 Vector3 right   = Vector3.Cross(Vector3.up, agentLocalFwd).normalized;
-                float   localX  = dist > 0.001f ? Vector3.Dot(toBtn / dist, right)        : 0f;
+                float   localX  = dist > 0.001f ? Vector3.Dot(toBtn / dist, right): 0f;
                 float   localZ  = dist > 0.001f ? Vector3.Dot(toBtn / dist, agentLocalFwd): 0f;
 
                 sensor.AddObservation(Mathf.Clamp(localX, -1f, 1f));
@@ -191,8 +171,7 @@ public class ListenerAgent : Agent
                 for (int j = 0; j < 10; j++) sensor.AddObservation(0f);
             }
         }
-
-        // ── Velocity (2 floats) ───────────────────────────────────
+        
         if (_rb != null)
         {
             sensor.AddObservation(Vector3.Dot(_rb.linearVelocity, transform.forward) / moveSpeed);
@@ -203,8 +182,7 @@ public class ListenerAgent : Agent
             sensor.AddObservation(0f);
             sensor.AddObservation(0f);
         }
-
-        // ── Speaker token (vocabSize floats) ──────────────────────
+        
         AddOneHot(sensor, env.vocabSize, env.currentMessageToken);
     }
 
@@ -214,7 +192,7 @@ public class ListenerAgent : Agent
 
         _moveAction = actions.DiscreteActions[0];
 
-        // Branch 1: press the closest button within range 
+        // Press the closest button within range 
         if (actions.DiscreteActions[1] == 1)
             TryPressClosestButton();
 
@@ -231,25 +209,18 @@ public class ListenerAgent : Agent
         {
             float currentDistance = env.GetDistanceToCorrectButton(transform.localPosition);
             float delta = _previousDistanceToTarget - currentDistance;
-
-            // Reward if getting closer, penalty if moving away
+            
             AddReward(delta * 0.01f);
 
             _previousDistanceToTarget = currentDistance;
         }
     }
 
-    // ─────────────────────────────────────────────────────────────
-    //  FixedUpdate: movement + periodic scan
-    // ─────────────────────────────────────────────────────────────
-
     private int _scanCounter;
-    private const int ScanEveryNFrames = 5;   // raycast every 5 physics frames
+    private const int ScanEveryNFrames = 5;  
 
     void FixedUpdate()
     {
-
-        // ── Movement ──────────────────────────────────────────────
         var kb = Keyboard.current;
         if (kb != null && _behaviorParams?.BehaviorType == BehaviorType.HeuristicOnly)
         {
@@ -264,7 +235,7 @@ public class ListenerAgent : Agent
             ApplyMovement(_moveAction);
         }
 
-        // ── Periodic scan (not every frame) ──────────────────────
+        // Optimize raycast performance by only scanning every N frames instead of every FixedUpdate
         _scanCounter++;
         if (_scanCounter >= ScanEveryNFrames)
         {
@@ -289,10 +260,6 @@ public class ListenerAgent : Agent
         d[1] = kb.spaceKey.isPressed ? 1 : 0;
     }
 
-    // ─────────────────────────────────────────────────────────────
-    //  Movement
-    // ─────────────────────────────────────────────────────────────
-
     void ApplyMovement(int action)
     {
         float dt = Time.fixedDeltaTime;
@@ -307,19 +274,13 @@ public class ListenerAgent : Agent
         }
     }
 
-    // ─────────────────────────────────────────────────────────────
-    //  Press logic
-    // ─────────────────────────────────────────────────────────────
-
     /// <summary>
     /// Presses the button the agent is closest to AND most facing, within pressDistance.
-    /// Positions are compared in env-local space so this works correctly across parallel training instances placed at different world offsets.
-    /// Score = dot(forward, dirToButton) / distance  — higher is better.
     /// If no button is within range, applies a small penalty to discourage spamming.
     /// </summary>
     void TryPressClosestButton()
     {
-        int   bestSlot  = -1;
+        int bestSlot  = -1;
         float bestScore = float.MinValue;
 
         // Agent position and forward in env-local space
@@ -331,12 +292,11 @@ public class ListenerAgent : Agent
             Vector3 btnLocal = env.GetButtonLocalPosition(i);
             Vector3 toBtn = btnLocal - agentLocal;
             float dist = toBtn.magnitude;
-            if (dist > pressDistance) continue; // out of reach — skip
+            if (dist > pressDistance) continue; // out of reach 
 
-            float dot = Vector3.Dot(forwardLocal, toBtn/dist); // -1..1
-            if (dot <= 0f) continue; // behind the agent — skip
-
-            // Combine: more facing + closer = higher score
+            float dot = Vector3.Dot(forwardLocal, toBtn/dist); 
+            if (dot <= 0f) continue; // behind the agent 
+            
             float score = dot/dist;
             if (score > bestScore)
             {
@@ -347,7 +307,7 @@ public class ListenerAgent : Agent
 
         if (bestSlot >= 0)
         {
-            env.ListenerChoseButton(bestSlot); // EnvironmentManager handles visual feedback
+            env.ListenerChoseButton(bestSlot); 
         }
         else
         {
@@ -357,17 +317,15 @@ public class ListenerAgent : Agent
         }
     }
 
-    // ─────────────────────────────────────────────────────────────
-    //  Visual feedback 
-    // ─────────────────────────────────────────────────────────────
-
     /// <summary>Applies a colour to the agent via MPB without instantiating materials.</summary>
     public void SetDebugColor(Color color)
     {
         if (debugRenderers == null) return;
         _mpb.SetColor(BaseColorID, color);
         foreach (Renderer r in debugRenderers)
+        {
             if (r != null) r.SetPropertyBlock(_mpb);
+        }
     }
 
     /// <summary>Flashes green for 0.1 s then returns to neutral. Call on a correct press.</summary>
@@ -393,10 +351,6 @@ public class ListenerAgent : Agent
         onComplete?.Invoke();
     }
 
-    // ─────────────────────────────────────────────────────────────
-    //  Raycast scan
-    // ─────────────────────────────────────────────────────────────
-
     void ScanWithRaycast()
     {
         ClearScan();
@@ -406,11 +360,10 @@ public class ListenerAgent : Agent
         int found = TryDirectRays(origin);
         if (found >= 3) return; // all found, no need for fan sweep
 
-        // Fan sweep only if any button was not detected with a direct ray
         FanScan(origin);
     }
 
-    /// <summary>Fires 1 ray per button directly towards its position. O(3) raycasts.</summary>
+    /// <summary>Fires 1 ray per button directly towards its position.</summary>
     int TryDirectRays(Transform origin)
     {
         int found = 0;
@@ -421,11 +374,10 @@ public class ListenerAgent : Agent
             Vector3 toBtn = env.GetButtonWorldPosition(i) - origin.position;
             if (toBtn.sqrMagnitude < 0.01f) continue;
 
-            if (Physics.Raycast(origin.position, toBtn.normalized, out RaycastHit hit, raycastDistance, buttonLayer) 
-                && hit.collider.CompareTag(buttonTag))
+            if (Physics.Raycast(origin.position, toBtn.normalized, out RaycastHit hit, raycastDistance, buttonLayer) && hit.collider.CompareTag(buttonTag))
             {
-                ButtonController btn = hit.collider.GetComponentInParent<ButtonController>() 
-                                       ?? hit.collider.GetComponent<ButtonController>();
+                ButtonController btn = hit.collider.GetComponentInParent<ButtonController>() ?? hit.collider.GetComponent<ButtonController>();
+                
                 if (btn != null && FindSlot(btn) == i)
                 {
                     _scanned[i] = new ScannedButton
@@ -454,8 +406,7 @@ public class ListenerAgent : Agent
             if (!Physics.Raycast(ray, out RaycastHit hit, raycastDistance, buttonLayer)) continue;
             if (!hit.collider.CompareTag(buttonTag)) continue;
 
-            ButtonController btn = hit.collider.GetComponentInParent<ButtonController>()
-                                ?? hit.collider.GetComponent<ButtonController>();
+            ButtonController btn = hit.collider.GetComponentInParent<ButtonController>() ?? hit.collider.GetComponent<ButtonController>();
             if (btn == null || _seenButtons.Contains(btn)) continue;
 
             int slot = FindSlot(btn);
@@ -474,19 +425,21 @@ public class ListenerAgent : Agent
     int FindSlot(ButtonController btn)
     {
         for (int i = 0; i < env.buttonObjects.Length; i++)
+        {
             if (env.buttonObjects[i] == btn) return i;
+        }
         return -1;
     }
 
     void ClearScan()
     {
         for (int i = 0; i < 3; i++)
+        {
             _scanned[i] = new ScannedButton { detected = false };
+        }
     }
 
-    // ─────────────────────────────────────────────────────────────
-    //  Helpers
-    // ─────────────────────────────────────────────────────────────
+    // Helpers
 
     void AddOneHot(VectorSensor sensor, int size, int index)
     {

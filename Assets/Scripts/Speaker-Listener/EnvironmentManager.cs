@@ -13,10 +13,6 @@ public struct ButtonData
 
 public class EnvironmentManager : MonoBehaviour
 {
-    // ─────────────────────────────────────────────────────────────
-    //  Inspector
-    // ─────────────────────────────────────────────────────────────
-
     [Header("Episode Settings")]
     public int maxResampleTries = 50;
 
@@ -48,10 +44,6 @@ public class EnvironmentManager : MonoBehaviour
     public SpeakerAgent  speaker;
     public ListenerAgent listener;
 
-    // ─────────────────────────────────────────────────────────────
-    //  Runtime data (read by agents)
-    // ─────────────────────────────────────────────────────────────
-
     /// <summary>Logical button data (color + shape) indexed by slot 0-2.</summary>
     public ButtonData[] buttons { get; private set; } = new ButtonData[3];
 
@@ -61,27 +53,19 @@ public class EnvironmentManager : MonoBehaviour
 
     /// <summary>Last token emitted by the Speaker.</summary>
     public int currentMessageToken { get; private set; } = 0;
-
-    // ─────────────────────────────────────────────────────────────
-    //  TensorBoard metrics (accumulated per episode)
-    // ─────────────────────────────────────────────────────────────
     
     private int _episodePressAttempts  = 0;  // total press attempts in the episode
     private int _episodeCorrectPresses = 0;  // correct presses in the episode
     private int _episodeWrongPresses   = 0;  // wrong presses in the episode
 
-    // ─────────────────────────────────────────────────────────────
-    //  Public API
-    // ───────────────────────────────────────────────────────────── 
-
     public void ResetEpisode()
     {
-        // ── 0. Reset episode metric counters ──
+        // Reset episode metrics
         _episodePressAttempts  = 0;
         _episodeCorrectPresses = 0;
         _episodeWrongPresses   = 0;
 
-        // ── 1. Randomise logical button properties ──
+        // Randomise button properties
         bool ok = false;
         for (int attempt = 0; attempt < maxResampleTries && !ok; attempt++)
         {
@@ -100,10 +84,9 @@ public class EnvironmentManager : MonoBehaviour
             ok = AllButtonsUnique() && EpisodeHasValidSolution();
         }
 
-        // ── 2. Randomise physical positions ──
+        // Randomise positions
         Vector3[] positions = GenerateScatteredPositions(3);
-
-        // ── 3. Apply to ButtonController GameObjects ──
+        
         for (int i = 0; i < 3; i++)
         {
             if (buttonObjects[i] == null) continue;
@@ -111,10 +94,10 @@ public class EnvironmentManager : MonoBehaviour
             buttonObjects[i].Apply(buttons[i].color, buttons[i].shape, i);
         }
 
-        // ── 4. Reset communication channel ──
+        // Reset communication
         currentMessageToken = silenceToken;
 
-        // ── 5. Ask the Speaker to emit its token exactly once for this episode ──
+        // Ask the Speaker to emit its token
         speaker.RequestDecision();
     }
 
@@ -122,8 +105,7 @@ public class EnvironmentManager : MonoBehaviour
     {
         currentMessageToken = Mathf.Clamp(token, 0, vocabSize - 1);
         Debug.Log($"[Speaker] emitted token {currentMessageToken}.");
-
-        // ── TensorBoard: which token was emitted ──
+        
         // Flatlines at one value → vocabulary collapse. Varies → diverse usage.
         var stats = Academy.Instance.StatsRecorder;
         stats.Add("Speaker/EmittedToken", currentMessageToken);
@@ -148,14 +130,14 @@ public class EnvironmentManager : MonoBehaviour
     {
         int correct = GetCorrectButtonIndex();
 
-        // ── TensorBoard: press attempt count ──
+        // Press attempt count
         _episodePressAttempts++;
         var stats = Academy.Instance.StatsRecorder;
         stats.Add("Listener/PressAttempts", _episodePressAttempts);
 
         if (chosenIndex == correct)
         {
-            // ── TensorBoard: correct press ──
+            // Correct press 
             _episodeCorrectPresses++;
             stats.Add("Listener/CorrectPresses", _episodeCorrectPresses);
             stats.Add("Listener/AccuracyRate", (float)_episodeCorrectPresses / _episodePressAttempts);
@@ -172,7 +154,7 @@ public class EnvironmentManager : MonoBehaviour
         }
         else
         {
-            // ── TensorBoard: wrong press ──
+            // Wrong press 
             _episodeWrongPresses++;
             stats.Add("Listener/WrongPresses", _episodeWrongPresses);
             stats.Add("Listener/AccuracyRate", (float)_episodeCorrectPresses / _episodePressAttempts);
@@ -198,7 +180,6 @@ public class EnvironmentManager : MonoBehaviour
 
     /// <summary>
     /// Logs per-episode communication metrics to TensorBoard.
-    /// Called once per episode regardless of outcome (correct press, wrong press, or timeout).
     ///
     /// Metrics written:
     ///   Speaker/Token_{i}/SuccessRate   – rolling average → 1 if this token led to success, 0 if not.
@@ -240,31 +221,22 @@ public class EnvironmentManager : MonoBehaviour
         if (_episodePressAttempts > 0)
             stats.Add("Listener/AccuracyRate", (float)_episodeCorrectPresses / _episodePressAttempts);
     }
-
-    /// <summary>Returns the world position of button slot i (used for physics/placement).</summary>
+    
     public Vector3 GetButtonWorldPosition(int slotIndex)
     {
         if (buttonObjects[slotIndex] != null)
             return buttonObjects[slotIndex].transform.position;
         return transform.position;
     }
-
-    /// <summary>
-    /// Returns the position of button slot i in the environment's local space.
-    /// Use this for all agent observations, so they are environment-agnostic
-    /// and identical across parallel training instances.
-    /// </summary>
+    
     public Vector3 GetButtonLocalPosition(int slotIndex)
     {
         if (buttonObjects[slotIndex] != null)
             return buttonObjects[slotIndex].transform.localPosition;
         return Vector3.zero;
     }
-
-    // ─────────────────────────────────────────────────────────────
-    //  Rule helpers
-    // ─────────────────────────────────────────────────────────────
-
+    
+    // Helpers 
     public int GetCorrectButtonIndex()
     {
         for (int i = 0; i < 3; i++)
@@ -296,18 +268,12 @@ public class EnvironmentManager : MonoBehaviour
     
         return Vector3.Distance(listenerPosition, GetButtonLocalPosition(correctIndex));
     }
-
-    // ─────────────────────────────────────────────────────────────
-    //  Scatter positions
-    // ─────────────────────────────────────────────────────────────
-
-    // Pre-allocated to avoid GC every episode
+    
     private readonly Vector3[] _spawnPositions = new Vector3[3];
 
     Vector3[] GenerateScatteredPositions(int count)
     {
         // Everything in local space. Buttons are children of this transform,
-        // so buttonObjects[i].transform.localPosition = candidate is all that's needed.
         Vector3 centre = spawnAreaCenter != null
             ? spawnAreaCenter.localPosition
             : Vector3.zero;

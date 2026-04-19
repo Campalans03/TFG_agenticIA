@@ -9,32 +9,20 @@ using Unity.MLAgents.Sensors;
 /// </summary>
 public class SpeakerAgent : Agent
 {
-    // ─────────────────────────────────────────────────────────────
-    //  Inspector
-    // ─────────────────────────────────────────────────────────────
-
     public EnvironmentManager env;
-
-    // ─────────────────────────────────────────────────────────────
-    //  ML-Agents lifecycle
-    // ─────────────────────────────────────────────────────────────
 
     public override void OnEpisodeBegin()
     {
-        // Reset is driven by EnvironmentManager. Nothing to do here.
+        // Reset is driven by EnvironmentManager.
     }
 
     public override void CollectObservations(VectorSensor sensor)
     {
-        // ── Rule book observations (visible only to the Speaker) ──
         // targetColor → one-hot (3 floats)
         AddOneHot(sensor, 3, (int)env.targetColor);
 
         // targetShape → one-hot (3 floats)
         AddOneHot(sensor, 3, (int)env.targetShape);
-
-        // Total: 6 floats
-        // (No previous-token feedback: the Speaker speaks exactly once per episode)
     }
 
     public override void OnActionReceived(ActionBuffers actions)
@@ -51,10 +39,6 @@ public class SpeakerAgent : Agent
         int code = (int)env.targetColor * 3 + (int)env.targetShape;
         d[0] = code % env.vocabSize;
     }
-
-    // ─────────────────────────────────────────────────────────────
-    //  Helper
-    // ─────────────────────────────────────────────────────────────
 
     void AddOneHot(VectorSensor sensor, int size, int index)
     {
