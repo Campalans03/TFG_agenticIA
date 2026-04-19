@@ -1432,7 +1432,7 @@ MonoBehaviour:
   maxResampleTries: 50
   correctReward: 3
   wrongReward: -1
-  stepPenalty: -0.01
+  stepPenalty: -0.001
   vocabSize: 9
   silenceToken: 0
   buttonObjects:

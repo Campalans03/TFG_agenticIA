@@ -353,7 +353,7 @@ public class ListenerAgent : Agent
         {
             env.RegisterEmptyPressAttempt(); // records the failed attempt in TensorBoard
             ShowWrongPress(); // pressing thin air = red feedback
-            AddReward(-0.5f);
+            AddReward(-0.05f);
         }
     }
 
