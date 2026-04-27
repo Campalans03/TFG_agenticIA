@@ -278,7 +278,7 @@ MonoBehaviour:
   gridSizeX: 10
   gridSizeZ: 10
   spacing: 12
-  environmentPrefab: {fileID: 3188365189712326971, guid: c5c8b1dabec91294f8f8b215c8ec8312, type: 3}
+  environmentPrefab: {fileID: 3188365189712326971, guid: 0ce0942d04bcf114189589f36cc3b231, type: 3}
 --- !u!4 &781356668
 Transform:
   m_ObjectHideFlags: 0

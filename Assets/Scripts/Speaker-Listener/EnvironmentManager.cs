@@ -60,6 +60,7 @@ public class EnvironmentManager : MonoBehaviour
     private int _episodePressAttempts  = 0;  // total press attempts in the episode
     private int _episodeCorrectPresses = 0;  // correct presses in the episode
     private int _episodeWrongPresses   = 0;  // wrong presses in the episode
+    private bool _episodeEnding        = false; // true once a terminal press has fired
 
     public void ResetEpisode()
     {
@@ -67,6 +68,7 @@ public class EnvironmentManager : MonoBehaviour
         _episodePressAttempts  = 0;
         _episodeCorrectPresses = 0;
         _episodeWrongPresses   = 0;
+        _episodeEnding         = false;
 
         // Curriculum: how many buttons are active this episode (1..3)
         float requested = Academy.Instance.EnvironmentParameters
@@ -147,6 +149,11 @@ public class EnvironmentManager : MonoBehaviour
 
     public void ListenerChoseButton(int chosenIndex)
     {
+        // Ignore extra presses that arrive during the flash → EndEpisode delay,
+        // otherwise the agent could stack reward by pressing repeatedly.
+        if (_episodeEnding) return;
+        _episodeEnding = true;
+
         int correct = GetCorrectButtonIndex();
 
         // Press attempt count

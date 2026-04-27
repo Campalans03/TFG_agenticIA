@@ -67,8 +67,9 @@ public class ListenerAgent : Agent
     private int _moveAction;
     private BehaviorParameters _behaviorParams;
     private readonly HashSet<ButtonController> _seenButtons = new HashSet<ButtonController>();
-    
+
     private float _previousDistanceToTarget;
+    private bool _pressedLastStep;
 
     [Header("Visual Feedback")]
     [Tooltip("Renderers to flash. Leave empty to auto-collect from this GameObject and children.")]
@@ -118,6 +119,7 @@ public class ListenerAgent : Agent
             _rb.angularVelocity = Vector3.zero;
         }
         _moveAction = 0;
+        _pressedLastStep = false;
 
         // Stop any active flash and restore neutral colour
         if (_flashRoutine != null) { StopCoroutine(_flashRoutine); _flashRoutine = null; }
@@ -192,9 +194,12 @@ public class ListenerAgent : Agent
 
         _moveAction = actions.DiscreteActions[0];
 
-        // Press the closest button within range 
-        if (actions.DiscreteActions[1] == 1)
+        // Press is edge-triggered: only fires on the 0->1 transition so the
+        // policy cannot exploit "hold press" to stack rewards or spam empty presses.
+        bool pressNow = actions.DiscreteActions[1] == 1;
+        if (pressNow && !_pressedLastStep)
             TryPressClosestButton();
+        _pressedLastStep = pressNow;
 
         // Max steps of and episode to prevent infinite wandering: 300 steps are 60 seconds at default FixedUpdate (0.2s).
         if (StepCount >= 300)
