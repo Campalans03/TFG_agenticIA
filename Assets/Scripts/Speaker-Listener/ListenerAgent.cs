@@ -289,14 +289,17 @@ public class ListenerAgent : Agent
 
         for (int i = 0; i < 3; i++)
         {
+            // Skip slots disabled by curriculum
+            if (env.buttonObjects[i] == null || !env.buttonObjects[i].gameObject.activeSelf) continue;
+
             Vector3 btnLocal = env.GetButtonLocalPosition(i);
             Vector3 toBtn = btnLocal - agentLocal;
             float dist = toBtn.magnitude;
-            if (dist > pressDistance) continue; // out of reach 
+            if (dist > pressDistance) continue; // out of reach
 
-            float dot = Vector3.Dot(forwardLocal, toBtn/dist); 
-            if (dot <= 0f) continue; // behind the agent 
-            
+            float dot = Vector3.Dot(forwardLocal, toBtn/dist);
+            if (dot <= 0f) continue; // behind the agent
+
             float score = dot/dist;
             if (score > bestScore)
             {
@@ -370,6 +373,7 @@ public class ListenerAgent : Agent
         for (int i = 0; i < 3; i++)
         {
             if (_scanned[i].detected) { found++; continue; }
+            if (env.buttonObjects[i] == null || !env.buttonObjects[i].gameObject.activeSelf) continue;
 
             Vector3 toBtn = env.GetButtonWorldPosition(i) - origin.position;
             if (toBtn.sqrMagnitude < 0.01f) continue;

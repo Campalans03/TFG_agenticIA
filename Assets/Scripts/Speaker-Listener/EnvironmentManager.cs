@@ -53,7 +53,10 @@ public class EnvironmentManager : MonoBehaviour
 
     /// <summary>Last token emitted by the Speaker.</summary>
     public int currentMessageToken { get; private set; } = 0;
-    
+
+    /// <summary>Number of buttons active this episode (1..3). Driven by curriculum.</summary>
+    public int activeButtonCount { get; private set; } = 3;
+
     private int _episodePressAttempts  = 0;  // total press attempts in the episode
     private int _episodeCorrectPresses = 0;  // correct presses in the episode
     private int _episodeWrongPresses   = 0;  // wrong presses in the episode
@@ -65,11 +68,24 @@ public class EnvironmentManager : MonoBehaviour
         _episodeCorrectPresses = 0;
         _episodeWrongPresses   = 0;
 
-        // Randomise button properties
+        // Curriculum: how many buttons are active this episode (1..3)
+        float requested = Academy.Instance.EnvironmentParameters
+            .GetWithDefault("active_buttons", 3f);
+        activeButtonCount = Mathf.Clamp(Mathf.RoundToInt(requested), 1, 3);
+        Academy.Instance.StatsRecorder.Add("Curriculum/ActiveButtons", activeButtonCount);
+
+        // Toggle GameObject visibility/colliders so raycasts only see active buttons
+        for (int i = 0; i < 3; i++)
+        {
+            if (buttonObjects[i] == null) continue;
+            buttonObjects[i].gameObject.SetActive(i < activeButtonCount);
+        }
+
+        // Randomise button properties (only for active slots)
         bool ok = false;
         for (int attempt = 0; attempt < maxResampleTries && !ok; attempt++)
         {
-            for (int i = 0; i < 3; i++)
+            for (int i = 0; i < activeButtonCount; i++)
             {
                 buttons[i] = new ButtonData
                 {
@@ -78,16 +94,19 @@ public class EnvironmentManager : MonoBehaviour
                 };
             }
 
-            targetColor  = (ButtonColor)Random.Range(0, 3);
-            targetShape  = (ButtonShape)Random.Range(0, 3);
+            // The target must match one of the active buttons; pick a target slot
+            // and copy its (color, shape) so a valid solution is guaranteed.
+            int targetSlot = Random.Range(0, activeButtonCount);
+            targetColor = buttons[targetSlot].color;
+            targetShape = buttons[targetSlot].shape;
 
             ok = AllButtonsUnique() && EpisodeHasValidSolution();
         }
 
-        // Randomise positions
-        Vector3[] positions = GenerateScatteredPositions(3);
-        
-        for (int i = 0; i < 3; i++)
+        // Randomise positions for the active subset only
+        Vector3[] positions = GenerateScatteredPositions(activeButtonCount);
+
+        for (int i = 0; i < activeButtonCount; i++)
         {
             if (buttonObjects[i] == null) continue;
             buttonObjects[i].transform.localPosition = positions[i];
@@ -239,7 +258,7 @@ public class EnvironmentManager : MonoBehaviour
     // Helpers 
     public int GetCorrectButtonIndex()
     {
-        for (int i = 0; i < 3; i++)
+        for (int i = 0; i < activeButtonCount; i++)
             if (buttons[i].color == targetColor && buttons[i].shape == targetShape)
                 return i;
 
@@ -248,8 +267,8 @@ public class EnvironmentManager : MonoBehaviour
 
     bool AllButtonsUnique()
     {
-        for (int i = 0; i < 3; i++)
-            for (int j = i + 1; j < 3; j++)
+        for (int i = 0; i < activeButtonCount; i++)
+            for (int j = i + 1; j < activeButtonCount; j++)
                 if (buttons[i].color == buttons[j].color && buttons[i].shape == buttons[j].shape)
                     return false;
         return true;
@@ -258,7 +277,7 @@ public class EnvironmentManager : MonoBehaviour
     bool EpisodeHasValidSolution()
     {
         int idx = GetCorrectButtonIndex();
-        return idx >= 0 && idx <= 2;
+        return idx >= 0 && idx < activeButtonCount;
     }
     
     public float GetDistanceToCorrectButton(Vector3 listenerPosition)

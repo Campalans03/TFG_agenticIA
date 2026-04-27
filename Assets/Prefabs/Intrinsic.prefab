@@ -365,7 +365,7 @@ MonoBehaviour:
     VectorActionDescriptions: []
     VectorActionSpaceType: 0
     hasUpgradedBrainParametersWithActionSpec: 1
-  m_Model: {fileID: 5022602860645237092, guid: 0dbe4b0067e343c4c9c0ed6f8d4eff4e, type: 3}
+  m_Model: {fileID: 5022602860645237092, guid: 0cd0e17d8e5a55e488e6f217208e30fc, type: 3}
   m_InferenceDevice: 0
   m_BehaviorType: 2
   m_BehaviorName: Speaker
@@ -788,7 +788,7 @@ MonoBehaviour:
     VectorActionDescriptions: []
     VectorActionSpaceType: 0
     hasUpgradedBrainParametersWithActionSpec: 1
-  m_Model: {fileID: 5022602860645237092, guid: 02adc536d171eb44193c706f385536d4, type: 3}
+  m_Model: {fileID: 5022602860645237092, guid: debbd5ae32233884c878cec0591964e8, type: 3}
   m_InferenceDevice: 0
   m_BehaviorType: 2
   m_BehaviorName: Listener

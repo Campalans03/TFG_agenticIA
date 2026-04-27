@@ -159,8 +159,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55b4fa472b04409cbebc5adb9398103f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonController
-  meshSquare: {fileID: 0}
-  meshCircle: {fileID: 0}
+  meshSquare: {fileID: 5479450300628311980, guid: d47576a9d82eb3e4b98e970b0a5d0f81, type: 3}
+  meshCircle: {fileID: 995985076661114811, guid: c5405884b7dcdad428351ddb8d4cb5b9, type: 3}
   meshTriangle: {fileID: 0}
   colorRed: {r: 1, g: 0, b: 0, a: 1}
   colorGreen: {r: 0, g: 1, b: 0, a: 1}
@@ -515,8 +515,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55b4fa472b04409cbebc5adb9398103f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonController
-  meshSquare: {fileID: 0}
-  meshCircle: {fileID: 0}
+  meshSquare: {fileID: 5479450300628311980, guid: d47576a9d82eb3e4b98e970b0a5d0f81, type: 3}
+  meshCircle: {fileID: 995985076661114811, guid: c5405884b7dcdad428351ddb8d4cb5b9, type: 3}
   meshTriangle: {fileID: 0}
   colorRed: {r: 1, g: 0, b: 0, a: 1}
   colorGreen: {r: 0, g: 1, b: 0, a: 1}
@@ -645,8 +645,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55b4fa472b04409cbebc5adb9398103f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ButtonController
-  meshSquare: {fileID: 0}
-  meshCircle: {fileID: 0}
+  meshSquare: {fileID: 5479450300628311980, guid: d47576a9d82eb3e4b98e970b0a5d0f81, type: 3}
+  meshCircle: {fileID: 995985076661114811, guid: c5405884b7dcdad428351ddb8d4cb5b9, type: 3}
   meshTriangle: {fileID: 0}
   colorRed: {r: 1, g: 0, b: 0, a: 1}
   colorGreen: {r: 0, g: 1, b: 0, a: 1}
