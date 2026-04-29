@@ -1,0 +1,68 @@
+{
+    "active_buttons": {
+        "lesson_num": 1
+    },
+    "Listener": {
+        "checkpoints": [
+            {
+                "steps": 499985,
+                "file_path": "results\\Test4HeurisiticSpeakerCurriculum2\\Listener\\Listener-499985.onnx",
+                "reward": 0.732981268240481,
+                "creation_time": 1777495969.641599,
+                "auxillary_file_paths": [
+                    "results\\Test4HeurisiticSpeakerCurriculum2\\Listener\\Listener-499985.pt"
+                ]
+            },
+            {
+                "steps": 999982,
+                "file_path": "results\\Test4HeurisiticSpeakerCurriculum2\\Listener\\Listener-999982.onnx",
+                "reward": 0.8291326320419709,
+                "creation_time": 1777496147.8509963,
+                "auxillary_file_paths": [
+                    "results\\Test4HeurisiticSpeakerCurriculum2\\Listener\\Listener-999982.pt"
+                ]
+            },
+            {
+                "steps": 1499983,
+                "file_path": "results\\Test4HeurisiticSpeakerCurriculum2\\Listener\\Listener-1499983.onnx",
+                "reward": 0.8757573602613339,
+                "creation_time": 1777496319.517073,
+                "auxillary_file_paths": [
+                    "results\\Test4HeurisiticSpeakerCurriculum2\\Listener\\Listener-1499983.pt"
+                ]
+            },
+            {
+                "steps": 1999979,
+                "file_path": "results\\Test4HeurisiticSpeakerCurriculum2\\Listener\\Listener-1999979.onnx",
+                "reward": 0.9790416130652795,
+                "creation_time": 1777496491.1045961,
+                "auxillary_file_paths": [
+                    "results\\Test4HeurisiticSpeakerCurriculum2\\Listener\\Listener-1999979.pt"
+                ]
+            },
+            {
+                "steps": 2097337,
+                "file_path": "results\\Test4HeurisiticSpeakerCurriculum2\\Listener\\Listener-2097337.onnx",
+                "reward": 0.07451391108682222,
+                "creation_time": 1777496522.2699866,
+                "auxillary_file_paths": [
+                    "results\\Test4HeurisiticSpeakerCurriculum2\\Listener\\Listener-2097337.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 2097337,
+            "file_path": "results\\Test4HeurisiticSpeakerCurriculum2\\Listener.onnx",
+            "reward": 0.07451391108682222,
+            "creation_time": 1777496522.2699866,
+            "auxillary_file_paths": [
+                "results\\Test4HeurisiticSpeakerCurriculum2\\Listener\\Listener-2097337.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.1.0",
+        "torch_version": "2.2.2+cu121"
+    }
+}

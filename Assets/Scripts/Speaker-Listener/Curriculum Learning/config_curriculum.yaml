@@ -45,6 +45,7 @@ behaviors:
       extrinsic:
         gamma: 0.99
         strength: 1.0
+    init_path: results/Test4HeurisiticSpeakerCurriculum2/Listener/checkpoint.pt
 
     max_steps: 12000000
     time_horizon: 128
@@ -54,14 +55,6 @@ behaviors:
 environment_parameters:
   active_buttons:
     curriculum:
-      - name: lesson_1_solo
-        completion_criteria:
-          measure: reward
-          behavior: Listener
-          signal_smoothing: true
-          min_lesson_length: 200
-          threshold: 2.0
-        value: 1.0
       - name: lesson_2_pair
         completion_criteria:
           measure: reward

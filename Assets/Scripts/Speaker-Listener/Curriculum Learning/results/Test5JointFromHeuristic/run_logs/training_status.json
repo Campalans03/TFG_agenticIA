@@ -1,0 +1,90 @@
+{
+    "active_buttons": {
+        "lesson_num": 1
+    },
+    "Listener": {
+        "checkpoints": [
+            {
+                "steps": 1499995,
+                "file_path": "results\\Test5JointFromHeuristic\\Listener\\Listener-1499995.onnx",
+                "reward": 0.14791654731353485,
+                "creation_time": 1777497628.321051,
+                "auxillary_file_paths": [
+                    "results\\Test5JointFromHeuristic\\Listener\\Listener-1499995.pt"
+                ]
+            },
+            {
+                "steps": 1999978,
+                "file_path": "results\\Test5JointFromHeuristic\\Listener\\Listener-1999978.onnx",
+                "reward": 0.3809973865315534,
+                "creation_time": 1777497825.3931487,
+                "auxillary_file_paths": [
+                    "results\\Test5JointFromHeuristic\\Listener\\Listener-1999978.pt"
+                ]
+            },
+            {
+                "steps": 2499969,
+                "file_path": "results\\Test5JointFromHeuristic\\Listener\\Listener-2499969.onnx",
+                "reward": 0.3851400218417297,
+                "creation_time": 1777498016.4719481,
+                "auxillary_file_paths": [
+                    "results\\Test5JointFromHeuristic\\Listener\\Listener-2499969.pt"
+                ]
+            },
+            {
+                "steps": 2999989,
+                "file_path": "results\\Test5JointFromHeuristic\\Listener\\Listener-2999989.onnx",
+                "reward": 0.1985426537961845,
+                "creation_time": 1777498209.853602,
+                "auxillary_file_paths": [
+                    "results\\Test5JointFromHeuristic\\Listener\\Listener-2999989.pt"
+                ]
+            },
+            {
+                "steps": 3150938,
+                "file_path": "results\\Test5JointFromHeuristic\\Listener\\Listener-3150938.onnx",
+                "reward": null,
+                "creation_time": 1777498267.4892263,
+                "auxillary_file_paths": [
+                    "results\\Test5JointFromHeuristic\\Listener\\Listener-3150938.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 3150938,
+            "file_path": "results\\Test5JointFromHeuristic\\Listener.onnx",
+            "reward": null,
+            "creation_time": 1777498267.4892263,
+            "auxillary_file_paths": [
+                "results\\Test5JointFromHeuristic\\Listener\\Listener-3150938.pt"
+            ]
+        }
+    },
+    "Speaker": {
+        "checkpoints": [
+            {
+                "steps": 104589,
+                "file_path": "results\\Test5JointFromHeuristic\\Speaker\\Speaker-104589.onnx",
+                "reward": 0.5241157556270096,
+                "creation_time": 1777498267.4200952,
+                "auxillary_file_paths": [
+                    "results\\Test5JointFromHeuristic\\Speaker\\Speaker-104589.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 104589,
+            "file_path": "results\\Test5JointFromHeuristic\\Speaker.onnx",
+            "reward": 0.5241157556270096,
+            "creation_time": 1777498267.4200952,
+            "auxillary_file_paths": [
+                "results\\Test5JointFromHeuristic\\Speaker\\Speaker-104589.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.1.0",
+        "torch_version": "2.2.2+cu121"
+    }
+}
