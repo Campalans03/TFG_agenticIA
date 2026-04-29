@@ -1,0 +1,50 @@
+{
+    "active_buttons": {
+        "lesson_num": 1
+    },
+    "Listener": {
+        "checkpoints": [
+            {
+                "steps": 499973,
+                "file_path": "results\\Test3HeuristicSpeaker\\Listener\\Listener-499973.onnx",
+                "reward": 0.7963562280137018,
+                "creation_time": 1777398381.828071,
+                "auxillary_file_paths": [
+                    "results\\Test3HeuristicSpeaker\\Listener\\Listener-499973.pt"
+                ]
+            },
+            {
+                "steps": 999999,
+                "file_path": "results\\Test3HeuristicSpeaker\\Listener\\Listener-999999.onnx",
+                "reward": 0.8521098008522621,
+                "creation_time": 1777398583.3999333,
+                "auxillary_file_paths": [
+                    "results\\Test3HeuristicSpeaker\\Listener\\Listener-999999.pt"
+                ]
+            },
+            {
+                "steps": 1286030,
+                "file_path": "results\\Test3HeuristicSpeaker\\Listener\\Listener-1286030.onnx",
+                "reward": 0.8244566604344532,
+                "creation_time": 1777398681.3527122,
+                "auxillary_file_paths": [
+                    "results\\Test3HeuristicSpeaker\\Listener\\Listener-1286030.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 1286030,
+            "file_path": "results\\Test3HeuristicSpeaker\\Listener.onnx",
+            "reward": 0.8244566604344532,
+            "creation_time": 1777398681.3527122,
+            "auxillary_file_paths": [
+                "results\\Test3HeuristicSpeaker\\Listener\\Listener-1286030.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.1.0",
+        "torch_version": "2.2.2+cu121"
+    }
+}
