@@ -1,8 +1,19 @@
 using UnityEngine;
 using Unity.MLAgents;
 
-public enum ButtonColor { Red, Green, Blue }
-public enum ButtonShape { Square, Circle, Triangle }
+public enum ButtonColor
+{
+    Red,
+    Green,
+    Blue
+}
+
+public enum ButtonShape
+{
+    Square,
+    Circle,
+    Triangle
+}
 
 [System.Serializable]
 public struct ButtonData
@@ -13,43 +24,42 @@ public struct ButtonData
 
 public class EnvironmentManager : MonoBehaviour
 {
-    [Header("Episode Settings")]
-    public int maxResampleTries = 50;
+    [Header("Episode Settings")] public int maxResampleTries = 50;
 
-    [Header("Shared Reward")]
-    public float correctReward   =  3.0f;
-    public float wrongReward     = -1.0f;
-    public float stepPenalty     = -0.005f;
+    [Header("Shared Reward")] public float correctReward = 3.0f;
+    public float wrongReward = -1.0f;
+    public float stepPenalty = -0.005f;
 
-    [Header("Communication")]
-    [Tooltip("Vocabulary size. Must match the Speaker's Discrete Branch size.")]
-    public int vocabSize    = 9;
+    [Header("Communication")] [Tooltip("Vocabulary size. Must match the Speaker's Discrete Branch size.")]
+    public int vocabSize = 9;
+
     public int silenceToken = 0;
 
-    [Header("Buttons (exactly 3)")]
-    [Tooltip("Assign the 3 ButtonController GameObjects here.")]
+    [Header("Buttons (exactly 3)")] [Tooltip("Assign the 3 ButtonController GameObjects here.")]
     public ButtonController[] buttonObjects = new ButtonController[3];
 
-    [Header("Spawn Area")]
-    [Tooltip("Centre of the zone where buttons can be randomly placed.")]
+    [Header("Spawn Area")] [Tooltip("Centre of the zone where buttons can be randomly placed.")]
     public Transform spawnAreaCenter;
+
     [Tooltip("Half-extents for button placement (XZ plane).")]
     public Vector2 spawnHalfExtents = new Vector2(3f, 3f);
+
     [Tooltip("Minimum distance between any two buttons.")]
     public float minButtonSeparation = 1.5f;
+
     [Tooltip("Y position for all buttons.")]
     public float buttonY = 0.5f;
 
-    [Header("Agent Refs")]
-    public SpeakerAgent  speaker;
+    [Header("Agent Refs")] public SpeakerAgent speaker;
     public ListenerAgent listener;
 
     /// <summary>Logical button data (color + shape) indexed by slot 0-2.</summary>
     public ButtonData[] buttons { get; private set; } = new ButtonData[3];
 
     /// <summary>Current rule: which color/shape is correct.</summary>
-    public ButtonColor targetColor  { get; private set; }
-    public ButtonShape targetShape  { get; private set; }
+    public ButtonColor targetColor { get; private set; }
+
+    public ButtonShape targetShape { get; private set; }
 
     /// <summary>Last token emitted by the Speaker.</summary>
     public int currentMessageToken { get; private set; } = 0;
@@ -57,18 +67,18 @@ public class EnvironmentManager : MonoBehaviour
     /// <summary>Number of buttons active this episode (1..3). Driven by curriculum.</summary>
     public int activeButtonCount { get; private set; } = 3;
 
-    private int _episodePressAttempts  = 0;  // total press attempts in the episode
-    private int _episodeCorrectPresses = 0;  // correct presses in the episode
-    private int _episodeWrongPresses   = 0;  // wrong presses in the episode
-    private bool _episodeEnding        = false; // true once a terminal press has fired
+    private int _episodePressAttempts = 0; // total press attempts in the episode
+    private int _episodeCorrectPresses = 0; // correct presses in the episode
+    private int _episodeWrongPresses = 0; // wrong presses in the episode
+    private bool _episodeEnding = false; // true once a terminal press has fired
 
     public void ResetEpisode()
     {
         // Reset episode metrics
-        _episodePressAttempts  = 0;
+        _episodePressAttempts = 0;
         _episodeCorrectPresses = 0;
-        _episodeWrongPresses   = 0;
-        _episodeEnding         = false;
+        _episodeWrongPresses = 0;
+        _episodeEnding = false;
 
         // Curriculum: how many buttons are active this episode (1..3)
         float requested = Academy.Instance.EnvironmentParameters
@@ -126,7 +136,7 @@ public class EnvironmentManager : MonoBehaviour
     {
         currentMessageToken = Mathf.Clamp(token, 0, vocabSize - 1);
         Debug.Log($"[Speaker] emitted token {currentMessageToken}.");
-        
+
         // Flatlines at one value → vocabulary collapse. Varies → diverse usage.
         var stats = Academy.Instance.StatsRecorder;
         stats.Add("Speaker/EmittedToken", currentMessageToken);
@@ -139,7 +149,7 @@ public class EnvironmentManager : MonoBehaviour
         // it for episode length adds noise that hurts language learning.
         listener.AddReward(stepPenalty);
     }
-    
+
     public void ApplyOutOfTimePenalty()
     {
         speaker.AddReward(wrongReward);
@@ -217,7 +227,7 @@ public class EnvironmentManager : MonoBehaviour
     /// </summary>
     private void RecordEpisodeOutcome(bool success)
     {
-        var stats   = Academy.Instance.StatsRecorder;
+        var stats = Academy.Instance.StatsRecorder;
         float score = success ? 1f : 0f;
         string rule = $"{targetColor}_{targetShape}";
 
@@ -241,27 +251,27 @@ public class EnvironmentManager : MonoBehaviour
         _episodePressAttempts++;
         _episodeWrongPresses++;
         var stats = Academy.Instance.StatsRecorder;
-        stats.Add("Listener/PressAttempts",  _episodePressAttempts);
-        stats.Add("Listener/WrongPresses",   _episodeWrongPresses);
-        
+        stats.Add("Listener/PressAttempts", _episodePressAttempts);
+        stats.Add("Listener/WrongPresses", _episodeWrongPresses);
+
         if (_episodePressAttempts > 0)
             stats.Add("Listener/AccuracyRate", (float)_episodeCorrectPresses / _episodePressAttempts);
     }
-    
+
     public Vector3 GetButtonWorldPosition(int slotIndex)
     {
         if (buttonObjects[slotIndex] != null)
             return buttonObjects[slotIndex].transform.position;
         return transform.position;
     }
-    
+
     public Vector3 GetButtonLocalPosition(int slotIndex)
     {
         if (buttonObjects[slotIndex] != null)
             return buttonObjects[slotIndex].transform.localPosition;
         return Vector3.zero;
     }
-    
+
     // Helpers 
     public int GetCorrectButtonIndex()
     {
@@ -275,9 +285,9 @@ public class EnvironmentManager : MonoBehaviour
     bool AllButtonsUnique()
     {
         for (int i = 0; i < activeButtonCount; i++)
-            for (int j = i + 1; j < activeButtonCount; j++)
-                if (buttons[i].color == buttons[j].color && buttons[i].shape == buttons[j].shape)
-                    return false;
+        for (int j = i + 1; j < activeButtonCount; j++)
+            if (buttons[i].color == buttons[j].color && buttons[i].shape == buttons[j].shape)
+                return false;
         return true;
     }
 
@@ -286,15 +296,15 @@ public class EnvironmentManager : MonoBehaviour
         int idx = GetCorrectButtonIndex();
         return idx >= 0 && idx < activeButtonCount;
     }
-    
+
     public float GetDistanceToCorrectButton(Vector3 listenerPosition)
     {
         int correctIndex = GetCorrectButtonIndex();
         if (correctIndex < 0) return 0f;
-    
+
         return Vector3.Distance(listenerPosition, GetButtonLocalPosition(correctIndex));
     }
-    
+
     private readonly Vector3[] _spawnPositions = new Vector3[3];
 
     Vector3[] GenerateScatteredPositions(int count)
@@ -304,7 +314,7 @@ public class EnvironmentManager : MonoBehaviour
             ? spawnAreaCenter.localPosition
             : Vector3.zero;
 
-        int filled      = 0;
+        int filled = 0;
         int maxAttempts = 200;
 
         for (int i = 0; i < count; i++)
@@ -321,7 +331,10 @@ public class EnvironmentManager : MonoBehaviour
                 bool tooClose = false;
                 for (int p = 0; p < filled; p++)
                     if (Vector3.Distance(candidate, _spawnPositions[p]) < minButtonSeparation)
-                    { tooClose = true; break; }
+                    {
+                        tooClose = true;
+                        break;
+                    }
 
                 if (!tooClose)
                 {

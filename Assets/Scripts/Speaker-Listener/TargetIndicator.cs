@@ -7,37 +7,28 @@ using UnityEngine;
 /// </summary>
 public class TargetIndicator : MonoBehaviour
 {
-    [Header("References")]
-    public EnvironmentManager env;
+    [Header("References")] public EnvironmentManager env;
 
-    [Header("Visual Settings")]
-    [Tooltip("Marker color when the target is valid.")]
-    public Color targetColor = new Color(1f, 0.92f, 0.016f, 0.85f); 
+    [Header("Visual Settings")] [Tooltip("Marker color when the target is valid.")]
+    public Color targetColor = new Color(1f, 0.92f, 0.016f, 0.85f);
 
     [Tooltip("Height above the correct button.")]
     public float heightOffset = 1f;
 
-    [Tooltip("Bob amplitude (up/down).")]
-    public float bobAmplitude = 0.15f;
+    [Tooltip("Bob amplitude (up/down).")] public float bobAmplitude = 0.15f;
 
-    [Tooltip("Bob frequency (Hz).")]
-    public float bobFrequency = 1.5f;
+    [Tooltip("Bob frequency (Hz).")] public float bobFrequency = 1.5f;
 
-    [Header("Arrow Geometry")]
-    [Tooltip("Arrow total height (shaft + head).")]
+    [Header("Arrow Geometry")] [Tooltip("Arrow total height (shaft + head).")]
     public float arrowHeight = 0.9f;
 
-    [Tooltip("Arrow shaft radius.")]
-    public float shaftRadius = 0.06f;
+    [Tooltip("Arrow shaft radius.")] public float shaftRadius = 0.06f;
 
-    [Tooltip("Arrow head height.")]
-    public float headHeight = 0.35f;
+    [Tooltip("Arrow head height.")] public float headHeight = 0.35f;
 
-    [Tooltip("Arrow head radius (base).")]
-    public float headRadius = 0.16f;
+    [Tooltip("Arrow head radius (base).")] public float headRadius = 0.16f;
 
-    [Tooltip("How many radial segments for the cone mesh.")]
-    [Range(8, 64)]
+    [Tooltip("How many radial segments for the cone mesh.")] [Range(8, 64)]
     public int coneSegments = 24;
 
     private GameObject _markerRoot;
@@ -86,15 +77,15 @@ public class TargetIndicator : MonoBehaviour
 
         // Create a simple emissive material 
         Shader litShader = Shader.Find("Universal Render Pipeline/Lit")
-                        ?? Shader.Find("Standard")
-                        ?? Shader.Find("Diffuse");
+                           ?? Shader.Find("Standard")
+                           ?? Shader.Find("Diffuse");
         var mat = new Material(litShader);
         ApplyEmission(mat, targetColor);
-        
+
         var shaft = GameObject.CreatePrimitive(PrimitiveType.Cylinder);
         shaft.name = "ArrowShaft";
         shaft.transform.SetParent(_markerRoot.transform, false);
-        
+
         float shaftHeight = Mathf.Max(0.01f, arrowHeight - headHeight);
         shaft.transform.localScale = new Vector3(shaftRadius * 2f, shaftHeight * 0.5f, shaftRadius * 2f);
 
@@ -106,7 +97,7 @@ public class TargetIndicator : MonoBehaviour
         _shaftRenderer.material = mat;
         _shaftRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.Off;
         _shaftRenderer.receiveShadows = false;
-        
+
         var head = new GameObject("ArrowHead");
         head.transform.SetParent(_markerRoot.transform, false);
         head.transform.localPosition = new Vector3(0f, -headHeight * 0.5f, 0f); // head occupies [0 .. -headHeight]
@@ -156,7 +147,7 @@ public class TargetIndicator : MonoBehaviour
         // Base center
         verts[baseCenterIndex] = Vector3.zero;
         uvs[baseCenterIndex] = new Vector2(0.5f, 1f);
-        
+
         int triCount = segments * 2;
         var tris = new int[triCount * 3];
         int ti = 0;
@@ -165,11 +156,11 @@ public class TargetIndicator : MonoBehaviour
         {
             int i0 = ringStart + i;
             int i1 = ringStart + ((i + 1) % segments);
-            
+
             tris[ti++] = tipIndex;
             tris[ti++] = i1;
             tris[ti++] = i0;
-            
+
             tris[ti++] = baseCenterIndex;
             tris[ti++] = i0;
             tris[ti++] = i1;
@@ -207,7 +198,7 @@ public class TargetIndicator : MonoBehaviour
         if (mat == null) return;
 
         mat.color = c;
-        
+
         if (mat.HasProperty("_EmissionColor"))
         {
             mat.EnableKeyword("_EMISSION");

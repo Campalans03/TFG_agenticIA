@@ -15,8 +15,7 @@ using UnityEngine.Serialization;
 [RequireComponent(typeof(Collider))]
 public class ButtonController : MonoBehaviour
 {
-    [Header("Shape Meshes")]
-    [Tooltip("Activate this child when shape = square")]
+    [Header("Shape Meshes")] [Tooltip("Activate this child when shape = square")]
     public GameObject meshSquare;
 
     [Tooltip("Activate this child when shape = circle")]
@@ -25,8 +24,7 @@ public class ButtonController : MonoBehaviour
     [Tooltip("Activate this child when shape == triangle")]
     public GameObject meshTriangle;
 
-    [Header("Color Palette")]
-    public Color colorRed = Color.red;
+    [Header("Color Palette")] public Color colorRed = Color.red;
     public Color colorGreen = Color.green;
     public Color colorBlue = Color.blue;
 
@@ -62,13 +60,13 @@ public class ButtonController : MonoBehaviour
         var renderers = GetComponentsInChildren<Renderer>();
         _cachedMaterials = new Material[renderers.Length];
         for (int i = 0; i < renderers.Length; i++)
-            _cachedMaterials[i] = renderers[i].material; 
+            _cachedMaterials[i] = renderers[i].material;
     }
 
     void ApplyShape(ButtonShape shape)
     {
-        if (meshSquare != null) meshSquare.SetActive(shape  == ButtonShape.Square);
-        if (meshCircle != null) meshCircle.SetActive(shape   == ButtonShape.Circle);
+        if (meshSquare != null) meshSquare.SetActive(shape == ButtonShape.Square);
+        if (meshCircle != null) meshCircle.SetActive(shape == ButtonShape.Circle);
         if (meshTriangle != null) meshTriangle.SetActive(shape == ButtonShape.Triangle);
     }
 
@@ -85,7 +83,8 @@ public class ButtonController : MonoBehaviour
         // Use the materials in the cache
         if (_cachedMaterials == null) return;
         foreach (var mat in _cachedMaterials)
-            if (mat != null) mat.color = unityColor;
+            if (mat != null)
+                mat.color = unityColor;
     }
 
     // Debug

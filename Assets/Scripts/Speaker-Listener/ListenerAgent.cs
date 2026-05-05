@@ -34,26 +34,23 @@ public class ListenerAgent : Agent
 {
     public EnvironmentManager env;
 
-    [Header("Movement")]
-    public float moveSpeed   = 3f;
+    [Header("Movement")] public float moveSpeed = 3f;
     public float rotateSpeed = 120f;
 
-    [Header("Press distance")]
-    public float pressDistance = 1f;
+    [Header("Press distance")] public float pressDistance = 1f;
 
-    [Header("Raycast Settings")]
-    public Transform raycastOrigin;
-    public float     raycastDistance = 5f;
+    [Header("Raycast Settings")] public Transform raycastOrigin;
+    public float raycastDistance = 5f;
     public LayerMask buttonLayer;
-    public string    buttonTag = "Button";
+    public string buttonTag = "Button";
 
     [Tooltip("Horizontal sweep angle on each side (degrees).")]
-    public float scanHalfAngle  = 90f;
-    [Tooltip("Angular step between rays. Higher value = fewer rays = faster.")]
-    public float horizontalStep = 20f;   
+    public float scanHalfAngle = 90f;
 
-    [Header("Spawn (reset position)")]
-    public Transform startPosition;
+    [Tooltip("Angular step between rays. Higher value = fewer rays = faster.")]
+    public float horizontalStep = 20f;
+
+    [Header("Spawn (reset position)")] public Transform startPosition;
 
     private struct ScannedButton
     {
@@ -74,11 +71,12 @@ public class ListenerAgent : Agent
     [Header("Visual Feedback")]
     [Tooltip("Renderers to flash. Leave empty to auto-collect from this GameObject and children.")]
     public Renderer[] debugRenderers;
+
     [Tooltip("Seconds the flash colour stays on screen.")]
     public float flashDuration = 0.1f;
 
     private MaterialPropertyBlock _mpb;
-    private static readonly int   BaseColorID = Shader.PropertyToID("_BaseColor");
+    private static readonly int BaseColorID = Shader.PropertyToID("_BaseColor");
     private Color _neutralColor;
     private Coroutine _flashRoutine;
 
@@ -96,8 +94,8 @@ public class ListenerAgent : Agent
         // Read the neutral colour from the first renderer's shared material (_BaseColor = URP/Lit)
         _neutralColor = Color.white;
         if (debugRenderers.Length > 0 && debugRenderers[0] != null
-            && debugRenderers[0].sharedMaterial != null
-            && debugRenderers[0].sharedMaterial.HasProperty(BaseColorID))
+                                      && debugRenderers[0].sharedMaterial != null
+                                      && debugRenderers[0].sharedMaterial.HasProperty(BaseColorID))
         {
             _neutralColor = debugRenderers[0].sharedMaterial.GetColor(BaseColorID);
         }
@@ -118,15 +116,21 @@ public class ListenerAgent : Agent
             _rb.linearVelocity = Vector3.zero;
             _rb.angularVelocity = Vector3.zero;
         }
+
         _moveAction = 0;
         _pressedLastStep = false;
 
         // Stop any active flash and restore neutral colour
-        if (_flashRoutine != null) { StopCoroutine(_flashRoutine); _flashRoutine = null; }
+        if (_flashRoutine != null)
+        {
+            StopCoroutine(_flashRoutine);
+            _flashRoutine = null;
+        }
+
         SetDebugColor(_neutralColor);
-        
+
         ScanWithRaycast();
-        
+
         // Cache the initial distance to the correct button for potential reward shaping 
         int correctIndex = env.GetCorrectButtonIndex();
         if (correctIndex >= 0)
@@ -159,9 +163,9 @@ public class ListenerAgent : Agent
                 float dist = toBtn.magnitude;
 
                 // Project onto agent's local XZ plane
-                Vector3 right   = Vector3.Cross(Vector3.up, agentLocalFwd).normalized;
-                float   localX  = dist > 0.001f ? Vector3.Dot(toBtn / dist, right): 0f;
-                float   localZ  = dist > 0.001f ? Vector3.Dot(toBtn / dist, agentLocalFwd): 0f;
+                Vector3 right = Vector3.Cross(Vector3.up, agentLocalFwd).normalized;
+                float localX = dist > 0.001f ? Vector3.Dot(toBtn / dist, right) : 0f;
+                float localZ = dist > 0.001f ? Vector3.Dot(toBtn / dist, agentLocalFwd) : 0f;
 
                 sensor.AddObservation(Mathf.Clamp(localX, -1f, 1f));
                 sensor.AddObservation(Mathf.Clamp(localZ, -1f, 1f));
@@ -173,7 +177,7 @@ public class ListenerAgent : Agent
                 for (int j = 0; j < 10; j++) sensor.AddObservation(0f);
             }
         }
-        
+
         if (_rb != null)
         {
             sensor.AddObservation(Vector3.Dot(_rb.linearVelocity, transform.forward) / moveSpeed);
@@ -184,7 +188,7 @@ public class ListenerAgent : Agent
             sensor.AddObservation(0f);
             sensor.AddObservation(0f);
         }
-        
+
         AddOneHot(sensor, env.vocabSize, env.currentMessageToken);
     }
 
@@ -207,14 +211,14 @@ public class ListenerAgent : Agent
             env.ApplyOutOfTimePenalty();
             env.EndEpisodeAll();
         }
-        
+
         // Small reward for getting closer to the correct button, penalty for moving away.
         int correctIndex = env.GetCorrectButtonIndex();
         if (correctIndex >= 0)
         {
             float currentDistance = env.GetDistanceToCorrectButton(transform.localPosition);
             float delta = _previousDistanceToTarget - currentDistance;
-            
+
             AddReward(delta * 0.01f);
 
             _previousDistanceToTarget = currentDistance;
@@ -222,7 +226,7 @@ public class ListenerAgent : Agent
     }
 
     private int _scanCounter;
-    private const int ScanEveryNFrames = 5;  
+    private const int ScanEveryNFrames = 5;
 
     void FixedUpdate()
     {
@@ -252,7 +256,7 @@ public class ListenerAgent : Agent
     public override void Heuristic(in ActionBuffers actionsOut)
     {
         var kb = Keyboard.current;
-        var d  = actionsOut.DiscreteActions;
+        var d = actionsOut.DiscreteActions;
         if (kb == null) return;
 
         // Branch 0 – movement
@@ -274,8 +278,12 @@ public class ListenerAgent : Agent
                 if (_rb != null) _rb.MovePosition(_rb.position + transform.forward * (moveSpeed * dt));
                 else transform.position += transform.forward * (moveSpeed * dt);
                 break;
-            case 2: transform.Rotate(0f, -(rotateSpeed * dt), 0f); break;
-            case 3: transform.Rotate(0f,   rotateSpeed * dt,  0f); break;
+            case 2:
+                transform.Rotate(0f, -(rotateSpeed * dt), 0f);
+                break;
+            case 3:
+                transform.Rotate(0f, rotateSpeed * dt, 0f);
+                break;
         }
     }
 
@@ -285,7 +293,7 @@ public class ListenerAgent : Agent
     /// </summary>
     void TryPressClosestButton()
     {
-        int bestSlot  = -1;
+        int bestSlot = -1;
         float bestScore = float.MinValue;
 
         // Agent position and forward in env-local space
@@ -302,20 +310,20 @@ public class ListenerAgent : Agent
             float dist = toBtn.magnitude;
             if (dist > pressDistance) continue; // out of reach
 
-            float dot = Vector3.Dot(forwardLocal, toBtn/dist);
+            float dot = Vector3.Dot(forwardLocal, toBtn / dist);
             if (dot <= 0f) continue; // behind the agent
 
-            float score = dot/dist;
+            float score = dot / dist;
             if (score > bestScore)
             {
                 bestScore = score;
-                bestSlot  = i;
+                bestSlot = i;
             }
         }
 
         if (bestSlot >= 0)
         {
-            env.ListenerChoseButton(bestSlot); 
+            env.ListenerChoseButton(bestSlot);
         }
         else
         {
@@ -377,28 +385,36 @@ public class ListenerAgent : Agent
         int found = 0;
         for (int i = 0; i < 3; i++)
         {
-            if (_scanned[i].detected) { found++; continue; }
+            if (_scanned[i].detected)
+            {
+                found++;
+                continue;
+            }
+
             if (env.buttonObjects[i] == null || !env.buttonObjects[i].gameObject.activeSelf) continue;
 
             Vector3 toBtn = env.GetButtonWorldPosition(i) - origin.position;
             if (toBtn.sqrMagnitude < 0.01f) continue;
 
-            if (Physics.Raycast(origin.position, toBtn.normalized, out RaycastHit hit, raycastDistance, buttonLayer) && hit.collider.CompareTag(buttonTag))
+            if (Physics.Raycast(origin.position, toBtn.normalized, out RaycastHit hit, raycastDistance, buttonLayer) &&
+                hit.collider.CompareTag(buttonTag))
             {
-                ButtonController btn = hit.collider.GetComponentInParent<ButtonController>() ?? hit.collider.GetComponent<ButtonController>();
-                
+                ButtonController btn = hit.collider.GetComponentInParent<ButtonController>() ??
+                                       hit.collider.GetComponent<ButtonController>();
+
                 if (btn != null && FindSlot(btn) == i)
                 {
                     _scanned[i] = new ScannedButton
                     {
                         colorIndex = (int)btn.ButtonColorValue,
                         shapeIndex = (int)btn.ButtonShapeValue,
-                        detected   = true
+                        detected = true
                     };
                     found++;
                 }
             }
         }
+
         return found;
     }
 
@@ -415,7 +431,8 @@ public class ListenerAgent : Agent
             if (!Physics.Raycast(ray, out RaycastHit hit, raycastDistance, buttonLayer)) continue;
             if (!hit.collider.CompareTag(buttonTag)) continue;
 
-            ButtonController btn = hit.collider.GetComponentInParent<ButtonController>() ?? hit.collider.GetComponent<ButtonController>();
+            ButtonController btn = hit.collider.GetComponentInParent<ButtonController>() ??
+                                   hit.collider.GetComponent<ButtonController>();
             if (btn == null || _seenButtons.Contains(btn)) continue;
 
             int slot = FindSlot(btn);
@@ -426,7 +443,7 @@ public class ListenerAgent : Agent
             {
                 colorIndex = (int)btn.ButtonColorValue,
                 shapeIndex = (int)btn.ButtonShapeValue,
-                detected   = true
+                detected = true
             };
         }
     }
@@ -437,6 +454,7 @@ public class ListenerAgent : Agent
         {
             if (env.buttonObjects[i] == btn) return i;
         }
+
         return -1;
     }
 
@@ -465,6 +483,7 @@ public class ListenerAgent : Agent
             Quaternion rot = Quaternion.AngleAxis(a, Vector3.up);
             Gizmos.DrawRay(origin.position, (rot * origin.forward) * raycastDistance);
         }
+
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, pressDistance);
         for (int i = 0; i < 3; i++)
