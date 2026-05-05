@@ -1,0 +1,63 @@
+{
+    "active_buttons": {
+        "lesson_num": 0
+    },
+    "ListenerMaPoca": {
+        "checkpoints": [
+            {
+                "steps": 499978,
+                "file_path": "results\\Test1\\ListenerMaPoca\\ListenerMaPoca-499978.onnx",
+                "reward": -0.7857901744738027,
+                "creation_time": 1778017524.8908544,
+                "auxillary_file_paths": [
+                    "results\\Test1\\ListenerMaPoca\\ListenerMaPoca-499978.pt"
+                ]
+            },
+            {
+                "steps": 859401,
+                "file_path": "results\\Test1\\ListenerMaPoca\\ListenerMaPoca-859401.onnx",
+                "reward": -0.7598088839624682,
+                "creation_time": 1778017860.059912,
+                "auxillary_file_paths": [
+                    "results\\Test1\\ListenerMaPoca\\ListenerMaPoca-859401.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 859401,
+            "file_path": "results\\Test1\\ListenerMaPoca.onnx",
+            "reward": -0.7598088839624682,
+            "creation_time": 1778017860.059912,
+            "auxillary_file_paths": [
+                "results\\Test1\\ListenerMaPoca\\ListenerMaPoca-859401.pt"
+            ]
+        }
+    },
+    "SpeakerMaPoca": {
+        "checkpoints": [
+            {
+                "steps": 31530,
+                "file_path": "results\\Test1\\SpeakerMaPoca\\SpeakerMaPoca-31530.onnx",
+                "reward": 0.0,
+                "creation_time": 1778017859.9856749,
+                "auxillary_file_paths": [
+                    "results\\Test1\\SpeakerMaPoca\\SpeakerMaPoca-31530.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 31530,
+            "file_path": "results\\Test1\\SpeakerMaPoca.onnx",
+            "reward": 0.0,
+            "creation_time": 1778017859.9856749,
+            "auxillary_file_paths": [
+                "results\\Test1\\SpeakerMaPoca\\SpeakerMaPoca-31530.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.1.0",
+        "torch_version": "2.2.2+cu121"
+    }
+}
