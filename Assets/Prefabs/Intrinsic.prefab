@@ -174,6 +174,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6292234536909003240}
+  - component: {fileID: 1851268963510262772}
   m_Layer: 0
   m_Name: Agents
   m_TagString: Untagged
@@ -198,6 +199,26 @@ Transform:
   - {fileID: 3291644731010926441}
   m_Father: {fileID: 1873490749888551695}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1851268963510262772
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1240370212046384198}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 701f82f7b4e1ba1429e89f093bde2ebb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ModelAutoAssigner
+  folderPath: Assets/Scripts/Speaker-Listener/Curriculum Learning/results/Test5JointFromHeuristic
+  recursive: 1
+  strategy: 1
+  speakerPrefix: Speaker
+  listenerPrefix: Listener
+  speakerBehaviorParameters: {fileID: 3856551396697407575}
+  listenerBehaviorParameters: {fileID: 4968502527701594282}
+  assignOnAwake: 1
 --- !u!1 &1262988245702239727
 GameObject:
   m_ObjectHideFlags: 0
@@ -365,9 +386,9 @@ MonoBehaviour:
     VectorActionDescriptions: []
     VectorActionSpaceType: 0
     hasUpgradedBrainParametersWithActionSpec: 1
-  m_Model: {fileID: 0}
+  m_Model: {fileID: 5022602860645237092, guid: 64b95eff62f2ec4428222867a1b08a97, type: 3}
   m_InferenceDevice: 0
-  m_BehaviorType: 1
+  m_BehaviorType: 2
   m_BehaviorName: Speaker
   TeamId: 0
   m_UseChildSensors: 1
@@ -788,7 +809,7 @@ MonoBehaviour:
     VectorActionDescriptions: []
     VectorActionSpaceType: 0
     hasUpgradedBrainParametersWithActionSpec: 1
-  m_Model: {fileID: 5022602860645237092, guid: a6129d3ba7a07ac4ea38faa4caa9c7c8, type: 3}
+  m_Model: {fileID: 5022602860645237092, guid: c32ab62a1598b164bbbe0a818a0f3314, type: 3}
   m_InferenceDevice: 0
   m_BehaviorType: 2
   m_BehaviorName: Listener
