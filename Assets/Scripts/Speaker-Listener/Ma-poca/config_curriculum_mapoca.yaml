@@ -58,15 +58,97 @@ behaviors:
     keep_checkpoints: 5
 
 environment_parameters:
-  active_buttons:
+  # Three parameters share identical completion_criteria so they advance in
+  # lockstep through the same 4-lesson schedule. Each lesson grows the referent
+  # pool (num_colors * num_shapes) and the on-screen distractor count.
+  #
+  #   L0: 2 colors x 1 shape -> 2 referents, 2 buttons (break symmetry)
+  #   L1: 3 colors x 1 shape -> 3 referents, 3 buttons (color protocol)
+  #   L2: 3 colors x 2 shapes -> 6 referents, 3 buttons (introduce shape axis)
+  #   L3: 3 colors x 3 shapes -> 9 referents, 3 buttons (full task)
+  num_colors:
     curriculum:
-      - name: lesson_2_pair
+      - name: L0_2c1s
         completion_criteria:
           measure: reward
           behavior: ListenerMaPoca
           signal_smoothing: true
           min_lesson_length: 200
-          threshold: 1.5
+          threshold: 0.5
         value: 2.0
-      - name: lesson_3_full
+      - name: L1_3c1s
+        completion_criteria:
+          measure: reward
+          behavior: ListenerMaPoca
+          signal_smoothing: true
+          min_lesson_length: 200
+          threshold: 0.5
+        value: 3.0
+      - name: L2_3c2s
+        completion_criteria:
+          measure: reward
+          behavior: ListenerMaPoca
+          signal_smoothing: true
+          min_lesson_length: 200
+          threshold: 0.5
+        value: 3.0
+      - name: L3_3c3s
+        value: 3.0
+
+  num_shapes:
+    curriculum:
+      - name: L0_2c1s
+        completion_criteria:
+          measure: reward
+          behavior: ListenerMaPoca
+          signal_smoothing: true
+          min_lesson_length: 200
+          threshold: 0.5
+        value: 1.0
+      - name: L1_3c1s
+        completion_criteria:
+          measure: reward
+          behavior: ListenerMaPoca
+          signal_smoothing: true
+          min_lesson_length: 200
+          threshold: 0.5
+        value: 1.0
+      - name: L2_3c2s
+        completion_criteria:
+          measure: reward
+          behavior: ListenerMaPoca
+          signal_smoothing: true
+          min_lesson_length: 200
+          threshold: 0.5
+        value: 2.0
+      - name: L3_3c3s
+        value: 3.0
+
+  active_buttons:
+    curriculum:
+      - name: L0_2c1s
+        completion_criteria:
+          measure: reward
+          behavior: ListenerMaPoca
+          signal_smoothing: true
+          min_lesson_length: 200
+          threshold: 0.5
+        value: 2.0
+      - name: L1_3c1s
+        completion_criteria:
+          measure: reward
+          behavior: ListenerMaPoca
+          signal_smoothing: true
+          min_lesson_length: 200
+          threshold: 0.5
+        value: 3.0
+      - name: L2_3c2s
+        completion_criteria:
+          measure: reward
+          behavior: ListenerMaPoca
+          signal_smoothing: true
+          min_lesson_length: 200
+          threshold: 0.5
+        value: 3.0
+      - name: L3_3c3s
         value: 3.0

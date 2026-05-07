@@ -23,6 +23,18 @@ public class EnvironmentManagerMaPoca : MonoBehaviour
     public float wrongReward = -1.0f;
     public float stepPenalty = -0.005f;
 
+    // Curriculum gating: ML-Agents' `measure: reward` reads the Listener's
+    // individual cumulative reward, which is otherwise capped near 0 (only
+    // negative shaping flows through it). Mirroring a fraction of the team
+    // reward into the Listener's individual stream gives the curriculum a
+    // scalar that tracks accuracy without diluting the centralized POCA
+    // signal — group reward stays the dominant training driver.
+    [Header("Curriculum Gating")]
+    [Tooltip("Fraction of group task reward also applied to the Listener individually. " +
+             "Used only so the curriculum threshold has a gateable scalar; does not " +
+             "replace the group signal.")]
+    public float listenerGroupRewardMirror = 0.5f;
+
     [Header("Communication")] [Tooltip("Vocabulary size. Must match the Speaker's Discrete Branch size.")]
     public int vocabSize = 9;
 
@@ -51,6 +63,8 @@ public class EnvironmentManagerMaPoca : MonoBehaviour
     public ButtonShape targetShape { get; private set; }
     public int currentMessageToken { get; private set; } = 0;
     public int activeButtonCount { get; private set; } = 3;
+    public int activeColorCount { get; private set; } = 3;
+    public int activeShapeCount { get; private set; } = 3;
 
     private int _episodePressAttempts = 0;
     private int _episodeCorrectPresses = 0;
@@ -94,7 +108,26 @@ public class EnvironmentManagerMaPoca : MonoBehaviour
         float requested = Academy.Instance.EnvironmentParameters
             .GetWithDefault("active_buttons", 3f);
         activeButtonCount = Mathf.Clamp(Mathf.RoundToInt(requested), 1, 3);
-        Academy.Instance.StatsRecorder.Add("Curriculum/ActiveButtons", activeButtonCount);
+
+        // Referent-space curriculum: shrink the (color, shape) sampling pool so
+        // early lessons see fewer distinct targets. Observation/vocab dims stay
+        // fixed at 3/3/9 — only the sampler is constrained.
+        float requestedColors = Academy.Instance.EnvironmentParameters
+            .GetWithDefault("num_colors", 3f);
+        float requestedShapes = Academy.Instance.EnvironmentParameters
+            .GetWithDefault("num_shapes", 3f);
+        activeColorCount = Mathf.Clamp(Mathf.RoundToInt(requestedColors), 1, 3);
+        activeShapeCount = Mathf.Clamp(Mathf.RoundToInt(requestedShapes), 1, 3);
+
+        // Pigeonhole guard: AllButtonsUnique loops forever if the referent pool
+        // is smaller than the number of buttons on screen.
+        int referentPool = activeColorCount * activeShapeCount;
+        if (activeButtonCount > referentPool) activeButtonCount = referentPool;
+
+        var stats = Academy.Instance.StatsRecorder;
+        stats.Add("Curriculum/ActiveButtons", activeButtonCount);
+        stats.Add("Curriculum/NumColors", activeColorCount);
+        stats.Add("Curriculum/NumShapes", activeShapeCount);
 
         for (int i = 0; i < 3; i++)
         {
@@ -109,8 +142,8 @@ public class EnvironmentManagerMaPoca : MonoBehaviour
             {
                 buttons[i] = new ButtonData
                 {
-                    color = (ButtonColor)Random.Range(0, 3),
-                    shape = (ButtonShape)Random.Range(0, 3)
+                    color = (ButtonColor)Random.Range(0, activeColorCount),
+                    shape = (ButtonShape)Random.Range(0, activeShapeCount)
                 };
             }
 
@@ -154,6 +187,7 @@ public class EnvironmentManagerMaPoca : MonoBehaviour
     {
         // Group: timeout is a shared team failure.
         _group.AddGroupReward(wrongReward);
+        listener.AddReward(wrongReward * listenerGroupRewardMirror);
         RecordEpisodeOutcome(false);
     }
 
@@ -178,6 +212,7 @@ public class EnvironmentManagerMaPoca : MonoBehaviour
 
             // Group: correct press is the team objective.
             _group.AddGroupReward(correctReward);
+            listener.AddReward(correctReward * listenerGroupRewardMirror);
             listener.ShowCorrectPress(onComplete: EndGroupEpisodeSafe);
         }
         else
@@ -190,6 +225,7 @@ public class EnvironmentManagerMaPoca : MonoBehaviour
 
             // Group: wrong press is a shared failure.
             _group.AddGroupReward(wrongReward);
+            listener.AddReward(wrongReward * listenerGroupRewardMirror);
             listener.ShowWrongPress(onComplete: EndGroupEpisodeSafe);
         }
     }

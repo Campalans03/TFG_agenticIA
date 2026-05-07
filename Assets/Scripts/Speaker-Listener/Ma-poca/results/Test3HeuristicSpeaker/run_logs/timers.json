@@ -1,0 +1,764 @@
+{
+    "name": "root",
+    "gauges": {
+        "ListenerMaPoca.Policy.Entropy.mean": {
+            "value": 0.7673197984695435,
+            "min": 0.7673197984695435,
+            "max": 2.078935384750366,
+            "count": 178
+        },
+        "ListenerMaPoca.Policy.Entropy.sum": {
+            "value": 7673.1982421875,
+            "min": 7491.15087890625,
+            "max": 24947.224609375,
+            "count": 178
+        },
+        "ListenerMaPoca.Curriculum.ActiveButtons.mean": {
+            "value": 2.0,
+            "min": 2.0,
+            "max": 2.0,
+            "count": 178
+        },
+        "ListenerMaPoca.Curriculum.ActiveButtons.sum": {
+            "value": 808.0,
+            "min": 338.0,
+            "max": 896.0,
+            "count": 178
+        },
+        "ListenerMaPoca.Speaker.EmittedToken.mean": {
+            "value": 4.002463054187192,
+            "min": 3.566579634464752,
+            "max": 4.343358395989975,
+            "count": 178
+        },
+        "ListenerMaPoca.Speaker.EmittedToken.sum": {
+            "value": 1625.0,
+            "min": 721.0,
+            "max": 1783.0,
+            "count": 178
+        },
+        "ListenerMaPoca.Listener.PressAttempts.mean": {
+            "value": 2.4051803885291396,
+            "min": 2.362657091561939,
+            "max": 7.767619680851064,
+            "count": 178
+        },
+        "ListenerMaPoca.Listener.PressAttempts.sum": {
+            "value": 2600.0,
+            "min": 2600.0,
+            "max": 23365.0,
+            "count": 178
+        },
+        "ListenerMaPoca.Listener.WrongPresses.mean": {
+            "value": 2.2753424657534245,
+            "min": 2.15,
+            "max": 7.7665094339622645,
+            "count": 178
+        },
+        "ListenerMaPoca.Listener.WrongPresses.sum": {
+            "value": 1661.0,
+            "min": 1622.0,
+            "max": 23051.0,
+            "count": 178
+        },
+        "ListenerMaPoca.Listener.AccuracyRate.mean": {
+            "value": 0.17097451397244517,
+            "min": 0.005736141991780101,
+            "max": 0.17097451397244517,
+            "count": 178
+        },
+        "ListenerMaPoca.Listener.AccuracyRate.sum": {
+            "value": 184.82344960421324,
+            "min": 12.447428122162819,
+            "max": 189.6996040046215,
+            "count": 178
+        },
+        "ListenerMaPoca.Listener.CorrectPresses.mean": {
+            "value": 1.0,
+            "min": 1.0,
+            "max": 1.0,
+            "count": 178
+        },
+        "ListenerMaPoca.Listener.CorrectPresses.sum": {
+            "value": 351.0,
+            "min": 25.0,
+            "max": 368.0,
+            "count": 178
+        },
+        "ListenerMaPoca.Speaker.Token_6.SuccessRate.mean": {
+            "value": 0.8888888888888888,
+            "min": 0.0,
+            "max": 1.0,
+            "count": 178
+        },
+        "ListenerMaPoca.Speaker.Token_6.SuccessRate.sum": {
+            "value": 32.0,
+            "min": 0.0,
+            "max": 53.0,
+            "count": 178
+        },
+        "ListenerMaPoca.Rule.Blue_Square.SuccessRate.mean": {
+            "value": 0.8888888888888888,
+            "min": 0.0,
+            "max": 1.0,
+            "count": 178
+        },
+        "ListenerMaPoca.Rule.Blue_Square.SuccessRate.sum": {
+            "value": 32.0,
+            "min": 0.0,
+            "max": 53.0,
+            "count": 178
+        },
+        "ListenerMaPoca.Mapping.Blue_Square.Token.mean": {
+            "value": 6.0,
+            "min": 6.0,
+            "max": 6.0,
+            "count": 178
+        },
+        "ListenerMaPoca.Mapping.Blue_Square.Token.sum": {
+            "value": 216.0,
+            "min": 84.0,
+            "max": 384.0,
+            "count": 178
+        },
+        "ListenerMaPoca.Speaker.Token_3.SuccessRate.mean": {
+            "value": 0.8983050847457628,
+            "min": 0.0,
+            "max": 1.0,
+            "count": 178
+        },
+        "ListenerMaPoca.Speaker.Token_3.SuccessRate.sum": {
+            "value": 53.0,
+            "min": 0.0,
+            "max": 55.0,
+            "count": 178
+        },
+        "ListenerMaPoca.Rule.Green_Square.SuccessRate.mean": {
+            "value": 0.8983050847457628,
+            "min": 0.0,
+            "max": 1.0,
+            "count": 178
+        },
+        "ListenerMaPoca.Rule.Green_Square.SuccessRate.sum": {
+            "value": 53.0,
+            "min": 0.0,
+            "max": 55.0,
+            "count": 178
+        },
+        "ListenerMaPoca.Mapping.Green_Square.Token.mean": {
+            "value": 3.0,
+            "min": 3.0,
+            "max": 3.0,
+            "count": 178
+        },
+        "ListenerMaPoca.Mapping.Green_Square.Token.sum": {
+            "value": 177.0,
+            "min": 57.0,
+            "max": 183.0,
+            "count": 178
+        },
+        "ListenerMaPoca.Speaker.Token_0.SuccessRate.mean": {
+            "value": 0.775,
+            "min": 0.08333333333333333,
+            "max": 0.9117647058823529,
+            "count": 178
+        },
+        "ListenerMaPoca.Speaker.Token_0.SuccessRate.sum": {
+            "value": 31.0,
+            "min": 2.0,
+            "max": 54.0,
+            "count": 178
+        },
+        "ListenerMaPoca.Rule.Red_Square.SuccessRate.mean": {
+            "value": 0.775,
+            "min": 0.08333333333333333,
+            "max": 0.9117647058823529,
+            "count": 178
+        },
+        "ListenerMaPoca.Rule.Red_Square.SuccessRate.sum": {
+            "value": 31.0,
+            "min": 2.0,
+            "max": 54.0,
+            "count": 178
+        },
+        "ListenerMaPoca.Mapping.Red_Square.Token.mean": {
+            "value": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "count": 178
+        },
+        "ListenerMaPoca.Mapping.Red_Square.Token.sum": {
+            "value": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "count": 178
+        },
+        "ListenerMaPoca.Speaker.Token_4.SuccessRate.mean": {
+            "value": 0.9411764705882353,
+            "min": 0.10714285714285714,
+            "max": 0.9622641509433962,
+            "count": 178
+        },
+        "ListenerMaPoca.Speaker.Token_4.SuccessRate.sum": {
+            "value": 48.0,
+            "min": 3.0,
+            "max": 54.0,
+            "count": 178
+        },
+        "ListenerMaPoca.Rule.Green_Circle.SuccessRate.mean": {
+            "value": 0.9411764705882353,
+            "min": 0.10714285714285714,
+            "max": 0.9622641509433962,
+            "count": 178
+        },
+        "ListenerMaPoca.Rule.Green_Circle.SuccessRate.sum": {
+            "value": 48.0,
+            "min": 3.0,
+            "max": 54.0,
+            "count": 178
+        },
+        "ListenerMaPoca.Mapping.Green_Circle.Token.mean": {
+            "value": 4.0,
+            "min": 4.0,
+            "max": 4.0,
+            "count": 178
+        },
+        "ListenerMaPoca.Mapping.Green_Circle.Token.sum": {
+            "value": 204.0,
+            "min": 64.0,
+            "max": 252.0,
+            "count": 178
+        },
+        "ListenerMaPoca.Environment.LessonNumber.active_buttons.mean": {
+            "value": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "count": 178
+        },
+        "ListenerMaPoca.Environment.LessonNumber.active_buttons.sum": {
+            "value": 0.0,
+            "min": 0.0,
+            "max": 0.0,
+            "count": 178
+        },
+        "ListenerMaPoca.Speaker.Token_1.SuccessRate.mean": {
+            "value": 0.7608695652173914,
+            "min": 0.1,
+            "max": 0.9545454545454546,
+            "count": 178
+        },
+        "ListenerMaPoca.Speaker.Token_1.SuccessRate.sum": {
+            "value": 35.0,
+            "min": 1.0,
+            "max": 54.0,
+            "count": 178
+        },
+        "ListenerMaPoca.Rule.Red_Circle.SuccessRate.mean": {
+            "value": 0.7608695652173914,
+            "min": 0.1,
+            "max": 0.9545454545454546,
+            "count": 178
+        },
+        "ListenerMaPoca.Rule.Red_Circle.SuccessRate.sum": {
+            "value": 35.0,
+            "min": 1.0,
+            "max": 54.0,
+            "count": 178
+        },
+        "ListenerMaPoca.Mapping.Red_Circle.Token.mean": {
+            "value": 1.0,
+            "min": 1.0,
+            "max": 1.0,
+            "count": 178
+        },
+        "ListenerMaPoca.Mapping.Red_Circle.Token.sum": {
+            "value": 46.0,
+            "min": 10.0,
+            "max": 65.0,
+            "count": 178
+        },
+        "ListenerMaPoca.Speaker.Token_5.SuccessRate.mean": {
+            "value": 0.8666666666666667,
+            "min": 0.043478260869565216,
+            "max": 0.9565217391304348,
+            "count": 178
+        },
+        "ListenerMaPoca.Speaker.Token_5.SuccessRate.sum": {
+            "value": 52.0,
+            "min": 1.0,
+            "max": 54.0,
+            "count": 178
+        },
+        "ListenerMaPoca.Rule.Green_Triangle.SuccessRate.mean": {
+            "value": 0.8666666666666667,
+            "min": 0.043478260869565216,
+            "max": 0.9565217391304348,
+            "count": 178
+        },
+        "ListenerMaPoca.Rule.Green_Triangle.SuccessRate.sum": {
+            "value": 52.0,
+            "min": 1.0,
+            "max": 54.0,
+            "count": 178
+        },
+        "ListenerMaPoca.Mapping.Green_Triangle.Token.mean": {
+            "value": 5.0,
+            "min": 5.0,
+            "max": 5.0,
+            "count": 178
+        },
+        "ListenerMaPoca.Mapping.Green_Triangle.Token.sum": {
+            "value": 300.0,
+            "min": 90.0,
+            "max": 335.0,
+            "count": 178
+        },
+        "ListenerMaPoca.Environment.EpisodeLength.mean": {
+            "value": 23.153465346534652,
+            "min": 21.396788990825687,
+            "max": 50.36036036036036,
+            "count": 178
+        },
+        "ListenerMaPoca.Environment.EpisodeLength.sum": {
+            "value": 9354.0,
+            "min": 8305.0,
+            "max": 11180.0,
+            "count": 178
+        },
+        "ListenerMaPoca.Step.mean": {
+            "value": 1779990.0,
+            "min": 9942.0,
+            "max": 1779990.0,
+            "count": 178
+        },
+        "ListenerMaPoca.Step.sum": {
+            "value": 1779990.0,
+            "min": 9942.0,
+            "max": 1779990.0,
+            "count": 178
+        },
+        "ListenerMaPoca.Policy.ExtrinsicBaselineEstimate.mean": {
+            "value": 1.5169529914855957,
+            "min": -1.3520686626434326,
+            "max": 1.5169529914855957,
+            "count": 178
+        },
+        "ListenerMaPoca.Policy.ExtrinsicBaselineEstimate.sum": {
+            "value": 628.0185546875,
+            "min": -271.76580810546875,
+            "max": 628.0185546875,
+            "count": 178
+        },
+        "ListenerMaPoca.Policy.ExtrinsicValueEstimate.mean": {
+            "value": 1.5169529914855957,
+            "min": -1.3520686626434326,
+            "max": 1.5169529914855957,
+            "count": 178
+        },
+        "ListenerMaPoca.Policy.ExtrinsicValueEstimate.sum": {
+            "value": 628.0185546875,
+            "min": -271.76580810546875,
+            "max": 628.0185546875,
+            "count": 178
+        },
+        "ListenerMaPoca.Environment.CumulativeReward.mean": {
+            "value": -0.6655778141629293,
+            "min": -1.934378053394624,
+            "max": -0.6655778141629293,
+            "count": 178
+        },
+        "ListenerMaPoca.Environment.CumulativeReward.sum": {
+            "value": -275.5492150634527,
+            "min": -374.23940762877464,
+            "max": -272.99854481220245,
+            "count": 178
+        },
+        "ListenerMaPoca.Policy.ExtrinsicReward.mean": {
+            "value": 1.8247602708673707,
+            "min": -2.447331418954029,
+            "max": 1.8546303388250487,
+            "count": 178
+        },
+        "ListenerMaPoca.Policy.ExtrinsicReward.sum": {
+            "value": 755.4507521390915,
+            "min": -472.3349638581276,
+            "max": 761.9250030517578,
+            "count": 178
+        },
+        "ListenerMaPoca.Environment.GroupCumulativeReward.mean": {
+            "value": 2.4903381642512077,
+            "min": -0.5129533678756477,
+            "max": 2.550649350649351,
+            "count": 178
+        },
+        "ListenerMaPoca.Environment.GroupCumulativeReward.sum": {
+            "value": 1031.0,
+            "min": -101.0,
+            "max": 1041.0,
+            "count": 178
+        },
+        "ListenerMaPoca.Speaker.Token_7.SuccessRate.mean": {
+            "value": 0.7317073170731707,
+            "min": 0.05,
+            "max": 0.9166666666666666,
+            "count": 178
+        },
+        "ListenerMaPoca.Speaker.Token_7.SuccessRate.sum": {
+            "value": 30.0,
+            "min": 1.0,
+            "max": 52.0,
+            "count": 178
+        },
+        "ListenerMaPoca.Rule.Blue_Circle.SuccessRate.mean": {
+            "value": 0.7317073170731707,
+            "min": 0.05,
+            "max": 0.9166666666666666,
+            "count": 178
+        },
+        "ListenerMaPoca.Rule.Blue_Circle.SuccessRate.sum": {
+            "value": 30.0,
+            "min": 1.0,
+            "max": 52.0,
+            "count": 178
+        },
+        "ListenerMaPoca.Mapping.Blue_Circle.Token.mean": {
+            "value": 7.0,
+            "min": 7.0,
+            "max": 7.0,
+            "count": 178
+        },
+        "ListenerMaPoca.Mapping.Blue_Circle.Token.sum": {
+            "value": 287.0,
+            "min": 140.0,
+            "max": 490.0,
+            "count": 178
+        },
+        "ListenerMaPoca.Speaker.Token_8.SuccessRate.mean": {
+            "value": 0.875,
+            "min": 0.1111111111111111,
+            "max": 0.9523809523809523,
+            "count": 178
+        },
+        "ListenerMaPoca.Speaker.Token_8.SuccessRate.sum": {
+            "value": 35.0,
+            "min": 2.0,
+            "max": 49.0,
+            "count": 178
+        },
+        "ListenerMaPoca.Rule.Blue_Triangle.SuccessRate.mean": {
+            "value": 0.875,
+            "min": 0.1111111111111111,
+            "max": 0.9523809523809523,
+            "count": 178
+        },
+        "ListenerMaPoca.Rule.Blue_Triangle.SuccessRate.sum": {
+            "value": 35.0,
+            "min": 2.0,
+            "max": 49.0,
+            "count": 178
+        },
+        "ListenerMaPoca.Mapping.Blue_Triangle.Token.mean": {
+            "value": 8.0,
+            "min": 8.0,
+            "max": 8.0,
+            "count": 178
+        },
+        "ListenerMaPoca.Mapping.Blue_Triangle.Token.sum": {
+            "value": 320.0,
+            "min": 72.0,
+            "max": 488.0,
+            "count": 178
+        },
+        "ListenerMaPoca.Speaker.Token_2.SuccessRate.mean": {
+            "value": 0.875,
+            "min": 0.07692307692307693,
+            "max": 0.9545454545454546,
+            "count": 178
+        },
+        "ListenerMaPoca.Speaker.Token_2.SuccessRate.sum": {
+            "value": 35.0,
+            "min": 2.0,
+            "max": 48.0,
+            "count": 178
+        },
+        "ListenerMaPoca.Rule.Red_Triangle.SuccessRate.mean": {
+            "value": 0.875,
+            "min": 0.07692307692307693,
+            "max": 0.9545454545454546,
+            "count": 178
+        },
+        "ListenerMaPoca.Rule.Red_Triangle.SuccessRate.sum": {
+            "value": 35.0,
+            "min": 2.0,
+            "max": 48.0,
+            "count": 178
+        },
+        "ListenerMaPoca.Mapping.Red_Triangle.Token.mean": {
+            "value": 2.0,
+            "min": 2.0,
+            "max": 2.0,
+            "count": 178
+        },
+        "ListenerMaPoca.Mapping.Red_Triangle.Token.sum": {
+            "value": 80.0,
+            "min": 20.0,
+            "max": 138.0,
+            "count": 178
+        },
+        "ListenerMaPoca.IsTraining.mean": {
+            "value": 1.0,
+            "min": 1.0,
+            "max": 1.0,
+            "count": 178
+        },
+        "ListenerMaPoca.IsTraining.sum": {
+            "value": 1.0,
+            "min": 1.0,
+            "max": 1.0,
+            "count": 178
+        },
+        "ListenerMaPoca.Losses.PolicyLoss.mean": {
+            "value": 0.019733978187044462,
+            "min": 0.017517045233398677,
+            "max": 0.03341550142504275,
+            "count": 171
+        },
+        "ListenerMaPoca.Losses.PolicyLoss.sum": {
+            "value": 0.019733978187044462,
+            "min": 0.017517045233398677,
+            "max": 0.03341550142504275,
+            "count": 171
+        },
+        "ListenerMaPoca.Losses.ValueLoss.mean": {
+            "value": 0.635460517803828,
+            "min": 0.2755311808802865,
+            "max": 0.913948142528534,
+            "count": 171
+        },
+        "ListenerMaPoca.Losses.ValueLoss.sum": {
+            "value": 0.635460517803828,
+            "min": 0.2755311808802865,
+            "max": 0.913948142528534,
+            "count": 171
+        },
+        "ListenerMaPoca.Losses.BaselineLoss.mean": {
+            "value": 0.6798853735129039,
+            "min": 0.3089171181122462,
+            "max": 1.0197361926237742,
+            "count": 171
+        },
+        "ListenerMaPoca.Losses.BaselineLoss.sum": {
+            "value": 0.6798853735129039,
+            "min": 0.3089171181122462,
+            "max": 1.0197361926237742,
+            "count": 171
+        },
+        "ListenerMaPoca.Policy.LearningRate.mean": {
+            "value": 0.00025552611482463326,
+            "min": 0.00025552611482463326,
+            "max": 0.0002997379500873501,
+            "count": 171
+        },
+        "ListenerMaPoca.Policy.LearningRate.sum": {
+            "value": 0.00025552611482463326,
+            "min": 0.00025552611482463326,
+            "max": 0.0002997379500873501,
+            "count": 171
+        },
+        "ListenerMaPoca.Policy.Epsilon.mean": {
+            "value": 0.18517536666666673,
+            "min": 0.18517536666666673,
+            "max": 0.19991265,
+            "count": 171
+        },
+        "ListenerMaPoca.Policy.Epsilon.sum": {
+            "value": 0.18517536666666673,
+            "min": 0.18517536666666673,
+            "max": 0.19991265,
+            "count": 171
+        },
+        "ListenerMaPoca.Policy.Beta.mean": {
+            "value": 0.0008532361300000002,
+            "min": 0.0008532361300000002,
+            "max": 0.000999135235,
+            "count": 171
+        },
+        "ListenerMaPoca.Policy.Beta.sum": {
+            "value": 0.0008532361300000002,
+            "min": 0.0008532361300000002,
+            "max": 0.000999135235,
+            "count": 171
+        }
+    },
+    "metadata": {
+        "timer_format_version": "0.1.0",
+        "start_time_seconds": "1778181964",
+        "python_version": "3.10.12 | packaged by Anaconda, Inc. | (main, Jul  5 2023, 19:01:18) [MSC v.1916 64 bit (AMD64)]",
+        "command_line_arguments": "C:\\Users\\janca\\miniconda3\\envs\\mlagents\\Scripts\\mlagents-learn config_curriculum_mapoca.yaml --run-id=Test3HeuristicSpeaker --env=C:\\Users\\janca\\Downloads\\TFG_ML-Agents_Build\\TFG_IA.exe --no-graphics --torch-device=cuda",
+        "mlagents_version": "1.1.0",
+        "mlagents_envs_version": "1.1.0",
+        "communication_protocol_version": "1.5.0",
+        "pytorch_version": "2.2.2+cu121",
+        "numpy_version": "1.23.5",
+        "end_time_seconds": "1778183138"
+    },
+    "total": 1173.5109957999994,
+    "count": 1,
+    "self": 0.11890450000100827,
+    "children": {
+        "run_training.setup": {
+            "total": 0.1056587999992189,
+            "count": 1,
+            "self": 0.1056587999992189
+        },
+        "TrainerController.start_learning": {
+            "total": 1173.2864324999991,
+            "count": 1,
+            "self": 1.3059034001744294,
+            "children": {
+                "TrainerController._reset_env": {
+                    "total": 3.78651009999885,
+                    "count": 1,
+                    "self": 3.78651009999885
+                },
+                "TrainerController.advance": {
+                    "total": 1168.1147110998245,
+                    "count": 21470,
+                    "self": 0.5595491000131005,
+                    "children": {
+                        "env_step": {
+                            "total": 293.01616459974684,
+                            "count": 21470,
+                            "self": 230.68484099983107,
+                            "children": {
+                                "SubprocessEnvManager._take_step": {
+                                    "total": 62.12571730005948,
+                                    "count": 21470,
+                                    "self": 1.4367554000145901,
+                                    "children": {
+                                        "TorchPolicy.evaluate": {
+                                            "total": 60.68896190004489,
+                                            "count": 17887,
+                                            "self": 60.68896190004489
+                                        }
+                                    }
+                                },
+                                "workers": {
+                                    "total": 0.2056062998562993,
+                                    "count": 21470,
+                                    "self": 0.0,
+                                    "children": {
+                                        "worker_root": {
+                                            "total": 1169.6183038998715,
+                                            "count": 21470,
+                                            "is_parallel": true,
+                                            "self": 1005.3787148997617,
+                                            "children": {
+                                                "steps_from_proto": {
+                                                    "total": 0.0009852999992290279,
+                                                    "count": 1,
+                                                    "is_parallel": true,
+                                                    "self": 0.0002420999990135897,
+                                                    "children": {
+                                                        "_process_rank_one_or_two_observation": {
+                                                            "total": 0.0007432000002154382,
+                                                            "count": 2,
+                                                            "is_parallel": true,
+                                                            "self": 0.0007432000002154382
+                                                        }
+                                                    }
+                                                },
+                                                "UnityEnvironment.step": {
+                                                    "total": 164.23860370011062,
+                                                    "count": 21470,
+                                                    "is_parallel": true,
+                                                    "self": 11.517216800270035,
+                                                    "children": {
+                                                        "UnityEnvironment._generate_step_input": {
+                                                            "total": 11.182109299996227,
+                                                            "count": 21470,
+                                                            "is_parallel": true,
+                                                            "self": 11.182109299996227
+                                                        },
+                                                        "communicator.exchange": {
+                                                            "total": 128.35950399996364,
+                                                            "count": 21470,
+                                                            "is_parallel": true,
+                                                            "self": 128.35950399996364
+                                                        },
+                                                        "steps_from_proto": {
+                                                            "total": 13.179773599880718,
+                                                            "count": 21470,
+                                                            "is_parallel": true,
+                                                            "self": 3.7245653996633337,
+                                                            "children": {
+                                                                "_process_rank_one_or_two_observation": {
+                                                                    "total": 9.455208200217385,
+                                                                    "count": 42940,
+                                                                    "is_parallel": true,
+                                                                    "self": 9.455208200217385
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        },
+                        "trainer_advance": {
+                            "total": 874.5389974000645,
+                            "count": 21470,
+                            "self": 0.47659110009044525,
+                            "children": {
+                                "process_trajectory": {
+                                    "total": 605.746596799956,
+                                    "count": 21470,
+                                    "self": 605.520952899953,
+                                    "children": {
+                                        "RLTrainer._checkpoint": {
+                                            "total": 0.22564390000297863,
+                                            "count": 3,
+                                            "self": 0.22564390000297863
+                                        }
+                                    }
+                                },
+                                "_update_policy": {
+                                    "total": 268.3158095000181,
+                                    "count": 171,
+                                    "self": 136.50371390000328,
+                                    "children": {
+                                        "TorchPOCAOptimizer.update": {
+                                            "total": 131.8120956000148,
+                                            "count": 5133,
+                                            "self": 131.8120956000148
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "trainer_threads": {
+                    "total": 6.000009307172149e-07,
+                    "count": 1,
+                    "self": 6.000009307172149e-07
+                },
+                "TrainerController._save_models": {
+                    "total": 0.07930730000043695,
+                    "count": 1,
+                    "self": 0.012852899999415968,
+                    "children": {
+                        "RLTrainer._checkpoint": {
+                            "total": 0.06645440000102099,
+                            "count": 1,
+                            "self": 0.06645440000102099
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

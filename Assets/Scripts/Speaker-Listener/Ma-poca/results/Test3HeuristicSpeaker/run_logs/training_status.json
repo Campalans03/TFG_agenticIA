@@ -1,0 +1,59 @@
+{
+    "active_buttons": {
+        "lesson_num": 0
+    },
+    "ListenerMaPoca": {
+        "checkpoints": [
+            {
+                "steps": 499983,
+                "file_path": "results\\Test3HeuristicSpeaker\\ListenerMaPoca\\ListenerMaPoca-499983.onnx",
+                "reward": -0.6871376087268194,
+                "creation_time": 1778182265.2228265,
+                "auxillary_file_paths": [
+                    "results\\Test3HeuristicSpeaker\\ListenerMaPoca\\ListenerMaPoca-499983.pt"
+                ]
+            },
+            {
+                "steps": 999997,
+                "file_path": "results\\Test3HeuristicSpeaker\\ListenerMaPoca\\ListenerMaPoca-999997.onnx",
+                "reward": -0.7214892997573583,
+                "creation_time": 1778182575.4851246,
+                "auxillary_file_paths": [
+                    "results\\Test3HeuristicSpeaker\\ListenerMaPoca\\ListenerMaPoca-999997.pt"
+                ]
+            },
+            {
+                "steps": 1499975,
+                "file_path": "results\\Test3HeuristicSpeaker\\ListenerMaPoca\\ListenerMaPoca-1499975.onnx",
+                "reward": -0.7080457888627321,
+                "creation_time": 1778182943.5462582,
+                "auxillary_file_paths": [
+                    "results\\Test3HeuristicSpeaker\\ListenerMaPoca\\ListenerMaPoca-1499975.pt"
+                ]
+            },
+            {
+                "steps": 1786970,
+                "file_path": "results\\Test3HeuristicSpeaker\\ListenerMaPoca\\ListenerMaPoca-1786970.onnx",
+                "reward": -0.687803843767388,
+                "creation_time": 1778183138.090905,
+                "auxillary_file_paths": [
+                    "results\\Test3HeuristicSpeaker\\ListenerMaPoca\\ListenerMaPoca-1786970.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 1786970,
+            "file_path": "results\\Test3HeuristicSpeaker\\ListenerMaPoca.onnx",
+            "reward": -0.687803843767388,
+            "creation_time": 1778183138.090905,
+            "auxillary_file_paths": [
+                "results\\Test3HeuristicSpeaker\\ListenerMaPoca\\ListenerMaPoca-1786970.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.1.0",
+        "torch_version": "2.2.2+cu121"
+    }
+}

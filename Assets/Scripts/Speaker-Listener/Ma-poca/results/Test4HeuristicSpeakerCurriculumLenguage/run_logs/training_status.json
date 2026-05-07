@@ -1,0 +1,56 @@
+{
+    "num_colors": {
+        "lesson_num": 0
+    },
+    "num_shapes": {
+        "lesson_num": 0
+    },
+    "active_buttons": {
+        "lesson_num": 0
+    },
+    "ListenerMaPoca": {
+        "checkpoints": [
+            {
+                "steps": 499980,
+                "file_path": "results\\Test4HeuristicSpeakerCurriculumLenguage\\ListenerMaPoca\\ListenerMaPoca-499980.onnx",
+                "reward": 0.21832354715274227,
+                "creation_time": 1778183968.2508757,
+                "auxillary_file_paths": [
+                    "results\\Test4HeuristicSpeakerCurriculumLenguage\\ListenerMaPoca\\ListenerMaPoca-499980.pt"
+                ]
+            },
+            {
+                "steps": 999992,
+                "file_path": "results\\Test4HeuristicSpeakerCurriculumLenguage\\ListenerMaPoca\\ListenerMaPoca-999992.onnx",
+                "reward": 0.16278787712670034,
+                "creation_time": 1778184243.2908168,
+                "auxillary_file_paths": [
+                    "results\\Test4HeuristicSpeakerCurriculumLenguage\\ListenerMaPoca\\ListenerMaPoca-999992.pt"
+                ]
+            },
+            {
+                "steps": 1172044,
+                "file_path": "results\\Test4HeuristicSpeakerCurriculumLenguage\\ListenerMaPoca\\ListenerMaPoca-1172044.onnx",
+                "reward": -0.062185907911043614,
+                "creation_time": 1778184333.1660805,
+                "auxillary_file_paths": [
+                    "results\\Test4HeuristicSpeakerCurriculumLenguage\\ListenerMaPoca\\ListenerMaPoca-1172044.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 1172044,
+            "file_path": "results\\Test4HeuristicSpeakerCurriculumLenguage\\ListenerMaPoca.onnx",
+            "reward": -0.062185907911043614,
+            "creation_time": 1778184333.1660805,
+            "auxillary_file_paths": [
+                "results\\Test4HeuristicSpeakerCurriculumLenguage\\ListenerMaPoca\\ListenerMaPoca-1172044.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.1.0",
+        "torch_version": "2.2.2+cu121"
+    }
+}
