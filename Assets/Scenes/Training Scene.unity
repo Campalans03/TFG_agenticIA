@@ -275,9 +275,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7951ed17928e7a5419e793253bd282ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnvironmentGrid
-  gridSizeX: 10
-  gridSizeZ: 10
-  spacing: 12
+  gridSizeX: 1
+  gridSizeZ: 1
+  spacing: 0
   environments:
   - name: Training
     prefab: {fileID: 3188365189712326971, guid: 0ce0942d04bcf114189589f36cc3b231, type: 3}

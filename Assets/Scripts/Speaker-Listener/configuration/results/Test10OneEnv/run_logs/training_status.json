@@ -1,0 +1,69 @@
+{
+    "Listener": {
+        "checkpoints": [
+            {
+                "steps": 499982,
+                "file_path": "results\\Test10OneEnv\\Listener\\Listener-499982.onnx",
+                "reward": -0.140840188149483,
+                "creation_time": 1778438590.817842,
+                "auxillary_file_paths": [
+                    "results\\Test10OneEnv\\Listener\\Listener-499982.pt"
+                ]
+            },
+            {
+                "steps": 999994,
+                "file_path": "results\\Test10OneEnv\\Listener\\Listener-999994.onnx",
+                "reward": 0.22158393603336962,
+                "creation_time": 1778439881.1555672,
+                "auxillary_file_paths": [
+                    "results\\Test10OneEnv\\Listener\\Listener-999994.pt"
+                ]
+            },
+            {
+                "steps": 1045454,
+                "file_path": "results\\Test10OneEnv\\Listener\\Listener-1045454.onnx",
+                "reward": 0.0027301140080869587,
+                "creation_time": 1778440004.4382045,
+                "auxillary_file_paths": [
+                    "results\\Test10OneEnv\\Listener\\Listener-1045454.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 1045454,
+            "file_path": "results\\Test10OneEnv\\Listener.onnx",
+            "reward": 0.0027301140080869587,
+            "creation_time": 1778440004.4382045,
+            "auxillary_file_paths": [
+                "results\\Test10OneEnv\\Listener\\Listener-1045454.pt"
+            ]
+        }
+    },
+    "Speaker": {
+        "checkpoints": [
+            {
+                "steps": 31138,
+                "file_path": "results\\Test10OneEnv\\Speaker\\Speaker-31138.onnx",
+                "reward": 0.20903954802259886,
+                "creation_time": 1778440004.3740637,
+                "auxillary_file_paths": [
+                    "results\\Test10OneEnv\\Speaker\\Speaker-31138.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 31138,
+            "file_path": "results\\Test10OneEnv\\Speaker.onnx",
+            "reward": 0.20903954802259886,
+            "creation_time": 1778440004.3740637,
+            "auxillary_file_paths": [
+                "results\\Test10OneEnv\\Speaker\\Speaker-31138.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.1.0",
+        "torch_version": "2.2.2+cu121"
+    }
+}
