@@ -1,0 +1,90 @@
+{
+    "active_buttons": {
+        "lesson_num": 1
+    },
+    "Listener": {
+        "checkpoints": [
+            {
+                "steps": 499987,
+                "file_path": "results\\Test11NoDecisionRequester\\Listener\\Listener-499987.onnx",
+                "reward": 1.1114719838931644,
+                "creation_time": 1778599813.474123,
+                "auxillary_file_paths": [
+                    "results\\Test11NoDecisionRequester\\Listener\\Listener-499987.pt"
+                ]
+            },
+            {
+                "steps": 999985,
+                "file_path": "results\\Test11NoDecisionRequester\\Listener\\Listener-999985.onnx",
+                "reward": 1.161366860465248,
+                "creation_time": 1778600097.2402108,
+                "auxillary_file_paths": [
+                    "results\\Test11NoDecisionRequester\\Listener\\Listener-999985.pt"
+                ]
+            },
+            {
+                "steps": 1499990,
+                "file_path": "results\\Test11NoDecisionRequester\\Listener\\Listener-1499990.onnx",
+                "reward": -0.019078017635778946,
+                "creation_time": 1778600382.412176,
+                "auxillary_file_paths": [
+                    "results\\Test11NoDecisionRequester\\Listener\\Listener-1499990.pt"
+                ]
+            },
+            {
+                "steps": 1999998,
+                "file_path": "results\\Test11NoDecisionRequester\\Listener\\Listener-1999998.onnx",
+                "reward": 0.467209278269017,
+                "creation_time": 1778600645.3881688,
+                "auxillary_file_paths": [
+                    "results\\Test11NoDecisionRequester\\Listener\\Listener-1999998.pt"
+                ]
+            },
+            {
+                "steps": 2369484,
+                "file_path": "results\\Test11NoDecisionRequester\\Listener\\Listener-2369484.onnx",
+                "reward": 0.3692914588110788,
+                "creation_time": 1778600864.7765555,
+                "auxillary_file_paths": [
+                    "results\\Test11NoDecisionRequester\\Listener\\Listener-2369484.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 2369484,
+            "file_path": "results\\Test11NoDecisionRequester\\Listener.onnx",
+            "reward": 0.3692914588110788,
+            "creation_time": 1778600864.7765555,
+            "auxillary_file_paths": [
+                "results\\Test11NoDecisionRequester\\Listener\\Listener-2369484.pt"
+            ]
+        }
+    },
+    "Speaker": {
+        "checkpoints": [
+            {
+                "steps": 91005,
+                "file_path": "results\\Test11NoDecisionRequester\\Speaker\\Speaker-91005.onnx",
+                "reward": 0.569060773480663,
+                "creation_time": 1778600864.705454,
+                "auxillary_file_paths": [
+                    "results\\Test11NoDecisionRequester\\Speaker\\Speaker-91005.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 91005,
+            "file_path": "results\\Test11NoDecisionRequester\\Speaker.onnx",
+            "reward": 0.569060773480663,
+            "creation_time": 1778600864.705454,
+            "auxillary_file_paths": [
+                "results\\Test11NoDecisionRequester\\Speaker\\Speaker-91005.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.1.0",
+        "torch_version": "2.2.2+cu121"
+    }
+}
