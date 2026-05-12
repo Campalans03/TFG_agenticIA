@@ -1,0 +1,68 @@
+{
+    "active_buttons": {
+        "lesson_num": 1
+    },
+    "Listener": {
+        "checkpoints": [
+            {
+                "steps": 3999973,
+                "file_path": "results\\Test13\\Listener\\Listener-3999973.onnx",
+                "reward": 0.8064868355956846,
+                "creation_time": 1778605894.708929,
+                "auxillary_file_paths": [
+                    "results\\Test13\\Listener\\Listener-3999973.pt"
+                ]
+            },
+            {
+                "steps": 4499979,
+                "file_path": "results\\Test13\\Listener\\Listener-4499979.onnx",
+                "reward": 1.1105903029766655,
+                "creation_time": 1778606049.4825356,
+                "auxillary_file_paths": [
+                    "results\\Test13\\Listener\\Listener-4499979.pt"
+                ]
+            },
+            {
+                "steps": 4999943,
+                "file_path": "results\\Test13\\Listener\\Listener-4999943.onnx",
+                "reward": 1.0638190555719682,
+                "creation_time": 1778606201.3736491,
+                "auxillary_file_paths": [
+                    "results\\Test13\\Listener\\Listener-4999943.pt"
+                ]
+            },
+            {
+                "steps": 5499994,
+                "file_path": "results\\Test13\\Listener\\Listener-5499994.onnx",
+                "reward": 1.3640363017717998,
+                "creation_time": 1778606354.3155112,
+                "auxillary_file_paths": [
+                    "results\\Test13\\Listener\\Listener-5499994.pt"
+                ]
+            },
+            {
+                "steps": 5988600,
+                "file_path": "results\\Test13\\Listener\\Listener-5988600.onnx",
+                "reward": 1.055972528321012,
+                "creation_time": 1778606505.686133,
+                "auxillary_file_paths": [
+                    "results\\Test13\\Listener\\Listener-5988600.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 5988600,
+            "file_path": "results\\Test13\\Listener.onnx",
+            "reward": 1.055972528321012,
+            "creation_time": 1778606505.686133,
+            "auxillary_file_paths": [
+                "results\\Test13\\Listener\\Listener-5988600.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.1.0",
+        "torch_version": "2.2.2+cu121"
+    }
+}
