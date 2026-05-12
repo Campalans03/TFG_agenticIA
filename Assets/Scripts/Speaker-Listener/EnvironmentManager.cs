@@ -26,6 +26,12 @@ public class EnvironmentManager : MonoBehaviour
 {
     [Header("Episode Settings")] public int maxResampleTries = 50;
 
+    [Tooltip("Episode timeout in FixedUpdates. 300 = 6 s at default 0.02 s fixedDeltaTime.")]
+    public int maxFixedUpdatesPerEpisode = 300;
+
+    [Tooltip("FixedUpdates between Listener decisions. Replaces the deleted DecisionRequester (period 5).")]
+    public int listenerDecisionPeriod = 5;
+
     [Header("Shared Reward")] public float correctReward = 3.0f;
     public float wrongReward = -1.0f;
     public float stepPenalty = -0.005f;
@@ -72,6 +78,14 @@ public class EnvironmentManager : MonoBehaviour
     private int _episodeWrongPresses = 0; // wrong presses in the episode
     private bool _episodeEnding = false; // true once a terminal press has fired
 
+    // Listener decision pacing. The Listener no longer carries a DecisionRequester:
+    // its first decision is queued from SetMessageToken (so the token is guaranteed
+    // fresh on the first observation), and subsequent decisions fire every
+    // listenerDecisionPeriod FixedUpdates from FixedUpdate() below.
+    private bool _episodeActive = false;
+    private int _decisionCounter = 0;
+    private int _episodeFixedUpdates = 0;
+
     public void ResetEpisode()
     {
         // Reset episode metrics
@@ -79,6 +93,11 @@ public class EnvironmentManager : MonoBehaviour
         _episodeCorrectPresses = 0;
         _episodeWrongPresses = 0;
         _episodeEnding = false;
+
+        // Hold the cadence until the Speaker has emitted the token; SetMessageToken re-arms it.
+        _episodeActive = false;
+        _decisionCounter = 0;
+        _episodeFixedUpdates = 0;
 
         // Curriculum: how many buttons are active this episode (1..3)
         float requested = Academy.Instance.EnvironmentParameters
@@ -140,6 +159,39 @@ public class EnvironmentManager : MonoBehaviour
         // Flatlines at one value → vocabulary collapse. Varies → diverse usage.
         var stats = Academy.Instance.StatsRecorder;
         stats.Add("Speaker/EmittedToken", currentMessageToken);
+
+        // Token is fresh now: trigger the Listener's first decision and start the
+        // FixedUpdate cadence. The Listener's CollectObservations is guaranteed
+        // to read this token instead of the previous episode's value.
+        _decisionCounter = 0;
+        _episodeFixedUpdates = 0;
+        _episodeActive = true;
+        listener.RequestDecision();
+    }
+
+    void FixedUpdate()
+    {
+        if (!_episodeActive || _episodeEnding) return;
+
+        // Step penalty fires every FixedUpdate (matches the previous behavior when
+        // the DecisionRequester ran with TakeActionsBetweenDecisions=1).
+        listener.AddReward(stepPenalty);
+
+        _episodeFixedUpdates++;
+        if (_episodeFixedUpdates >= maxFixedUpdatesPerEpisode)
+        {
+            _episodeEnding = true;
+            ApplyOutOfTimePenalty();
+            EndEpisodeAll();
+            return;
+        }
+
+        _decisionCounter++;
+        if (_decisionCounter >= listenerDecisionPeriod)
+        {
+            _decisionCounter = 0;
+            listener.RequestDecision();
+        }
     }
 
     public void ApplyStepPenalty()

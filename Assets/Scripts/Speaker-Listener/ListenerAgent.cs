@@ -194,8 +194,8 @@ public class ListenerAgent : Agent
 
     public override void OnActionReceived(ActionBuffers actions)
     {
-        env.ApplyStepPenalty();
-
+        // Step penalty and episode timeout are driven by EnvironmentManager.FixedUpdate
+        // so they remain wall-clock based after the DecisionRequester removal.
         _moveAction = actions.DiscreteActions[0];
 
         // Press is edge-triggered: only fires on the 0->1 transition so the
@@ -204,13 +204,6 @@ public class ListenerAgent : Agent
         if (pressNow && !_pressedLastStep)
             TryPressClosestButton();
         _pressedLastStep = pressNow;
-
-        // Max steps of and episode to prevent infinite wandering: 300 steps are 60 seconds at default FixedUpdate (0.2s).
-        if (StepCount >= 300)
-        {
-            env.ApplyOutOfTimePenalty();
-            env.EndEpisodeAll();
-        }
 
         // Small reward for getting closer to the correct button, penalty for moving away.
         int correctIndex = env.GetCorrectButtonIndex();

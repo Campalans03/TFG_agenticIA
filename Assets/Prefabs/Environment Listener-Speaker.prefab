@@ -666,7 +666,6 @@ GameObject:
   - component: {fileID: 4968502527701594282}
   - component: {fileID: 221919916765713704}
   - component: {fileID: 6239825380322408326}
-  - component: {fileID: 3960533429141612808}
   m_Layer: 0
   m_Name: ListenerAgent
   m_TagString: Untagged
@@ -855,21 +854,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 84
   m_CollisionDetection: 0
---- !u!114 &3960533429141612808
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3071078816994933205}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3a5c9d521e5ef4759a8246a07d52221e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Unity.ML-Agents::Unity.MLAgents.DecisionRequester
-  DecisionPeriod: 5
-  DecisionStep: 1
-  TakeActionsBetweenDecisions: 1
 --- !u!1 &3121399967596881535
 GameObject:
   m_ObjectHideFlags: 0
