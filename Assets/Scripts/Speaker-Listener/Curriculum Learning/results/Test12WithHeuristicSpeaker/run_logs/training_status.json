@@ -1,0 +1,68 @@
+{
+    "active_buttons": {
+        "lesson_num": 1
+    },
+    "Listener": {
+        "checkpoints": [
+            {
+                "steps": 499986,
+                "file_path": "results\\Test12WithHeuristicSpeaker\\Listener\\Listener-499986.onnx",
+                "reward": -0.7178418934345245,
+                "creation_time": 1778602102.665764,
+                "auxillary_file_paths": [
+                    "results\\Test12WithHeuristicSpeaker\\Listener\\Listener-499986.pt"
+                ]
+            },
+            {
+                "steps": 999994,
+                "file_path": "results\\Test12WithHeuristicSpeaker\\Listener\\Listener-999994.onnx",
+                "reward": 0.40078646819228714,
+                "creation_time": 1778602426.4019065,
+                "auxillary_file_paths": [
+                    "results\\Test12WithHeuristicSpeaker\\Listener\\Listener-999994.pt"
+                ]
+            },
+            {
+                "steps": 1404883,
+                "file_path": "results\\Test12WithHeuristicSpeaker\\Listener\\Listener-1404883.onnx",
+                "reward": null,
+                "creation_time": 1778602755.8229222,
+                "auxillary_file_paths": [
+                    "results\\Test12WithHeuristicSpeaker\\Listener\\Listener-1404883.pt"
+                ]
+            },
+            {
+                "steps": 2499955,
+                "file_path": "results\\Test12WithHeuristicSpeaker\\Listener\\Listener-2499955.onnx",
+                "reward": 0.4472509549127371,
+                "creation_time": 1778604159.04191,
+                "auxillary_file_paths": [
+                    "results\\Test12WithHeuristicSpeaker\\Listener\\Listener-2499955.pt"
+                ]
+            },
+            {
+                "steps": 2679593,
+                "file_path": "results\\Test12WithHeuristicSpeaker\\Listener\\Listener-2679593.onnx",
+                "reward": 0.12289447733696471,
+                "creation_time": 1778604245.6896002,
+                "auxillary_file_paths": [
+                    "results\\Test12WithHeuristicSpeaker\\Listener\\Listener-2679593.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 2679593,
+            "file_path": "results\\Test12WithHeuristicSpeaker\\Listener.onnx",
+            "reward": 0.12289447733696471,
+            "creation_time": 1778604245.6896002,
+            "auxillary_file_paths": [
+                "results\\Test12WithHeuristicSpeaker\\Listener\\Listener-2679593.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.1.0",
+        "torch_version": "2.2.2+cu121"
+    }
+}

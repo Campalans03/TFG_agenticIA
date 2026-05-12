@@ -388,7 +388,7 @@ MonoBehaviour:
     hasUpgradedBrainParametersWithActionSpec: 1
   m_Model: {fileID: 5022602860645237092, guid: 64b95eff62f2ec4428222867a1b08a97, type: 3}
   m_InferenceDevice: 0
-  m_BehaviorType: 2
+  m_BehaviorType: 1
   m_BehaviorName: Speaker
   TeamId: 0
   m_UseChildSensors: 1
@@ -809,7 +809,7 @@ MonoBehaviour:
     VectorActionDescriptions: []
     VectorActionSpaceType: 0
     hasUpgradedBrainParametersWithActionSpec: 1
-  m_Model: {fileID: 5022602860645237092, guid: c32ab62a1598b164bbbe0a818a0f3314, type: 3}
+  m_Model: {fileID: 5022602860645237092, guid: 7900b40b7b00f464b91eb4dbe1f82c3f, type: 3}
   m_InferenceDevice: 0
   m_BehaviorType: 2
   m_BehaviorName: Listener
@@ -1452,6 +1452,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnvironmentManager
   maxResampleTries: 50
+  maxFixedUpdatesPerEpisode: 300
+  listenerDecisionPeriod: 5
   correctReward: 3
   wrongReward: -1
   stepPenalty: -0.0008
