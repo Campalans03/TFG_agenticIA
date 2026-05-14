@@ -1,0 +1,90 @@
+{
+    "active_buttons": {
+        "lesson_num": 1
+    },
+    "Listener": {
+        "checkpoints": [
+            {
+                "steps": 2499976,
+                "file_path": "results\\Test14FinalTest\\Listener\\Listener-2499976.onnx",
+                "reward": 0.28253279098620016,
+                "creation_time": 1778776065.8708603,
+                "auxillary_file_paths": [
+                    "results\\Test14FinalTest\\Listener\\Listener-2499976.pt"
+                ]
+            },
+            {
+                "steps": 2999976,
+                "file_path": "results\\Test14FinalTest\\Listener\\Listener-2999976.onnx",
+                "reward": 0.3597050220081487,
+                "creation_time": 1778776295.5822344,
+                "auxillary_file_paths": [
+                    "results\\Test14FinalTest\\Listener\\Listener-2999976.pt"
+                ]
+            },
+            {
+                "steps": 3499977,
+                "file_path": "results\\Test14FinalTest\\Listener\\Listener-3499977.onnx",
+                "reward": 0.7198555233577887,
+                "creation_time": 1778776523.96825,
+                "auxillary_file_paths": [
+                    "results\\Test14FinalTest\\Listener\\Listener-3499977.pt"
+                ]
+            },
+            {
+                "steps": 3999979,
+                "file_path": "results\\Test14FinalTest\\Listener\\Listener-3999979.onnx",
+                "reward": 0.4165504025561469,
+                "creation_time": 1778776762.890828,
+                "auxillary_file_paths": [
+                    "results\\Test14FinalTest\\Listener\\Listener-3999979.pt"
+                ]
+            },
+            {
+                "steps": 4024187,
+                "file_path": "results\\Test14FinalTest\\Listener\\Listener-4024187.onnx",
+                "reward": null,
+                "creation_time": 1778776774.2724664,
+                "auxillary_file_paths": [
+                    "results\\Test14FinalTest\\Listener\\Listener-4024187.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 4024187,
+            "file_path": "results\\Test14FinalTest\\Listener.onnx",
+            "reward": null,
+            "creation_time": 1778776774.2724664,
+            "auxillary_file_paths": [
+                "results\\Test14FinalTest\\Listener\\Listener-4024187.pt"
+            ]
+        }
+    },
+    "Speaker": {
+        "checkpoints": [
+            {
+                "steps": 147659,
+                "file_path": "results\\Test14FinalTest\\Speaker\\Speaker-147659.onnx",
+                "reward": 0.47540983606557374,
+                "creation_time": 1778776774.1976135,
+                "auxillary_file_paths": [
+                    "results\\Test14FinalTest\\Speaker\\Speaker-147659.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 147659,
+            "file_path": "results\\Test14FinalTest\\Speaker.onnx",
+            "reward": 0.47540983606557374,
+            "creation_time": 1778776774.1976135,
+            "auxillary_file_paths": [
+                "results\\Test14FinalTest\\Speaker\\Speaker-147659.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.1.0",
+        "torch_version": "2.2.2+cu121"
+    }
+}

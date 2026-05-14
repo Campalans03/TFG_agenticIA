@@ -351,6 +351,13 @@ public class ListenerAgent : Agent
         _flashRoutine = StartCoroutine(FlashRoutine(Color.red, onComplete));
     }
 
+    /// <summary>Flashes purple for 0.1 s then returns to neutral. Call on episode timeout.</summary>
+    public void ShowTimeout(System.Action onComplete = null)
+    {
+        if (_flashRoutine != null) StopCoroutine(_flashRoutine);
+        _flashRoutine = StartCoroutine(FlashRoutine(new Color(0.6f, 0.2f, 0.8f), onComplete));
+    }
+
     private IEnumerator FlashRoutine(Color flashColor, System.Action onComplete)
     {
         SetDebugColor(flashColor);

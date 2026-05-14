@@ -182,7 +182,7 @@ public class EnvironmentManager : MonoBehaviour
         {
             _episodeEnding = true;
             ApplyOutOfTimePenalty();
-            EndEpisodeAll();
+            listener.ShowTimeout(onComplete: EndEpisodeAll);
             return;
         }
 
