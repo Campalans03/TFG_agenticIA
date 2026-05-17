@@ -1,0 +1,87 @@
+{
+    "Listener": {
+        "checkpoints": [
+            {
+                "steps": 999983,
+                "file_path": "results\\communicationTest\\Listener\\Listener-999983.onnx",
+                "reward": 0.38696956760004947,
+                "creation_time": 1778950414.932157,
+                "auxillary_file_paths": [
+                    "results\\communicationTest\\Listener\\Listener-999983.pt"
+                ]
+            },
+            {
+                "steps": 1499981,
+                "file_path": "results\\communicationTest\\Listener\\Listener-1499981.onnx",
+                "reward": 0.2190014653186086,
+                "creation_time": 1778950653.512924,
+                "auxillary_file_paths": [
+                    "results\\communicationTest\\Listener\\Listener-1499981.pt"
+                ]
+            },
+            {
+                "steps": 1999989,
+                "file_path": "results\\communicationTest\\Listener\\Listener-1999989.onnx",
+                "reward": 0.1056719496846199,
+                "creation_time": 1778951008.6424742,
+                "auxillary_file_paths": [
+                    "results\\communicationTest\\Listener\\Listener-1999989.pt"
+                ]
+            },
+            {
+                "steps": 2499983,
+                "file_path": "results\\communicationTest\\Listener\\Listener-2499983.onnx",
+                "reward": 0.20511000741741614,
+                "creation_time": 1778951219.380874,
+                "auxillary_file_paths": [
+                    "results\\communicationTest\\Listener\\Listener-2499983.pt"
+                ]
+            },
+            {
+                "steps": 2882420,
+                "file_path": "results\\communicationTest\\Listener\\Listener-2882420.onnx",
+                "reward": -0.18480490549514283,
+                "creation_time": 1778951426.9895365,
+                "auxillary_file_paths": [
+                    "results\\communicationTest\\Listener\\Listener-2882420.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 2882420,
+            "file_path": "results\\communicationTest\\Listener.onnx",
+            "reward": -0.18480490549514283,
+            "creation_time": 1778951426.9895365,
+            "auxillary_file_paths": [
+                "results\\communicationTest\\Listener\\Listener-2882420.pt"
+            ]
+        }
+    },
+    "Speaker": {
+        "checkpoints": [
+            {
+                "steps": 120262,
+                "file_path": "results\\communicationTest\\Speaker\\Speaker-120262.onnx",
+                "reward": 0.3333333333333333,
+                "creation_time": 1778951426.9182189,
+                "auxillary_file_paths": [
+                    "results\\communicationTest\\Speaker\\Speaker-120262.pt"
+                ]
+            }
+        ],
+        "final_checkpoint": {
+            "steps": 120262,
+            "file_path": "results\\communicationTest\\Speaker.onnx",
+            "reward": 0.3333333333333333,
+            "creation_time": 1778951426.9182189,
+            "auxillary_file_paths": [
+                "results\\communicationTest\\Speaker\\Speaker-120262.pt"
+            ]
+        }
+    },
+    "metadata": {
+        "stats_format_version": "0.3.0",
+        "mlagents_version": "1.1.0",
+        "torch_version": "2.2.2+cu121"
+    }
+}

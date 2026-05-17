@@ -388,7 +388,7 @@ MonoBehaviour:
     hasUpgradedBrainParametersWithActionSpec: 1
   m_Model: {fileID: 5022602860645237092, guid: acdb4a32b3e748440a775bf324bba344, type: 3}
   m_InferenceDevice: 0
-  m_BehaviorType: 1
+  m_BehaviorType: 2
   m_BehaviorName: Speaker
   TeamId: 0
   m_UseChildSensors: 1
